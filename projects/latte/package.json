@@ -1,0 +1,23 @@
+{
+  "name": "latte",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "clear": "rm -r ./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julien-Pires/Latte.git"
+  },
+  "author": "Julien Pires",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Julien-Pires/Latte/issues"
+  },
+  "homepage": "https://github.com/Julien-Pires/Latte#readme",
+  "devDependencies": {
+    "typescript": "~4.5.5"
+  }
+}
