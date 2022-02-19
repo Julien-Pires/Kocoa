@@ -1,8 +1,0 @@
-{
-  "allPreferredVersions": {
-    "typescript": "~4.5.5"
-  },
-  "allowedAlternativeVersions": {},
-  "semverPath": "/opt/homebrew/lib/node_modules/@microsoft/rush/node_modules/semver/index.js",
-  "userPnpmfilePath": "/Users/jpires/Documents/Projects/Perso/Latte/common/config/rush/.pnpmfile.cjs"
-}

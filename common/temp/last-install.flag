@@ -1,7 +1,0 @@
-{
-  "node": "12.22.9",
-  "packageManager": "pnpm",
-  "packageManagerVersion": "6.7.1",
-  "storePath": "/Users/jpires/Documents/Projects/Perso/Latte/common/temp/pnpm-store",
-  "workspaces": true
-}
