@@ -1,0 +1,11 @@
+{
+  "files": {
+    "projects/latte-samples/.rush/temp/shrinkwrap-deps.json": "e1245088fd2f321f529b612f6f34afe8e6768b13",
+    "projects/latte-samples/build/index.js": "8332f84cff54c8a579505a0d44e210c1610ba878",
+    "projects/latte-samples/build/index.js.map": "806739385d378d5422fe6eceaf8ee4ef69aaf1b5",
+    "projects/latte-samples/index.ts": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "projects/latte-samples/package.json": "b9ebe08b566bfc2fc9c6d2f4d0d162defcd63da5",
+    "projects/latte-samples/tsconfig.json": "e86412af54428081bec4b2374e6694d91fcacac4"
+  },
+  "arguments": "tsc "
+}
