@@ -1,11 +1,11 @@
-export interface TestGroup {
-    name?: string;
-}
-
 export interface TestCase {
     name: string;
     args: unknown[];
     function: Function;
+}
+
+export interface TestGroup {
+    name: string;
 }
 
 export interface TestNode {

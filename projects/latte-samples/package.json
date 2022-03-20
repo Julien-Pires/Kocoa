@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --experimental-specifier-resolution=node ./build/test/*.js",
+    "test": "mocha --experimental-specifier-resolution=node ./build/tests/**/*.js",
     "run": "node ./build/index.js",
     "clear": "rm -rf ./build"
   },

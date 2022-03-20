@@ -1,30 +1,32 @@
-import { testCaseSymbol, testGroupSymbol } from "./annotations/metadata";
-import { TestCase, TestGroup, TestTree } from "./types";
+import {
+    TestCaseAnnotation, testCaseSymbol, TestGroupAnnotation, testGroupSymbol
+} from './annotations';
+import { TestCase, TestTree } from './types';
 
-const buildTestCaseName = (testCase: TestCase): string => {
-    const parameters = testCase.args.join(',');
+const buildTestCaseName = (testCase: TestCaseAnnotation): string => {
+    const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
 
-    return `${testCase.name}(${parameters})`;
+    return `${testCase.name.name} (${parameters})`;
 }
 
-const buildTestCase = (testCase: TestCase): TestCase => {
-    const name = testCase.name ?? buildTestCaseName(testCase);
+const buildTestCase = (testCase: TestCaseAnnotation): TestCase => {
+    const name = testCase.name.kind === 'custom' ? testCase.name.name : buildTestCaseName(testCase);
 
     return { ...testCase, name };
 }
 
 const findTests = (target: any): TestCase[] => {
     return Object.getOwnPropertyNames(target.prototype)
-                 .map((property): TestCase[] => Reflect.getMetadata(testCaseSymbol, target.prototype, property) ?? [])
+                 .map((property): TestCaseAnnotation[] => Reflect.getMetadata(testCaseSymbol, target.prototype, property) ?? [])
                  .flatMap((testCases) => testCases?.map(buildTestCase));
 }
 
 const buildTestTree = (target: any): TestTree => {
-    const root: TestGroup = Reflect.getMetadata(testGroupSymbol, target);
+    const root: TestGroupAnnotation = Reflect.getMetadata(testGroupSymbol, target);
     const tree = {
         target,
         root: {
-            name: root?.name,
+            name: root.name.name,
             children: findTests(target)
         }
     };

@@ -34,11 +34,17 @@ export const testCase = <TArgs extends unknown[]>(...args: TestCaseArgs<TArgs>) 
         const [testArgs, options] = destructureArgs(args);
         const testCases = Reflect.getMetadata(testCaseSymbol, target, propertyKey) ?? [];
         const newTestCase = {
-            name: options.name ?? propertyKey,
+            name: options.name ? {
+                kind: 'custom',
+                name: options.name
+            } : {
+                kind: 'default',
+                name: propertyKey
+            },
             args: testArgs,
             function: descriptor.value
         };
 
-        Reflect.defineMetadata(testCaseSymbol, [...testCases, newTestCase], target, propertyKey);
+        Reflect.defineMetadata(testCaseSymbol, [newTestCase, ...testCases], target, propertyKey);
     };
 };
