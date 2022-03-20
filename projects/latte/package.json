@@ -2,10 +2,11 @@
   "name": "latte",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "clear": "rm -r ./build"
+    "build": "tsc -d",
+    "clear": "rm -rf ./build"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,11 @@
   },
   "homepage": "https://github.com/Julien-Pires/Latte#readme",
   "devDependencies": {
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "@types/mocha": "~9.1.0"
+  },
+  "dependencies": {
+    "mocha": "~9.2.1",
+    "reflect-metadata": "~0.1.13"
   }
 }
