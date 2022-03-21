@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { testCase, testGroup } from 'latte';
+import { testCase, category } from 'latte';
 
-@testGroup('Array indexOf')
+@category('Array')
 export class IndexOfTests {
     @testCase(['A'], 'A')
     @testCase(['A', 'B', 'C'], 'A')

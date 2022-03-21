@@ -1,5 +1,5 @@
 import {
-    TestCaseAnnotation, testCaseSymbol, TestGroupAnnotation, testGroupSymbol
+    TestCaseAnnotation, testCaseSymbol, CategoryAnnotation, categorySymbol
 } from './annotations';
 import { TestCase, TestTree } from './types';
 
@@ -22,11 +22,11 @@ const findTests = (target: any): TestCase[] => {
 }
 
 const buildTestTree = (target: any): TestTree => {
-    const root: TestGroupAnnotation = Reflect.getMetadata(testGroupSymbol, target);
+    const root: CategoryAnnotation = Reflect.getMetadata(categorySymbol, target);
     const tree = {
         target,
         root: {
-            name: root.name.name,
+            name: root.name,
             children: findTests(target)
         }
     };

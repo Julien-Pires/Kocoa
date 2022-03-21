@@ -1,3 +1,3 @@
 export const testCaseSymbol = Symbol('TestCase');
 
-export const testGroupSymbol = Symbol('TestGroup');
+export const categorySymbol = Symbol('Category');

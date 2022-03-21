@@ -32,8 +32,7 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestCas
 export const testCase = <TArgs extends unknown[]>(...args: TestCaseArgs<TArgs>) => {
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>) => {
         const [testArgs, options] = destructureArgs(args);
-        const testCases = Reflect.getMetadata(testCaseSymbol, target, propertyKey) ?? [];
-        const newTestCase = {
+        const testCase = {
             name: options.name ? {
                 kind: 'custom',
                 name: options.name
@@ -45,6 +44,6 @@ export const testCase = <TArgs extends unknown[]>(...args: TestCaseArgs<TArgs>) 
             function: descriptor.value
         };
 
-        Reflect.defineMetadata(testCaseSymbol, [newTestCase, ...testCases], target, propertyKey);
+        Reflect.appendMetadata(testCaseSymbol, testCase, target, propertyKey);
     };
 };

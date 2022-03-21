@@ -14,6 +14,6 @@ export interface TestCaseAnnotation {
     function: Function;
 }
 
-export interface TestGroupAnnotation {
-    name: DefaultName | CustomName;
+export interface CategoryAnnotation {
+    name: string;
 }

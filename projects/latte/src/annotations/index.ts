@@ -1,4 +1,5 @@
 export * from './metadata';
 export * from './testCase';
-export * from './testGroup';
+export * from './category';
 export * from './types';
+export * from './reflect';
