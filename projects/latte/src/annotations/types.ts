@@ -8,10 +8,14 @@ export interface CustomName {
     name: string;
 }
 
-export interface TestCaseAnnotation {
-    name: DefaultName | CustomName;
-    args: unknown[];
+export interface TestAnnotation {
+    name: string;
     function: Function;
+}
+
+export interface TestDataAnnotation {
+    args: unknown[];
+    name?: string;
 }
 
 export interface CategoryAnnotation {

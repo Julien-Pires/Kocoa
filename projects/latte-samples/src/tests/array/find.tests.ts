@@ -1,19 +1,24 @@
 import { expect } from 'chai';
-import { testCase, category } from 'latte';
+import { test, testData, category } from 'latte';
 
 @category('Array')
 export class FindTests {
-    @category('Find')
-    @testCase([1, 2, 3], 1)
-    @testCase(['A', 'B', 'C'], 'A')
+    @test
+    @testData([1, 2, 3], 1)
+    @testData(['A', 'B', 'C'], 'A')
     public 'should return element when found in array'<T>(array: T[], element: T) {
-        expect(array.find((char) => char === element)).to.equal(element);
+        const actual = array.find((char) => char === element);
+
+        expect(actual).to.not.be.undefined;
+        expect(actual).to.equal(element);
     }
 
-    @category('Find')
-    @testCase([1, 2, 3], 100)
-    @testCase(['A', 'B', 'C'], 'Z')
+    @test
+    @testData([1, 2, 3], 100)
+    @testData(['A', 'B', 'C'], 'Z')
     public 'should return undefined when element is not found'<T>(array: T[], element: T) {
-        expect(array.find((char) => char === element)).to.equal(undefined);
+        const actual = array.find((char) => char === element);
+
+        expect(actual).to.be.undefined;
     }
 }

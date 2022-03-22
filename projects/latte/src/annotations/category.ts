@@ -6,7 +6,7 @@ export const category = (name: string): {
     (target: Object, propertyKey: string | symbol): void;
 } => {
     return function(target: any, propertyKey: string | symbol) {
-        Reflect.appendMetadata(categorySymbol, name, target, propertyKey);
+        Reflect.appendMetadata(categorySymbol, { name }, target, propertyKey);
         if (propertyKey) {
             return;
         }

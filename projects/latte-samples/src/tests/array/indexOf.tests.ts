@@ -1,16 +1,18 @@
 import { expect } from 'chai';
-import { testCase, category } from 'latte';
+import { category, test, testData } from 'latte';
 
 @category('Array')
 export class IndexOfTests {
-    @testCase(['A'], 'A')
-    @testCase(['A', 'B', 'C'], 'A')
+    @test
+    @testData(['A'], 'A')
+    @testData(['A', 'B', 'C'], 'A')
     public 'should return index when element is found'(array: string[], element: string) {
         expect(array.indexOf(element)).to.equal(0);
     }
 
-    @testCase([], 'A')
-    @testCase(['A', 'B', 'C'], 'Z')
+    @test
+    @testData([], 'A')
+    @testData(['A', 'B', 'C'], 'Z')
     public 'should return -1 when element is not found'(array: string[], element: string) {
         expect(array.indexOf(element)).to.equal(-1);
     }

@@ -1,47 +1,43 @@
-import {
-    TestCaseAnnotation, testCaseSymbol, CategoryAnnotation, categorySymbol
-} from './annotations';
-import { TestCase, TestTree } from './types';
+import { buildTests } from './discovery';
+import { Node, Test, TestGroup } from './types';
 
-const buildTestCaseName = (testCase: TestCaseAnnotation): string => {
-    const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
-
-    return `${testCase.name.name} (${parameters})`;
+const isTest = (value: any): value is Test => {
+    return (value as Test).function !== undefined;
 }
 
-const buildTestCase = (testCase: TestCaseAnnotation): TestCase => {
-    const name = testCase.name.kind === 'custom' ? testCase.name.name : buildTestCaseName(testCase);
-
-    return { ...testCase, name };
+const executeTest = (target: any, test: Test) => {
+    for (const one of test.cases) {
+        it (one.name, () => {
+            const instance = Object.create(target);
+            test.function.apply(instance, one.args);
+        });
+    }
 }
 
-const findTests = (target: any): TestCase[] => {
-    return Object.getOwnPropertyNames(target.prototype)
-                 .map((property): TestCaseAnnotation[] => Reflect.getMetadata(testCaseSymbol, target.prototype, property) ?? [])
-                 .flatMap((testCases) => testCases?.map(buildTestCase));
+const executeDescribe = (target: any, node: Node<TestGroup, Test>) => {
+    const testGroup = node.value;
+    if (!testGroup) {
+        return;
+    }
+
+    describe(testGroup?.name, () => {
+        visit(target, node);
+    })
 }
 
-const buildTestTree = (target: any): TestTree => {
-    const root: CategoryAnnotation = Reflect.getMetadata(categorySymbol, target);
-    const tree = {
-        target,
-        root: {
-            name: root.name,
-            children: findTests(target)
+const visit = (target: any, node: Node<TestGroup, Test>) => {
+    for (const children of node.childrens) {
+        const value = children.value;
+        if (isTest(value)) {
+            executeTest(target, value);
+            continue;
         }
-    };
 
-    return tree;
+        executeDescribe(target, children as Node<TestGroup, Test>);
+    }
 }
 
 export const runTest = (target: any) => {
-    const tree = buildTestTree(target);
-    describe(tree.root.name ?? '', () => {
-        tree.root.children.forEach((testCase: TestCase) => {
-            it(testCase.name, () => {
-                const instance = Object.create(target.prototype);
-                testCase.function.apply(instance, testCase.args);
-            });
-        })
-    });
+    const tree = buildTests(target);
+    visit(target.prototype, tree);
 }
