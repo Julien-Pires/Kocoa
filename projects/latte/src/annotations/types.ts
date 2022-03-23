@@ -1,12 +1,6 @@
-export interface DefaultName {
-    kind: 'default';
-    name: string;
-}
-
-export interface CustomName {
-    kind: 'custom';
-    name: string;
-}
+export interface TestDataOptions {
+    testName?: string;
+};
 
 export interface TestAnnotation {
     name: string;
@@ -18,6 +12,6 @@ export interface TestDataAnnotation {
     name?: string;
 }
 
-export interface CategoryAnnotation {
+export interface TestSuiteAnnotation {
     name: string;
 }

@@ -1,39 +1,54 @@
 import { buildTests } from './discovery';
-import { Node, Test, TestGroup } from './types';
+import { Node, Test, TestCase, TestSuite } from './types';
 
 const isTest = (value: any): value is Test => {
     return (value as Test).function !== undefined;
 }
 
-const executeTest = (target: any, test: Test) => {
-    for (const one of test.cases) {
-        it (one.name, () => {
+const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
+    if (testCase.name) {
+        return testCase.name;
+    }
+
+    if (testCase.args.length === 0) {
+        return testName;
+    }
+
+    const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
+
+    return `${testName} (${parameters})`;
+}
+
+const addTest = (target: any, test: Test): void => {
+    for (const testCase of test.cases) {
+        const title = buildTestCaseTitle(test.name, testCase);
+        it (title, () => {
             const instance = Object.create(target);
-            test.function.apply(instance, one.args);
+            test.function.apply(instance, testCase.args);
         });
     }
 }
 
-const executeDescribe = (target: any, node: Node<TestGroup, Test>) => {
-    const testGroup = node.value;
-    if (!testGroup) {
+const addTestSuite = (target: any, node: Node<TestSuite, Test>) => {
+    const testSuite = node.value;
+    if (!testSuite) {
         return;
     }
 
-    describe(testGroup?.name, () => {
+    describe(testSuite?.name, () => {
         visit(target, node);
-    })
+    });
 }
 
-const visit = (target: any, node: Node<TestGroup, Test>) => {
+const visit = (target: any, node: Node<TestSuite, Test>) => {
     for (const children of node.childrens) {
         const value = children.value;
         if (isTest(value)) {
-            executeTest(target, value);
+            addTest(target, value);
             continue;
         }
 
-        executeDescribe(target, children as Node<TestGroup, Test>);
+        addTestSuite(target, children as Node<TestSuite, Test>);
     }
 }
 

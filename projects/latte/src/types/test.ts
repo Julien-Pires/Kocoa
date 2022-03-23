@@ -1,13 +1,14 @@
-export interface TestGroup {
+export interface TestSuite {
     name: string;
 }
 
 export interface TestCase {
-    name: string;
     args: unknown[];
+    name?: string;
 }
 
 export interface Test {
+    name: string;
     function: Function;
     cases: TestCase[];
 }

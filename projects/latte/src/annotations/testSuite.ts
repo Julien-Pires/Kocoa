@@ -1,12 +1,12 @@
-import { runTest } from "../runner";
-import { categorySymbol } from "./metadata";
+import { runTest } from '../runner';
+import { testSuiteSymbol } from './metadata';
 
-export const category = (name: string): {
+export const testSuite = (name: string): {
     (target: Function): void;
     (target: Object, propertyKey: string | symbol): void;
 } => {
     return function(target: any, propertyKey: string | symbol) {
-        Reflect.appendMetadata(categorySymbol, { name }, target, propertyKey);
+        Reflect.appendMetadata(testSuiteSymbol, { name }, target, propertyKey);
         if (propertyKey) {
             return;
         }

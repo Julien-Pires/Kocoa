@@ -1,65 +1,56 @@
 import {
-    CategoryAnnotation, categorySymbol, TestAnnotation, TestDataAnnotation, testDataSymbol,
+    TestAnnotation, TestDataAnnotation, testDataSymbol, TestSuiteAnnotation, testSuiteSymbol,
     testSymbol
 } from './annotations';
-import { createTree, insertLeaf, insertNodes, Test, TestGroup, Tree } from './types';
-
-const isTest = (value: any): value is Test => {
-    return (value as Test).function !== undefined;
-}
+import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types';
 
 const hasTest = (target: any, propertyKey: string | symbol): boolean => {
     return Reflect.getMetadata(testSymbol, target, propertyKey) !== undefined;
 }
 
-const buildTestCaseName = (name: string, data: TestDataAnnotation): string => {
-    const parameters = data.args.map((arg) => JSON.stringify(arg)).join(', ');
-
-    return `${name} (${parameters})`;
-}
-
 const findTest = (target: any, propertyKey: string | symbol): Test => {
     const testAnnotation: TestAnnotation = Reflect.getMetadata(testSymbol, target, propertyKey);
-    const data = Reflect.getAllMetadata<TestDataAnnotation>(testDataSymbol, target, propertyKey);
-    const testCases = data.map((data) => ({
-        name: data.name ?? buildTestCaseName(testAnnotation.name, data),
-        args: data.args
+    const testDatas = Reflect.getAllMetadata<TestDataAnnotation>(testDataSymbol, target, propertyKey);
+    const testCases = testDatas.map((data) => ({
+        args: data.args,
+        ... data.name ? { name: data.name } : {}
     }));
 
     return {
+        name: testAnnotation.name,
         function: testAnnotation.function,
-        cases: testCases.length > 0 ? testCases : [{ name: testAnnotation.name, args: [] }]
+        cases: testCases.length > 0 ? testCases : [{ args: [] }]
     };
 }
  
-const findTestGroup = (target: any, propertyKey?: string | symbol): readonly TestGroup[] => {
-    const categories = propertyKey ? 
-        Reflect.getAllMetadata<CategoryAnnotation>(categorySymbol, target, propertyKey) : 
-        Reflect.getAllMetadata<CategoryAnnotation>(categorySymbol, target);
-    if (categories.length === 0) {
+const findTestSuite = (target: any, propertyKey?: string | symbol): readonly TestSuite[] => {
+    const testSuites = propertyKey ? 
+        Reflect.getAllMetadata<TestSuiteAnnotation>(testSuiteSymbol, target, propertyKey) : 
+        Reflect.getAllMetadata<TestSuiteAnnotation>(testSuiteSymbol, target);
+    if (testSuites.length === 0) {
         return [];
     }
 
-    return categories
+    return testSuites
         .reverse()
         .map((category) => ({ name: category.name }
     ));
 }
 
-const findAllTests = (target: any): [readonly TestGroup[], Test][] => {
+const findAllTests = (target: any): [readonly TestSuite[], Test][] => {
     return Object.getOwnPropertyNames(target)
                  .filter((propertyKey) => hasTest(target, propertyKey))
-                 .map((propertyKey) => [findTestGroup(target, propertyKey), findTest(target, propertyKey)]);
+                 .map((propertyKey) => [findTestSuite(target, propertyKey), findTest(target, propertyKey)]);
 }
 
-export const buildTests = (target: any): Tree<TestGroup, Test> => {
-    const tree = createTree<TestGroup, Test>();
-    const rootGroups = findTestGroup(target);
-    insertNodes(tree, rootGroups.map((group) => ({ name: group.name, value: group })));
+export const buildTests = (target: any): Tree<TestSuite, Test> => {
+    const tree = createTree<TestSuite, Test>();
+    const rootTestSuite = findTestSuite(target);
+    insertNodes(tree, rootTestSuite.map((group) => ({ name: group.name, value: group })));
 
     const tests = findAllTests(target.prototype);
     for (const [groups, test] of tests) {
-        const namedGroups = [...rootGroups, ...groups].map((group) => ({ name: group.name, value: group }));
+        const namedGroups = [...rootTestSuite, ...groups].map((group) => ({ name: group.name, value: group }));
         insertLeaf(tree, test, namedGroups);
     }
 
