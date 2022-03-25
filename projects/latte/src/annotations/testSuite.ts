@@ -1,10 +1,19 @@
 import { runTest } from '../runner';
 import { testSuiteSymbol } from './metadata';
 
-export const testSuite = (name: string): {
+/**
+ * Represents possible targets for the test suite decorator
+ */
+type TestSuiteFunction = {
     (target: Function): void;
     (target: Object, propertyKey: string | symbol): void;
-} => {
+}
+
+/**
+ * Allows to include class/method in the specified test suite
+ * @param name Name of the test suite
+ */
+export const testSuite = (name: string): TestSuiteFunction => {
     return function(target: any, propertyKey: string | symbol) {
         Reflect.appendMetadata(testSuiteSymbol, { name }, target, propertyKey);
         if (propertyKey) {
@@ -12,5 +21,5 @@ export const testSuite = (name: string): {
         }
 
         runTest(target);
-    } as any;
+    } as TestSuiteFunction;
 };
