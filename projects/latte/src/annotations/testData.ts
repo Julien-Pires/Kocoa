@@ -5,8 +5,8 @@ import { TestDataOptions } from './types';
  * Represents possible combination for test case parameters
  */
 type TestDataArgs<TArgs extends readonly unknown[]> =
-    | [...args: TArgs]
     | [options: TestDataOptions]
+    | [...args: TArgs]
     | [...args: TArgs, options: TestDataOptions];
 
 /**
