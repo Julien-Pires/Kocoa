@@ -17,6 +17,20 @@
       "summary": "Delete build folder on each projects",
       "description": "Delete build for on each projects",
       "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "Run all tests on each projects",
+      "description": "Rune all tests on each projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint",
+      "summary": "Apply lint rules on each projects",
+      "description": "Apply lint rules on each projects",
+      "enableParallelism": true
     }
     // {
     //   /**
