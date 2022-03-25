@@ -1,15 +1,14 @@
 {
     "lib": ["es2019"],
     "compilerOptions": {
-      "module": "ES2020",
-      "esModuleInterop": true,
-      "target": "ES2021",
-      "moduleResolution": "Node",
-      "sourceMap": true,
-      "rootDir": "src",
-      "outDir": "build",
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true
+        "module": "ES2020",
+        "esModuleInterop": true,
+        "target": "ES2021",
+        "moduleResolution": "Node",
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "build",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     }
-  }
-  
+}

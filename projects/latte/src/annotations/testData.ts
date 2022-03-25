@@ -4,17 +4,19 @@ import { TestDataOptions } from './types';
 /**
  * Represents possible combination for test case parameters
  */
-type TestDataArgs<TArgs extends readonly unknown[]> = 
+type TestDataArgs<TArgs extends readonly unknown[]> =
     | [...args: TArgs]
-    | [options: TestDataOptions]  
+    | [options: TestDataOptions]
     | [...args: TArgs, options: TestDataOptions];
 
 /**
  * Represents test method parameters
  */
-type TestFunctionArgs<TArgs extends readonly unknown[]> = 
-    TArgs extends [...args: infer Args, options: TestDataOptions] ? Args : 
-        TArgs extends [options: TestDataOptions] ? never : TArgs;
+type TestFunctionArgs<TArgs extends readonly unknown[]> = TArgs extends [...args: infer Args, options: TestDataOptions]
+    ? Args
+    : TArgs extends [options: TestDataOptions]
+    ? never
+    : TArgs;
 
 /**
  * Checks if specified value is an instance of TestDataOptions
@@ -23,7 +25,7 @@ type TestFunctionArgs<TArgs extends readonly unknown[]> =
  */
 const isTestCaseOptions = (options: any): options is TestDataOptions => {
     return (options as TestDataOptions)?.testName !== undefined;
-}
+};
 
 /**
  * Extracts test case data and options from an arguments array
@@ -40,18 +42,22 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
     }
 
     return [args, {}];
-}
+};
 
 /**
  * Specifies an additional test case for the targeted test method.
  * @param args Data to be passed for this test case
  */
 export const testData = <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) => {
-    return (target: any, propertyKey: string, _descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>): void => {
+    return (
+        target: any,
+        propertyKey: string,
+        _descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>
+    ): void => {
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
             args: testDataArgs,
-            ...options.testName ? { name: options.testName } : {},
+            ...(options.testName ? { name: options.testName } : {})
         };
 
         Reflect.appendMetadata(testDataSymbol, testDataAnnotation, target, propertyKey);

@@ -8,7 +8,7 @@ import { Node, Test, TestCase, TestSuite } from './types';
  */
 const isTest = (value: any): value is Test => {
     return (value as Test).function !== undefined;
-}
+};
 
 /**
  * Creates test case title from specified test and test case metadata
@@ -28,7 +28,7 @@ const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
     const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
 
     return `${testName} (${parameters})`;
-}
+};
 
 /**
  * Adds a test to the current test execution context.
@@ -38,12 +38,12 @@ const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
 const addTest = (target: any, test: Test): void => {
     for (const testCase of test.cases) {
         const title = buildTestCaseTitle(test.name, testCase);
-        it (title, () => {
+        it(title, () => {
             const instance = Object.create(target);
             test.function.apply(instance, testCase.args);
         });
     }
-}
+};
 
 /**
  * Adds a test suite to the current test execution context.
@@ -59,7 +59,7 @@ const addTestSuite = (target: any, node: Node<TestSuite, Test>): void => {
     describe(testSuite?.name, () => {
         visit(target, node);
     });
-}
+};
 
 /**
  * Visits the specified test node.
@@ -76,7 +76,7 @@ const visit = (target: any, node: Node<TestSuite, Test>): void => {
 
         addTestSuite(target, children as Node<TestSuite, Test>);
     }
-}
+};
 
 /**
  * Run all tests for the specified target
@@ -85,4 +85,4 @@ const visit = (target: any, node: Node<TestSuite, Test>): void => {
 export const runTest = (target: any): void => {
     const tree = buildTests(target);
     visit(target.prototype, tree);
-}
+};

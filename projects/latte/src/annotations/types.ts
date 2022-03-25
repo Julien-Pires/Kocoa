@@ -3,7 +3,7 @@
  */
 export interface TestDataOptions {
     testName?: string;
-};
+}
 
 /**
  * Contains test metadata

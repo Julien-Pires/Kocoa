@@ -1,29 +1,32 @@
 {
-  "name": "latte",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./build/index.js",
-  "type": "module",
-  "scripts": {
-    "build": "tsc -d",
-    "clear": "rm -rf ./build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Julien-Pires/Latte.git"
-  },
-  "author": "Julien Pires",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Julien-Pires/Latte/issues"
-  },
-  "homepage": "https://github.com/Julien-Pires/Latte#readme",
-  "devDependencies": {
-    "typescript": "~4.5.5",
-    "@types/mocha": "~9.1.0"
-  },
-  "dependencies": {
-    "mocha": "~9.2.1",
-    "reflect-metadata": "~0.1.13"
-  }
+    "name": "latte",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./build/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc -d",
+        "clear": "rm -rf ./build",
+        "test": "",
+        "lint": "npx prettier --write ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Julien-Pires/Latte.git"
+    },
+    "author": "Julien Pires",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Julien-Pires/Latte/issues"
+    },
+    "homepage": "https://github.com/Julien-Pires/Latte#readme",
+    "devDependencies": {
+        "typescript": "~4.5.5",
+        "@types/mocha": "~9.1.0",
+        "prettier": "2.6.1"
+    },
+    "dependencies": {
+        "mocha": "~9.2.1",
+        "reflect-metadata": "~0.1.13"
+    }
 }

@@ -1,4 +1,4 @@
-import { testSymbol } from "./metadata";
+import { testSymbol } from './metadata';
 
 /**
  * Specifies that a method is a test.
@@ -7,8 +7,13 @@ import { testSymbol } from "./metadata";
  * @param descriptor Descriptor that contains method information.
  */
 export const test = (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    Reflect.defineMetadata(testSymbol, {
-        name: propertyKey,
-        function: descriptor.value
-    }, target, propertyKey);
+    Reflect.defineMetadata(
+        testSymbol,
+        {
+            name: propertyKey,
+            function: descriptor.value
+        },
+        target,
+        propertyKey
+    );
 };

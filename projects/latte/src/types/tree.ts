@@ -22,18 +22,21 @@ export const createTree = <TNode, TLeaf>(): Tree<TNode, TLeaf> => {
         kind: 'node',
         childrens: []
     };
-}
+};
 
-export const findNode = <TNode, TLeaf>(tree: Tree<TNode, TLeaf>, path: readonly string[]): Node<TNode, TLeaf> | undefined => {
+export const findNode = <TNode, TLeaf>(
+    tree: Tree<TNode, TLeaf>,
+    path: readonly string[]
+): Node<TNode, TLeaf> | undefined => {
     let remainingPath = [...path];
     remainingPath.reverse();
 
     let node: string | undefined;
     let previousNode = tree;
-    while(node = remainingPath.pop()) {
+    while ((node = remainingPath.pop())) {
         let nextNode = previousNode.childrens
-                                   .filter((child): child is Node<TNode, TLeaf> => child.kind === 'node')
-                                   .find((child: Node<TNode, TLeaf>) => child.name === node);
+            .filter((child): child is Node<TNode, TLeaf> => child.kind === 'node')
+            .find((child: Node<TNode, TLeaf>) => child.name === node);
         if (!nextNode) {
             return undefined;
         }
@@ -42,23 +45,26 @@ export const findNode = <TNode, TLeaf>(tree: Tree<TNode, TLeaf>, path: readonly 
     }
 
     return previousNode;
-}
+};
 
-export const insertNodes = <TNode, TLeaf>(tree: Tree<TNode, TLeaf>, nodes: readonly IntermediateNode<TNode>[]): void => {
+export const insertNodes = <TNode, TLeaf>(
+    tree: Tree<TNode, TLeaf>,
+    nodes: readonly IntermediateNode<TNode>[]
+): void => {
     let remainingNodes = [...nodes];
     remainingNodes.reverse();
 
     let previousNode = tree;
-    while(remainingNodes.length > 0) {
+    while (remainingNodes.length > 0) {
         const node = remainingNodes.pop();
         if (!node) {
             return undefined;
         }
 
         let nextNode = previousNode.childrens
-                                   .filter((child): child is Node<TNode, TLeaf> => child.kind === 'node')
-                                   .find((child: Node<TNode, TLeaf>) => child.name === node.name);
-        if(!nextNode) {
+            .filter((child): child is Node<TNode, TLeaf> => child.kind === 'node')
+            .find((child: Node<TNode, TLeaf>) => child.name === node.name);
+        if (!nextNode) {
             nextNode = {
                 kind: 'node',
                 name: node.name,
@@ -70,12 +76,19 @@ export const insertNodes = <TNode, TLeaf>(tree: Tree<TNode, TLeaf>, nodes: reado
 
         previousNode = nextNode;
     }
-}
+};
 
-export const insertLeaf = <TNode, TLeaf>(tree: Tree<TNode, TLeaf>, leaf: TLeaf, nodes: readonly IntermediateNode<TNode>[]): void => {
-    insertNodes(tree, nodes)
+export const insertLeaf = <TNode, TLeaf>(
+    tree: Tree<TNode, TLeaf>,
+    leaf: TLeaf,
+    nodes: readonly IntermediateNode<TNode>[]
+): void => {
+    insertNodes(tree, nodes);
 
-    const lastParent = findNode(tree, nodes.map((node) => node.name));
+    const lastParent = findNode(
+        tree,
+        nodes.map((node) => node.name)
+    );
     if (!lastParent) {
         throw new Error(`Failed to find parent node for leaf: ${leaf}`);
     }
