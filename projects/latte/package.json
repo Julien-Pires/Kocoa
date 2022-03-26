@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -d",
         "clear": "rm -rf ./build",
-        "test": "",
+        "test": "mocha --experimental-specifier-resolution=node ./build/tests/**/*.js",
         "lint": "npx prettier --write ."
     },
     "repository": {
@@ -23,7 +23,9 @@
     "devDependencies": {
         "typescript": "~4.5.5",
         "@types/mocha": "~9.1.0",
-        "prettier": "2.6.1"
+        "prettier": "2.6.1",
+        "chai": "~4.3.6",
+        "@types/chai": "~4.3.0"
     },
     "dependencies": {
         "mocha": "~9.2.1",
