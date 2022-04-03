@@ -1,3 +1,5 @@
+import 'mocha';
+
 import { buildTests } from './discovery';
 import { Node, Test, TestCase, TestSuite } from './types';
 
