@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -d",
         "clear": "rm -rf ./build",
-        "test": "mocha --experimental-specifier-resolution=node ./build/tests/**/*.js",
+        "test": "mocha --experimental-specifier-resolution=node --recursive ./build/tests",
         "lint": "npx prettier --write ."
     },
     "repository": {
