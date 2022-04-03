@@ -1,11 +1,11 @@
-import * as chai from 'chai';
-import * as chaiSubset from 'chai-subset';
+import chai from 'chai';
+import chaiSubset from 'chai-subset';
 
 import { test, testData, TestDataAnnotation, testDataSymbol, testSuite } from '../../src';
 
 const expect = chai.expect;
 
-chai.use(chaiSubset.default);
+chai.use(chaiSubset);
 
 @testSuite('@testData')
 export class TestDataDecoratorTests {
