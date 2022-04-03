@@ -41,4 +41,3 @@ class SingleTestSuiteDecoratorSample {}
 @testSuite('sample')
 @testSuite('class')
 class MultipleTestSuiteDecoratorSample {}
- 
