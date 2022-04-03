@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Setup Rush
+        uses: ./.github/actions/rush
+      - name: Build projects
+        run: node common/scripts/install-run-rush.js build
+      - name: Archive build folders
+        uses: actions/upload-artifact@v3
+        with:
+          name: projects-build
+          path: projects/*/build/**
+
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['12', '14', '16']
+        include:
+          - os: ubuntu-latest
+            node-version: '16'
+            env:
+              COVERAGE: 1
+    steps:
+      - uses: actions/checkout@v3
+      - name: Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Download builds
+        uses: actions/download-artifact@v3
+        with:
+          name: projects-build
+          path: projects
+      - name: Get Rush cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            common/temp/install-run
+            ~/.rush
+          key: ${{ runner.os }}-${{ hashFiles('rush.json') }}
+      - name: Get PNPM dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: ./common/temp/pnpm-store
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+      - name: Install Rush
+        run: node common/scripts/install-run-rush.js install
+      - name: Run tests
+        run: node common/scripts/install-run-rush.js test:coverage --only latte -v
+      - name: Upload code coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-data
+          path: projects/latte/.nyc_output/
+
+  coveralls:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get Rush cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            common/temp/install-run
+            ~/.rush
+          key: ${{ runner.os }}-${{ hashFiles('rush.json') }}
+      - name: Download code coverage reports
+        uses: actions/download-artifact@v3
+        with:
+          name: code-coverage-data
+          path: projects/latte/.nyc_output/
+      - name: Install Rush
+        run: node common/scripts/install-run-rush.js install
+      - name: Generate code coverage reports
+        run: node common/scripts/install-run-rush.js coverage --only latte -v
+      - name: Upload code coverage reports
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-path: ./projects/latte
+          path-to-lcov: ./projects/latte/coverage/lcov.info
+
+  sonarcloud:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

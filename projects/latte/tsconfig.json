@@ -6,6 +6,8 @@
         "target": "ES2021",
         "moduleResolution": "Node",
         "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
         "rootDirs": ["src", "tests"],
         "outDir": "build",
         "experimentalDecorators": true,
