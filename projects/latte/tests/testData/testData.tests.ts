@@ -48,7 +48,7 @@ export class TestDataDecoratorTests {
     }
 
     @test
-    @testData({ testName: 'should contains test fixtures when some fixtures have been specified' })
+    @testData({ testName: 'should contains test fixtures when multiple fixtures have been specified' })
     public shouldContainsTestFixtures() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
