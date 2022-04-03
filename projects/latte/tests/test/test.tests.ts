@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { test, TestAnnotation, testData, testSuite, testSymbol } from '../../src';
 
 @testSuite('@test')
-export class TestsDecoratorTests {
+export class TestDecoratorTests {
     @test
     @testData({ testName: 'should add test metadata when method is decorated' })
     public shouldAddMetadata() {

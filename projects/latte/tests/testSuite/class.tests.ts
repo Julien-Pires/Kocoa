@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { test, testData, testSuite, TestSuiteAnnotation, testSuiteSymbol } from '../../src';
 
 @testSuite('@testSuite')
-export class TestSuiteDecoratorTests {
+export class TestSuiteClassDecoratorTests {
     @test
     @testSuite('class')
     @testData({ testName: 'should contains test suite metadata when target has one annotation' })
