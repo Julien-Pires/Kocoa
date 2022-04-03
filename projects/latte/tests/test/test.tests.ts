@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { test, TestAnnotation, testData, testSuite, testSymbol } from '../src';
+import { test, TestAnnotation, testData, testSuite, testSymbol } from '../../src';
 
 @testSuite('@test')
 export class TestsDecoratorTests {

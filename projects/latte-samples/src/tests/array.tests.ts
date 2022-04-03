@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { test, testData, testSuite } from 'latte/src';
+import { test, testData, testSuite } from 'latte';
 
 @testSuite('Array')
 export class ArrayTests {
