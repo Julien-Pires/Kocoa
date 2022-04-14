@@ -33,7 +33,6 @@ jobs:
       fail-fast: false
       matrix:
         node: ['12', '14', '16']
-        project: ['latte', 'latte-samples']
         include:
           - os: ubuntu-latest
             node-version: '16'
@@ -57,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
-          path: projects/${{ matrix.project }}/.nyc_output/
+          path: projects/*/.nyc_output/
 
   codeCov:
     needs: tests
