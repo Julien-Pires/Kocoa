@@ -60,30 +60,7 @@ jobs:
           name: code-coverage-data
           path: projects/latte/.nyc_output/
 
-  coveralls:
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup Rush
-        uses: ./.github/actions/rush
-      - name: Download code coverage reports
-        uses: actions/download-artifact@v3
-        with:
-          name: code-coverage-data
-          path: projects/latte/.nyc_output/
-      - name: Generate code coverage reports
-        run: node common/scripts/install-run-rush.js coverage --only latte -v
-      - name: Upload code coverage reports
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-path: ./projects/latte
-          path-to-lcov: ./projects/latte/coverage/lcov.info
-
-  CodeCov:
+  codeCov:
     needs: tests
     runs-on: ubuntu-latest
     steps:
@@ -104,7 +81,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           root_dir: ./projects/latte
-          directory: ./projects/latte/coverage
 
   sonarcloud:
     needs: tests
