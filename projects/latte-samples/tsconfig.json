@@ -6,9 +6,12 @@
         "target": "ES2021",
         "moduleResolution": "Node",
         "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
         "rootDir": "src",
         "outDir": "build",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": true
     }
 }

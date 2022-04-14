@@ -6,8 +6,10 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "test": "mocha --experimental-specifier-resolution=node ./build/tests",
-        "clear": "rm -rf ./build",
+        "clear": "rm -rf ./build ./.nyc_output ./coverage",
+        "test": "ts-mocha -p tsconfig.commonjs.json src/**/*.tests.ts",
+        "test:coverage": "rm -rf .nyc_output; nyc npm test",
+        "coverage": "nyc report --reporter=text --reporter=text-summary --reporter=lcov",
         "lint": "npx prettier --write ."
     },
     "repository": {
@@ -21,14 +23,18 @@
     },
     "homepage": "https://github.com/Julien-Pires/Latte#readme",
     "devDependencies": {
-        "typescript": "~4.5.5",
-        "chai": "~4.3.6",
+        "@types/mocha": "~9.1.0",
         "@types/chai": "~4.3.0",
-        "prettier": "2.6.1"
+        "typescript": "~4.5.5",
+        "mocha": "~9.2.1",
+        "chai": "~4.3.6",
+        "prettier": "2.6.1",
+        "ts-mocha": "~9.0.2",
+        "nyc": "~15.1.0",
+        "ts-node": "~10.7.0"
     },
     "dependencies": {
         "reflect-metadata": "~0.1.13",
-        "mocha": "~9.2.1",
         "latte": "workspace:*"
     }
 }
