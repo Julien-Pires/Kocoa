@@ -34,6 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         node: ['12', '14', '16']
+        project: ['latte', 'latte-samples']
         include:
           - os: ubuntu-latest
             node-version: '16'
@@ -53,12 +54,12 @@ jobs:
       - name: Setup Rush
         uses: ./.github/actions/rush
       - name: Run tests
-        run: node common/scripts/install-run-rush.js test:coverage --only latte -v
+        run: node common/scripts/install-run-rush.js test:coverage -v
       - name: Upload code coverage artifacts
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
-          path: projects/latte/.nyc_output/
+          path: projects/${{ matrix.project }}/.nyc_output/
 
   codeCov:
     needs: tests
