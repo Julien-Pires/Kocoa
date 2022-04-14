@@ -79,8 +79,8 @@ jobs:
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           root_dir: ./projects/latte
+          directory: ./projects/latte/coverage
 
   sonarcloud:
     needs: tests
