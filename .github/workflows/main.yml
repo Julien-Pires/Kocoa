@@ -52,8 +52,6 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Install Rush
-        run: node common/scripts/install-run-rush.js install
       - name: Run tests
         run: node common/scripts/install-run-rush.js test:coverage --only latte -v
       - name: Upload code coverage artifacts
@@ -69,20 +67,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Get Rush cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            common/temp/install-run
-            ~/.rush
-          key: ${{ runner.os }}-${{ hashFiles('rush.json') }}
+      - name: Setup Rush
+        uses: ./.github/actions/rush
       - name: Download code coverage reports
         uses: actions/download-artifact@v3
         with:
           name: code-coverage-data
           path: projects/latte/.nyc_output/
-      - name: Install Rush
-        run: node common/scripts/install-run-rush.js install
       - name: Generate code coverage reports
         run: node common/scripts/install-run-rush.js coverage --only latte -v
       - name: Upload code coverage reports
