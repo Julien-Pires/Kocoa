@@ -17,3 +17,5 @@ runs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-pnpm-
+    - name: Install Rush
+      run: node common/scripts/install-run-rush.js install
