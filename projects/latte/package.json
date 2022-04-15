@@ -12,6 +12,7 @@
         "coverage": "nyc report --reporter=text --reporter=text-summary --reporter=lcov",
         "lint": "npx prettier --write ."
     },
+    "exports": "./index.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Julien-Pires/Latte.git"
