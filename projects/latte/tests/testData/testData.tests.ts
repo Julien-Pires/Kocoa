@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
-import { test, testData, TestDataAnnotation, testDataSymbol, testSuite } from '../../src';
+import { test, testData, TestDataAnnotation, testDataSymbol, testSuite } from '../../src/index.js';
 
 const expect = chai.expect;
 

@@ -5,8 +5,8 @@ import {
     TestSuiteAnnotation,
     testSuiteSymbol,
     testSymbol
-} from './annotations';
-import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types';
+} from './annotations/index.js';
+import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types/index.js';
 
 /**
  * Checks if specified property is a test (has test metadata).

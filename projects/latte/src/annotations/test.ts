@@ -1,4 +1,4 @@
-import { testSymbol } from './metadata';
+import { testSymbol } from './metadata.js';
 
 /**
  * Specifies that a method is a test.

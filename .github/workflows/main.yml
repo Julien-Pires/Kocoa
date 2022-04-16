@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
-          path: projects/*/.nyc_output/
+          path: projects/*/coverage/
 
   codeCov:
     needs: tests
@@ -71,7 +71,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: code-coverage-data
-          path: projects/latte/.nyc_output/
+          path: projects/
       - name: Generate code coverage reports
         run: node common/scripts/install-run-rush.js coverage --only latte -v
       - name: Upload code coverage reports

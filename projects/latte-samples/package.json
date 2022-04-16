@@ -7,9 +7,8 @@
     "scripts": {
         "build": "tsc",
         "clear": "rm -rf ./build ./.nyc_output ./coverage",
-        "test": "ts-mocha -p tsconfig.commonjs.json src/**/*.tests.ts",
-        "test:coverage": "rm -rf .nyc_output; nyc npm test",
-        "coverage": "nyc report --reporter=text --reporter=text-summary --reporter=lcov",
+        "test": "mocha build/**/*.tests.js",
+        "test:coverage": "c8 npm test",
         "lint": "npx prettier --write ."
     },
     "repository": {
@@ -31,7 +30,8 @@
         "prettier": "2.6.1",
         "ts-mocha": "~9.0.2",
         "nyc": "~15.1.0",
-        "ts-node": "~10.7.0"
+        "ts-node": "~10.7.0",
+        "c8": "~7.11.0"
     },
     "dependencies": {
         "reflect-metadata": "~0.1.13",
