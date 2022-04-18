@@ -1,2 +1,30 @@
-fixes:
-  - "::projects/latte/"
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+      latte:
+        target: auto
+        flags:
+          - latte
+      latte-sample:
+        target: auto
+        flags:
+          - latte-sample
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  
+  require_base: yes
+  require_head: yes       
+  branches: null
+
+flags:
+  latte:
+    paths:
+      - projects/latte/
+    carryforward: true
+  latte-sample:
+    paths:
+      - projects/latte-sample/
+    carryforward: false
