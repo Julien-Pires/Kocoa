@@ -1,10 +1,10 @@
 flag_management:
   individual_flags:
-    - name: latte  #fill in your own flag name
+    - name: latte
       paths: 
-      - projects/latte  #fill in your own path. Note, accepts globs, not regexes
+      - projects/latte 
       carryforward: true
-    - name: samples #fill in your own flag name
+    - name: samples
       paths: 
-      - projects/latte-samples  #fill in your own path. Note, accepts globs, not regexes
+      - projects/latte-samples
       carryforward: true
