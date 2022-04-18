@@ -73,7 +73,7 @@ jobs:
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v2
         with:
-          directory: ./projects/*/coverage
+          directory: ./projects/**/coverage
           flags: latte, samples
 
   sonarcloud:
