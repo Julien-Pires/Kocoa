@@ -73,8 +73,8 @@ jobs:
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v2
         with:
-          root_dir: ./projects/latte
-          directory: ./projects/latte/coverage
+          directory: ./projects/*/coverage
+          flags: latte, samples
 
   sonarcloud:
     needs: tests

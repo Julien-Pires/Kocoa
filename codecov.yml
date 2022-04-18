@@ -1,30 +1,10 @@
-coverage:
-  status:
-    project:
-      default:
-        target: auto
-      latte:
-        target: auto
-        flags:
-          - latte
-      latte-sample:
-        target: auto
-        flags:
-          - latte-sample
-comment:
-  layout: "reach, diff, flags, files"
-  behavior: default
-  require_changes: false  
-  require_base: yes
-  require_head: yes       
-  branches: null
-
-flags:
-  latte:
-    paths:
-      - projects/latte/
-    carryforward: true
-  latte-sample:
-    paths:
-      - projects/latte-sample/
-    carryforward: false
+flag_management:
+  individual_flags:
+    - name: latte  #fill in your own flag name
+      paths: 
+      - projects/latte  #fill in your own path. Note, accepts globs, not regexes
+      carryforward: true
+    - name: samples #fill in your own flag name
+      paths: 
+      - projects/latte-samples  #fill in your own path. Note, accepts globs, not regexes
+      carryforward: true
