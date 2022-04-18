@@ -63,7 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ['latte', 'latte-sample']
+        include:
+          - project: latte
+            flag: latte
+          - project: latte-samples
+            flag: samples
     steps:
       - uses: actions/checkout@v3
         with:
@@ -77,7 +81,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           directory: ./projects/${{ matrix.project }}/coverage
-          flags: ${{ matrix.project }}
+          flags: ${{ matrix.flag }}
 
   sonarcloud:
     needs: tests
