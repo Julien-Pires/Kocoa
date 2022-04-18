@@ -1,11 +1,2 @@
-coverage:
-  status:
-    project:
-      default: off
-      latte:
-        flags: latte
-
-flags:
-  latte:
-    paths:
-      - projects/latte/
+fixes:
+  - "::projects/latte/"
