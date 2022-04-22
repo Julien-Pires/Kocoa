@@ -52,6 +52,8 @@ jobs:
         uses: ./.github/actions/rush
       - name: Run tests
         run: |
+          echo "$env"
+          echo "${{ env }}"
           if [ "${{ env.COVERAGE }}" == "true" ]; then
             node common/scripts/install-run-rush.js test:coverage -v
           else
