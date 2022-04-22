@@ -52,7 +52,12 @@ jobs:
         uses: ./.github/actions/rush
       - name: Run tests (With Coverage)
         if: ${{ env.COVERAGE == 'true' }}
-        run: node common/scripts/install-run-rush.js test:coverage -v
+        run: |
+          if [ "${{ env.COVERAGE }}" == "true" ]; then
+            node common/scripts/install-run-rush.js test:coverage -v
+          else
+            node common/scripts/install-run-rush.js test -v
+          fi
       - name: Upload code coverage artifacts
         if: ${{ env.COVERAGE == 'true' }}
         uses: actions/upload-artifact@v3
