@@ -50,9 +50,14 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Run tests
+      - name: Run tests (Without Coverage)
+        if: env.COVERAGE
+        run: node common/scripts/install-run-rush.js test:coverage -v
+      - name: Run tests (With Coverage)
+        if: env.COVERAGE
         run: node common/scripts/install-run-rush.js test:coverage -v
       - name: Upload code coverage artifacts
+        if: env.COVERAGE
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
