@@ -54,6 +54,7 @@ jobs:
         run: |
           echo "$env"
           echo "${{ env }}"
+          echo "$COVERAGE"
           if [ "${{ env.COVERAGE }}" == "true" ]; then
             node common/scripts/install-run-rush.js test:coverage -v
           else
