@@ -37,7 +37,7 @@ jobs:
           - os: ubuntu-latest
             node-version: '16'
             env:
-              COVERAGE: true
+              COVERAGE: 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -50,9 +50,6 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Run tests (Without Coverage)
-        if: ${{ env.COVERAGE != 'true' }}
-        run: node common/scripts/install-run-rush.js test -v
       - name: Run tests (With Coverage)
         if: ${{ env.COVERAGE == 'true' }}
         run: node common/scripts/install-run-rush.js test:coverage -v
