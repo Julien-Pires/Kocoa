@@ -34,13 +34,6 @@
     },
     {
       "commandKind": "bulk",
-      "name": "coverage",
-      "summary": "Generate code coverage reports",
-      "description": "Generate code coverage reports",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "lint",
       "summary": "Apply lint rules on each projects",
       "description": "Apply lint rules on each projects",
