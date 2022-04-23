@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "clear": "rm -rf ./build ./.nyc_output ./coverage",
+        "clear": "rm -rf ./build ./coverage",
         "test": "mocha build/**/*.tests.js",
         "test:coverage": "c8 npm test",
         "lint": "npx prettier --write ."
