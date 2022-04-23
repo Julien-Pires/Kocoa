@@ -50,7 +50,7 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Run tests ${{ matrix.node }}
+      - name: Run tests ${{ matrix.env.COVERAGE }}
         run: |
           if [ "${{ matrix.env.COVERAGE }}" == "true" ]; then
             node common/scripts/install-run-rush.js test:coverage -v
