@@ -36,8 +36,7 @@ jobs:
         include:
           - os: ubuntu-latest
             node-version: '16'
-            env:
-              COVERAGE: 1
+            coverage: 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -50,15 +49,14 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Run tests ${{ matrix.env.COVERAGE }}
-        run: |
-          if [ "${{ matrix.env.COVERAGE }}" == "true" ]; then
-            node common/scripts/install-run-rush.js test:coverage -v
-          else
-            node common/scripts/install-run-rush.js test -v
-          fi
+      - name: Run tests (Without coverage)
+        if: ${{ matrix.coverage != 'true' }}
+        run: node common/scripts/install-run-rush.js test -v
+      - name: Run tests (With coverage)
+        if: ${{ matrix.coverage == 'true' }}
+        run: node common/scripts/install-run-rush.js test:coverage -v
       - name: Upload code coverage artifacts
-        if: ${{ matrix.env.COVERAGE == 'true' }}
+        if: ${{ matrix.coverage == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
