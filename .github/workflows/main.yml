@@ -52,16 +52,13 @@ jobs:
         uses: ./.github/actions/rush
       - name: Run tests
         run: |
-          echo "$env"
-          echo "${{ matrix.env.COVERAGE }}"
-          echo "$COVERAGE"
-          if [ "${{ env.COVERAGE }}" == "true" ]; then
+          if [ "${{ matrix.env.COVERAGE }}" == "true" ]; then
             node common/scripts/install-run-rush.js test:coverage -v
           else
             node common/scripts/install-run-rush.js test -v
           fi
       - name: Upload code coverage artifacts
-        if: ${{ env.COVERAGE == 'true' }}
+        if: ${{ matrix.env.COVERAGE == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
