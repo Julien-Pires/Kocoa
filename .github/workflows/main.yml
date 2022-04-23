@@ -32,10 +32,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
         node: ['12', '14', '16']
         include:
           - os: ubuntu-latest
-            node-version: '16'
+            node: '16'
             coverage: 'true'
     steps:
       - uses: actions/checkout@v3
