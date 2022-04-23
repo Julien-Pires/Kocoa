@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 16
       - name: Setup Rush
-        uses: actions/rush@v1
+        uses: ./.github/actions/rush
       - name: Build projects
         run: node common/scripts/install-run-rush.js build
       - name: Archive build folders
