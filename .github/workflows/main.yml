@@ -53,7 +53,7 @@ jobs:
       - name: Run tests
         run: |
           echo "$env"
-          echo "${{ env.COVERAGE }}"
+          echo "${{ matrix.env.COVERAGE }}"
           echo "$COVERAGE"
           if [ "${{ env.COVERAGE }}" == "true" ]; then
             node common/scripts/install-run-rush.js test:coverage -v
