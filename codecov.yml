@@ -1,0 +1,10 @@
+flag_management:
+  individual_flags:
+    - name: latte
+      paths: 
+      - projects/latte 
+      carryforward: true
+    - name: samples
+      paths: 
+      - projects/latte-samples
+      carryforward: true

@@ -1,5 +1,5 @@
-import { runTest } from '../runner';
-import { testSuiteSymbol } from './metadata';
+import { runTest } from '../runner.js';
+import { testSuiteSymbol } from './metadata.js';
 
 /**
  * Represents possible targets for the test suite decorator

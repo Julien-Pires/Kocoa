@@ -22,7 +22,14 @@
       "commandKind": "bulk",
       "name": "test",
       "summary": "Run all tests on each projects",
-      "description": "Rune all tests on each projects",
+      "description": "Run all tests on each projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "test:coverage",
+      "summary": "Run code coverage on supported projects",
+      "description": "Run code coverage on supported projects",
       "enableParallelism": true
     },
     {

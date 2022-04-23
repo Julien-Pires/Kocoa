@@ -1,5 +1,5 @@
-import { testDataSymbol } from './metadata';
-import { TestDataOptions } from './types';
+import { testDataSymbol } from './metadata.js';
+import { TestDataOptions } from './types.js';
 
 /**
  * Represents possible combination for test case parameters

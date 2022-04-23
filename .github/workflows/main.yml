@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Setup Rush
+        uses: ./.github/actions/rush
+      - name: Build projects
+        run: node common/scripts/install-run-rush.js build
+      - name: Archive build folders
+        uses: actions/upload-artifact@v3
+        with:
+          name: projects-build
+          path: projects/*/build/**
+
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        node: ['12', '14', '16', '18']
+        include:
+          - os: ubuntu-latest
+            node: '16'
+            coverage: 'true'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Download builds
+        uses: actions/download-artifact@v3
+        with:
+          name: projects-build
+          path: projects
+      - name: Setup Rush
+        uses: ./.github/actions/rush
+      - name: Run tests (Without coverage)
+        if: ${{ matrix.coverage != 'true' }}
+        run: node common/scripts/install-run-rush.js test -v
+      - name: Run tests (With coverage)
+        if: ${{ matrix.coverage == 'true' }}
+        run: node common/scripts/install-run-rush.js test:coverage -v
+      - name: Upload code coverage artifacts
+        if: ${{ matrix.coverage == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-data
+          path: projects/*/coverage/
+
+  codeCov:
+    needs: tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - project: latte
+            flag: latte
+          - project: latte-samples
+            flag: samples
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Download code coverage artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: code-coverage-data
+          path: projects/
+      - name: Upload code coverage reports
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./projects/${{ matrix.project }}/coverage
+          flags: ${{ matrix.flag }}
+
+  sonarcloud:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Download code coverage artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: code-coverage-data
+        path: projects/
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
