@@ -1,21 +1,22 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
-import { test, testData, TestDataAnnotation, testDataSymbol, testSuite } from '../../src/index.js';
+import { test, testData, TestDataAnnotation, testDataSymbol, suite } from '../index.js';
+import { TestDataFixture } from './testData.fixtures.js';
 
 const expect = chai.expect;
 
 chai.use(chaiSubset);
 
-@testSuite('@testData')
+@suite('@testData')
 export class TestDataDecoratorTests {
     @test
     @testData({ testName: 'should contains test data metadata when target has one annotation' })
     public shouldAddSingleTestDataMetadata() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.singleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.singleTestData.name
         );
 
         expect(actual).to.not.be.undefined;
@@ -27,8 +28,8 @@ export class TestDataDecoratorTests {
     public shouldAddMultipleTestDataMetadata() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.multipleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.multipleTestData.name
         );
 
         expect(actual).to.not.be.undefined;
@@ -40,8 +41,8 @@ export class TestDataDecoratorTests {
     public shouldNotContainsTestFixtures() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.singleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.singleTestData.name
         );
 
         expect(actual).to.have.deep.members([{ args: [] }]);
@@ -52,8 +53,8 @@ export class TestDataDecoratorTests {
     public shouldContainsTestFixtures() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.multipleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.multipleTestData.name
         );
 
         expect(actual).to.containSubset([{ args: [1, 2] }, { args: [100, 200] }, { args: [1000, 2000] }]);
@@ -64,8 +65,8 @@ export class TestDataDecoratorTests {
     public shouldNotHaveTestName() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.singleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.singleTestData.name
         );
 
         expect(actual[0]).to.not.have.property('testName');
@@ -76,8 +77,8 @@ export class TestDataDecoratorTests {
     public shouldHaveTestName() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
-            TestDataDecoratorSample.prototype,
-            TestDataDecoratorSample.prototype.multipleTestData.name
+            TestDataFixture.prototype,
+            TestDataFixture.prototype.multipleTestData.name
         );
 
         expect(actual).to.containSubset([
@@ -85,17 +86,5 @@ export class TestDataDecoratorTests {
             { name: '100 plus 200 should return 300' },
             { name: '1000 plus 2000 should return 3000' }
         ]);
-    }
-}
-
-class TestDataDecoratorSample {
-    @testData()
-    public singleTestData() {}
-
-    @testData(1, 2, { testName: '1 plus 2 should return 3' })
-    @testData(100, 200, { testName: '100 plus 200 should return 300' })
-    @testData(1000, 2000, { testName: '1000 plus 2000 should return 3000' })
-    public multipleTestData(a: number, b: number) {
-        return a + b;
     }
 }

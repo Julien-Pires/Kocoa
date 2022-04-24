@@ -1,10 +1,11 @@
 import { runTest } from '../runner.js';
-import { testSuiteSymbol } from './metadata.js';
+import { suiteSymbol } from './metadata.js';
+import { SuiteOptions } from './types.js';
 
 /**
  * Represents possible targets for the test suite decorator
  */
-type TestSuiteFunction = {
+type SuiteAttribute = {
     (target: Function): void;
     (target: Object, propertyKey: string | symbol): void;
 };
@@ -13,13 +14,13 @@ type TestSuiteFunction = {
  * Allows to include class/method in the specified test suite
  * @param name Name of the test suite
  */
-export const testSuite = (name: string): TestSuiteFunction => {
+export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
     return function (target: any, propertyKey: string | symbol) {
-        Reflect.appendMetadata(testSuiteSymbol, { name }, target, propertyKey);
+        Reflect.appendMetadata(suiteSymbol, { name, options: options ?? {} }, target, propertyKey);
         if (propertyKey) {
             return;
         }
 
         runTest(target);
-    } as TestSuiteFunction;
+    } as SuiteAttribute;
 };

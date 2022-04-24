@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -d",
         "clear": "rm -rf ./build ./coverage",
-        "test": "mocha build/**/*.tests.js",
+        "test": "mocha ./build",
         "test:coverage": "c8 npm test",
         "lint": "npx prettier --write ."
     },
