@@ -25,7 +25,7 @@ jobs:
           name: projects-build
           path: projects/*/build/**
 
-  tests:
+  test:
     needs: build
     runs-on: ubuntu-latest
     strategy:
@@ -72,7 +72,7 @@ jobs:
           path: projects/*/coverage/
 
   codeCov:
-    needs: tests
+    needs: test-coverage
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -97,7 +97,7 @@ jobs:
           flags: ${{ matrix.flag }}
 
   sonarcloud:
-    needs: tests
+    needs: test-coverage
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
