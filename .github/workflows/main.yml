@@ -1,12 +1,11 @@
-name: CI
+name: Node CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
-
-  workflow_dispatch:
+    branches: 
+      - '**'
 
 jobs:
   build:
@@ -32,12 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macOS-latest]
         node: ['12', '14', '16', '18']
-        include:
-          - os: ubuntu-latest
-            node: '16'
-            coverage: 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -50,14 +45,27 @@ jobs:
           path: projects
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Run tests (Without coverage)
-        if: ${{ matrix.coverage != 'true' }}
+      - name: Run tests
         run: node common/scripts/install-run-rush.js test -v
-      - name: Run tests (With coverage)
-        if: ${{ matrix.coverage == 'true' }}
+
+  test-coverage:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      - name: Download builds
+        uses: actions/download-artifact@v3
+        with:
+          name: projects-build
+          path: projects
+      - name: Setup Rush
+        uses: ./.github/actions/rush
+      - name: Run tests with coverage
         run: node common/scripts/install-run-rush.js test:coverage -v
       - name: Upload code coverage artifacts
-        if: ${{ matrix.coverage == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
