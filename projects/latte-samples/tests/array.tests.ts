@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { test, testData, testSuite } from 'latte';
+import { test, testData, suite } from 'latte';
 
-@testSuite('Array')
+@suite('Array')
 export class ArrayTests {
     @test
-    @testSuite('Find')
+    @suite('Find')
     public 'should return undefined when array is empty'() {
         const actual = [].find((item) => item === {});
 
@@ -12,7 +12,7 @@ export class ArrayTests {
     }
 
     @test
-    @testSuite('Find')
+    @suite('Find')
     @testData([1, 2, 3], 1)
     @testData(['A', 'B', 'C'], 'A')
     public 'should return element when found in array'<T>(array: T[], element: T) {
@@ -23,7 +23,7 @@ export class ArrayTests {
     }
 
     @test
-    @testSuite('Find')
+    @suite('Find')
     @testData([1, 2, 3], 100)
     @testData(['A', 'B', 'C'], 'Z')
     public 'should return undefined when element is not found'<T>(array: T[], element: T) {
@@ -33,7 +33,7 @@ export class ArrayTests {
     }
 
     @test
-    @testSuite('IndexOf')
+    @suite('IndexOf')
     @testData(['A'], 'A')
     @testData(['A', 'B', 'C'], 'A')
     public 'should return index when element is found'(array: string[], element: string) {
@@ -41,7 +41,7 @@ export class ArrayTests {
     }
 
     @test
-    @testSuite('IndexOf')
+    @suite('IndexOf')
     @testData([], 'A')
     @testData(['A', 'B', 'C'], 'Z')
     public 'should return -1 when element is not found'(array: string[], element: string) {

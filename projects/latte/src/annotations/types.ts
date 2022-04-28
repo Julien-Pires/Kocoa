@@ -1,3 +1,11 @@
+export interface TestOptions {
+    skip?: boolean;
+}
+
+export interface SuiteOptions {
+    skip?: boolean;
+}
+
 /**
  * Contains additional options for a test case
  */
@@ -11,6 +19,7 @@ export interface TestDataOptions {
 export interface TestAnnotation {
     name: string;
     function: Function;
+    options: TestOptions;
 }
 
 /**
@@ -24,6 +33,7 @@ export interface TestDataAnnotation {
 /**
  * Contains test suite metadata
  */
-export interface TestSuiteAnnotation {
+export interface SuiteAnnotation {
     name: string;
+    options: SuiteOptions;
 }

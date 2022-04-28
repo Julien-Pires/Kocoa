@@ -3,6 +3,7 @@
  */
 export interface TestSuite {
     name: string;
+    skip: boolean;
 }
 
 /**
@@ -20,4 +21,5 @@ export interface Test {
     name: string;
     function: Function;
     cases: TestCase[];
+    skip: boolean;
 }

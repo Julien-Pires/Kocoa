@@ -2,8 +2,8 @@ import {
     TestAnnotation,
     TestDataAnnotation,
     testDataSymbol,
-    TestSuiteAnnotation,
-    testSuiteSymbol,
+    SuiteAnnotation,
+    suiteSymbol,
     testSymbol
 } from './annotations/index.js';
 import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types/index.js';
@@ -35,7 +35,8 @@ const buildTest = (target: any, propertyKey: string | symbol): Test => {
     return {
         name: testAnnotation.name,
         function: testAnnotation.function,
-        cases: testCases.length > 0 ? testCases : [{ args: [] }]
+        cases: testCases.length > 0 ? testCases : [{ args: [] }],
+        skip: testAnnotation.options?.skip ?? false
     };
 };
 
@@ -47,10 +48,10 @@ const buildTest = (target: any, propertyKey: string | symbol): Test => {
  */
 const findTestSuite = (target: any, propertyKey?: string | symbol): readonly TestSuite[] => {
     const testSuites = propertyKey
-        ? Reflect.getAllMetadata<TestSuiteAnnotation>(testSuiteSymbol, target, propertyKey)
-        : Reflect.getAllMetadata<TestSuiteAnnotation>(testSuiteSymbol, target);
+        ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, target, propertyKey)
+        : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, target);
 
-    return testSuites.reverse().map((category) => ({ name: category.name }));
+    return [...testSuites].reverse().map((suite) => ({ name: suite.name, skip: suite.options?.skip ?? false }));
 };
 
 /**

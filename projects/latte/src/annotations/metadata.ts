@@ -2,4 +2,4 @@ export const testSymbol = Symbol('Test');
 
 export const testDataSymbol = Symbol('TestData');
 
-export const testSuiteSymbol = Symbol('TestSuite');
+export const suiteSymbol = Symbol('Suite');

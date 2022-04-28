@@ -40,7 +40,8 @@ const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
 const addTest = (target: any, test: Test): void => {
     for (const testCase of test.cases) {
         const title = buildTestCaseTitle(test.name, testCase);
-        it(title, () => {
+        const testRunner = test.skip ? it.skip : it;
+        testRunner(title, () => {
             const instance = Object.create(target);
             test.function.apply(instance, testCase.args);
         });
@@ -58,7 +59,8 @@ const addTestSuite = (target: any, node: Node<TestSuite, Test>): void => {
         return;
     }
 
-    describe(testSuite?.name, () => {
+    const suiteRunner = testSuite.skip ? describe.skip : describe;
+    suiteRunner(testSuite?.name, () => {
         visit(target, node);
     });
 };

@@ -8,7 +8,7 @@
         "sourceMap": true,
         "declaration": true,
         "declarationMap": true,
-        "rootDir": "src",
+        "rootDir": "tests",
         "outDir": "build",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
