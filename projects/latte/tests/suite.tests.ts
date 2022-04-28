@@ -94,11 +94,11 @@ export class TestSuiteClassDecoratorTests {
 
     @test
     @suite('class')
-    @testData({ testName: 'should not have skip options when skip options is not used' })
+    @testData({ testName: 'should have skip options to false when skip options is not used' })
     public shouldNotHaveSkipOptionsOnClass() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, SingleSuiteFixture);
 
-        expect(actual[0].options.skip).to.be.undefined;
+        expect(actual[0].options.skip).to.be.false;
     }
 
     @test
@@ -117,7 +117,7 @@ export class TestSuiteClassDecoratorTests {
 
     @test
     @suite('method')
-    @testData({ testName: 'should not have skip options when skip options is not used' })
+    @testData({ testName: 'should have skip options to false when skip options is not used' })
     public shouldNotHaveSkipOptionsOnMethod() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
@@ -125,6 +125,6 @@ export class TestSuiteClassDecoratorTests {
             MultipleSuiteFixture.prototype.singleTestSuite.name
         );
 
-        expect(actual[0].options.skip).to.be.undefined;
+        expect(actual[0].options.skip).to.be.false;
     }
 }

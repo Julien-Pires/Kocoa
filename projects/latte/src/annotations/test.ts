@@ -9,27 +9,29 @@ type TestAttribute = {
     (target: Object, propertyKey: string | symbol): void;
 };
 
+const defaultOptions: TestOptions = {
+    skip: false
+};
+
 /**
  * Set test metadata on the specified property for the given target
  * @param options Represents options to be associated with the current test
  * @returns Returns a decorator function that set test metadata
  */
-const setTestAnnotation = (options: TestOptions) => (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-): void => {
-    Reflect.defineMetadata(
-        testSymbol,
-        {
-            name: propertyKey,
-            function: descriptor.value,
-            options: options ?? {}
-        },
-        target,
-        propertyKey
-    );
-};
+const setTestAnnotation =
+    (options: TestOptions) =>
+    (target: any, propertyKey: string, descriptor: PropertyDescriptor): void => {
+        Reflect.defineMetadata(
+            testSymbol,
+            {
+                name: propertyKey,
+                function: descriptor.value,
+                options: { ...defaultOptions, ...options }
+            },
+            target,
+            propertyKey
+        );
+    };
 
 /**
  * Specifies that a method is a test.

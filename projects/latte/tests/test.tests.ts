@@ -43,7 +43,7 @@ export class TestDecoratorTests {
     }
 
     @test
-    @testData({ testName: 'should not have skip options when skip options is not used' })
+    @testData({ testName: 'should have skip options to false when skip options is not used' })
     public shouldNotHaveSkipOptions() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
@@ -51,6 +51,6 @@ export class TestDecoratorTests {
             TestDecoratorTests.prototype.shouldNotHaveSkipOptions.name
         );
 
-        expect(actual.options.skip).to.be.undefined;
+        expect(actual.options.skip).to.be.false;
     }
 }

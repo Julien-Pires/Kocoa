@@ -10,13 +10,22 @@ type SuiteAttribute = {
     (target: Object, propertyKey: string | symbol): void;
 };
 
+const defaultOptions: SuiteOptions = {
+    skip: false
+};
+
 /**
  * Allows to include class/method in the specified test suite
  * @param name Name of the test suite
  */
 export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
     return function (target: any, propertyKey: string | symbol) {
-        Reflect.appendMetadata(suiteSymbol, { name, options: options ?? {} }, target, propertyKey);
+        Reflect.appendMetadata(
+            suiteSymbol,
+            { name, options: { ...defaultOptions, ...(options ?? {}) } },
+            target,
+            propertyKey
+        );
         if (propertyKey) {
             return;
         }
