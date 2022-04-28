@@ -17,6 +17,7 @@ const defaultOptions: SuiteOptions = {
 /**
  * Allows to include class/method in the specified test suite
  * @param name Name of the test suite
+ * @param options Represents additional settings for the test suite
  */
 export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
     return function (target: any, propertyKey: string | symbol) {
