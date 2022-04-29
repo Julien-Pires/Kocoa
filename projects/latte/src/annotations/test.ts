@@ -5,8 +5,8 @@ import { TestOptions } from './types.js';
  * Represents all possible signatures for the test decorator
  */
 type TestAttribute = {
-    (options: TestOptions): (target: Object, propertyKey: string | symbol) => void;
-    (target: Object, propertyKey: string | symbol): void;
+    (options: TestOptions): (target: object, propertyKey: string | symbol) => void;
+    (target: object, propertyKey: string | symbol): void;
 };
 
 const defaultOptions: TestOptions = {
@@ -20,7 +20,7 @@ const defaultOptions: TestOptions = {
  */
 const setTestAnnotation =
     (options: TestOptions) =>
-    (target: any, propertyKey: string, descriptor: PropertyDescriptor): void => {
+    (target: object, propertyKey: string, descriptor: PropertyDescriptor): void => {
         Reflect.defineMetadata(
             testSymbol,
             {

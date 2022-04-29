@@ -9,7 +9,7 @@ const { expect } = chai;
 chai.use(chaiSubset);
 
 @suite('@suite')
-export default class TestSuiteClassDecoratorTests {
+export class TestSuiteClassDecoratorTests {
     @test
     @suite('class')
     @testData({ testName: 'should contains suite metadata when class has one annotation' })

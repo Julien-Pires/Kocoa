@@ -4,22 +4,22 @@ export {};
 
 declare global {
     namespace Reflect {
-        function appendMetadata<T>(metadataKey: any, metadataValue: T, target: Object): void;
+        function appendMetadata<T>(metadataKey: unknown, metadataValue: T, target: object): void;
         function appendMetadata<T>(
-            metadataKey: any,
+            metadataKey: unknown,
             metadataValue: T,
-            target: Object,
+            target: object,
             propertyKey: string | symbol
         ): void;
-        function getAllMetadata<T>(metadataKey: any, target: Object): T[];
-        function getAllMetadata<T>(metadataKey: any, target: Object, propertyKey: string | symbol): T[];
+        function getAllMetadata<T>(metadataKey: unknown, target: object): T[];
+        function getAllMetadata<T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[];
     }
 }
 
 Reflect.appendMetadata = function appendMetadata<T>(
-    metadataKey: any,
-    metadataValue: any,
-    target: Object,
+    metadataKey: unknown,
+    metadataValue: T,
+    target: object,
     propertyKey: string | symbol
 ): void {
     const existingMetadata: T[] = Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
@@ -27,8 +27,8 @@ Reflect.appendMetadata = function appendMetadata<T>(
 } as any;
 
 Reflect.getAllMetadata = function getAllMetadata<T>(
-    metadataKey: any,
-    target: Object,
+    metadataKey: unknown,
+    target: object,
     propertyKey: string | symbol
 ): T[] {
     return Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];

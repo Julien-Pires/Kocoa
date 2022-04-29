@@ -7,7 +7,7 @@ import { SuiteOptions } from './types.js';
  */
 type SuiteAttribute = {
     (target: Function): void;
-    (target: Object, propertyKey: string | symbol): void;
+    (target: object, propertyKey: string | symbol): void;
 };
 
 const defaultOptions: SuiteOptions = {
@@ -20,7 +20,7 @@ const defaultOptions: SuiteOptions = {
  * @param options Represents additional settings for the test suite
  */
 export const suite = (name: string, options?: SuiteOptions): SuiteAttribute =>
-    function (target: any, propertyKey: string | symbol) {
+    function (target: object, propertyKey: string | symbol) {
         Reflect.appendMetadata(
             suiteSymbol,
             { name, options: { ...defaultOptions, ...(options ?? {}) } },

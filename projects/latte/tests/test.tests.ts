@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
 import { suite, test, TestAnnotation, testData, testSymbol } from '../index.js';
-import SkipTestFixture from './test.fixtures.js';
+import { SkipTestFixture } from './test.fixtures.js';
 
 @suite('@test')
-export default class TestDecoratorTests {
+export class TestDecoratorTests {
     @test
     @testData({ testName: 'should add test metadata when method is annoted' })
     public shouldAddTestMetadata() {
