@@ -1,6 +1,6 @@
 import { testData } from '../index.js';
 
-export class TestDataFixture {
+export default class TestDataFixture {
     @testData()
     public singleTestData() {
         return true;

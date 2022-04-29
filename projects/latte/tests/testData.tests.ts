@@ -4,12 +4,12 @@ import chaiSubset from 'chai-subset';
 import { test, testData, TestDataAnnotation, testDataSymbol, suite } from '../index.js';
 import { TestDataFixture } from './testData.fixtures.js';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiSubset);
 
 @suite('@testData')
-export class TestDataDecoratorTests {
+export default class TestDataDecoratorTests {
     @test
     @testData({ testName: 'should contains test data metadata when target has one annotation' })
     public shouldAddSingleTestDataMetadata() {

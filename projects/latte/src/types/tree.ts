@@ -17,24 +17,22 @@ export interface IntermediateNode<TNode> {
     value: TNode;
 }
 
-export const createTree = <TNode, TLeaf>(): Tree<TNode, TLeaf> => {
-    return {
-        kind: 'node',
-        childrens: []
-    };
-};
+export const createTree = <TNode, TLeaf>(): Tree<TNode, TLeaf> => ({
+    kind: 'node',
+    childrens: []
+});
 
 export const findNode = <TNode, TLeaf>(
     tree: Tree<TNode, TLeaf>,
     path: readonly string[]
 ): Node<TNode, TLeaf> | undefined => {
-    let remainingPath = [...path];
+    const remainingPath = [...path];
     remainingPath.reverse();
 
     let node: string | undefined;
     let previousNode = tree;
     while ((node = remainingPath.pop())) {
-        let nextNode = previousNode.childrens
+        const nextNode = previousNode.childrens
             .filter((child): child is Node<TNode, TLeaf> => child.kind === 'node')
             .find((child: Node<TNode, TLeaf>) => child.name === node);
         if (!nextNode) {
@@ -51,7 +49,7 @@ export const insertNodes = <TNode, TLeaf>(
     tree: Tree<TNode, TLeaf>,
     nodes: readonly IntermediateNode<TNode>[]
 ): void => {
-    let remainingNodes = [...nodes];
+    const remainingNodes = [...nodes];
     remainingNodes.reverse();
 
     let previousNode = tree;

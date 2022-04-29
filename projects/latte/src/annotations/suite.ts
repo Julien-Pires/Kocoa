@@ -19,8 +19,8 @@ const defaultOptions: SuiteOptions = {
  * @param name Name of the test suite
  * @param options Represents additional settings for the test suite
  */
-export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
-    return function (target: any, propertyKey: string | symbol) {
+export const suite = (name: string, options?: SuiteOptions): SuiteAttribute =>
+    function (target: any, propertyKey: string | symbol) {
         Reflect.appendMetadata(
             suiteSymbol,
             { name, options: { ...defaultOptions, ...(options ?? {}) } },
@@ -33,4 +33,3 @@ export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
 
         runTest(target);
     } as SuiteAttribute;
-};

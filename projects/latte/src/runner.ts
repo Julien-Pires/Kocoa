@@ -8,9 +8,7 @@ import { Node, Test, TestCase, TestSuite } from './types/index.js';
  * @param value Value to check against.
  * @returns Return true if the value is a Test instance otherwise false.
  */
-const isTest = (value: any): value is Test => {
-    return (value as Test).function !== undefined;
-};
+const isTest = (value: any): value is Test => (value as Test).function !== undefined;
 
 /**
  * Creates test case title from specified test and test case metadata
@@ -72,7 +70,7 @@ const addTestSuite = (target: any, node: Node<TestSuite, Test>): void => {
  */
 const visit = (target: any, node: Node<TestSuite, Test>): void => {
     for (const children of node.childrens) {
-        const value = children.value;
+        const { value } = children;
         if (isTest(value)) {
             addTest(target, value);
             continue;

@@ -4,12 +4,12 @@ import chaiSubset from 'chai-subset';
 import { test, testData, suite, SuiteAnnotation, suiteSymbol } from '../index.js';
 import { MultipleSuiteFixture, SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiSubset);
 
 @suite('@suite')
-export class TestSuiteClassDecoratorTests {
+export default class TestSuiteClassDecoratorTests {
     @test
     @suite('class')
     @testData({ testName: 'should contains suite metadata when class has one annotation' })

@@ -23,9 +23,8 @@ type TestFunctionArgs<TArgs extends readonly unknown[]> = TArgs extends [...args
  * @param options Value to check against
  * @returns Returns true if the value is an instance of TestDataOptions otherwise false
  */
-const isTestCaseOptions = (options: any): options is TestDataOptions => {
-    return (options as TestDataOptions)?.testName !== undefined;
-};
+const isTestCaseOptions = (options: any): options is TestDataOptions =>
+    (options as TestDataOptions)?.testName !== undefined;
 
 /**
  * Extracts test case data and options from an arguments array
@@ -48,8 +47,9 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
  * Specifies an additional test case for the targeted test method.
  * @param args Data to be passed for this test case
  */
-export const testData = <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) => {
-    return (
+export const testData =
+    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) =>
+    (
         target: any,
         propertyKey: string,
         _descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>
@@ -62,4 +62,3 @@ export const testData = <TArgs extends readonly unknown[]>(...args: TestDataArgs
 
         Reflect.appendMetadata(testDataSymbol, testDataAnnotation, target, propertyKey);
     };
-};

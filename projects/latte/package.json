@@ -9,7 +9,8 @@
         "clear": "rm -rf ./build ./coverage",
         "test": "mocha ./build",
         "test:coverage": "c8 npm test",
-        "lint": "npx eslint ./**/*.ts"
+        "lint": "npx eslint . --ext .js,.ts",
+        "lint:fix": "npm run lint -- --fix"
     },
     "exports": "./build/index.js",
     "repository": {
@@ -38,7 +39,8 @@
         "eslint-config-airbnb-base": "~15.0.0",
         "eslint-plugin-import": "~2.26.0",
         "eslint-config-prettier": "~8.5.0",
-        "eslint-plugin-prettier": "~4.0.0"
+        "eslint-plugin-prettier": "~4.0.0",
+        "eslint-config-airbnb-typescript": "~17.0.0"
     },
     "dependencies": {
         "mocha": "~9.2.1",

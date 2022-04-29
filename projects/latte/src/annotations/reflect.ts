@@ -16,7 +16,7 @@ declare global {
     }
 }
 
-Reflect.appendMetadata = function <T>(
+Reflect.appendMetadata = function appendMetadata<T>(
     metadataKey: any,
     metadataValue: any,
     target: Object,
@@ -26,6 +26,10 @@ Reflect.appendMetadata = function <T>(
     Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey);
 } as any;
 
-Reflect.getAllMetadata = function <T>(metadataKey: any, target: Object, propertyKey: string | symbol): T[] {
+Reflect.getAllMetadata = function getAllMetadata<T>(
+    metadataKey: any,
+    target: Object,
+    propertyKey: string | symbol
+): T[] {
     return Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
 } as any;

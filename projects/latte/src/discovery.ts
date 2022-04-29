@@ -14,9 +14,8 @@ import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './ty
  * @param propertyKey Name of the property.
  * @returns Returns true if the property is a test otherwise false.
  */
-const hasTest = (target: any, propertyKey: string | symbol): boolean => {
-    return Reflect.getMetadata(testSymbol, target, propertyKey) !== undefined;
-};
+const hasTest = (target: any, propertyKey: string | symbol): boolean =>
+    Reflect.getMetadata(testSymbol, target, propertyKey) !== undefined;
 
 /**
  * Builds test data for the specified property.
@@ -59,11 +58,10 @@ const findTestSuite = (target: any, propertyKey?: string | symbol): readonly Tes
  * @param target Target used to extract all tests.
  * @returns Returns a collection of test and associated test suite for each one.
  */
-const findAllTests = (target: any): readonly [readonly TestSuite[], Test][] => {
-    return Object.getOwnPropertyNames(target)
+const findAllTests = (target: any): readonly [readonly TestSuite[], Test][] =>
+    Object.getOwnPropertyNames(target)
         .filter((propertyKey) => hasTest(target, propertyKey))
         .map((propertyKey) => [findTestSuite(target, propertyKey), buildTest(target, propertyKey)]);
-};
 
 /**
  * Creates an execution tree that contains all test suite and test for the specified target.
