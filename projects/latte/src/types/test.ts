@@ -11,7 +11,6 @@ export interface TestSuite {
  */
 export interface TestCase {
     args: unknown[];
-    name?: string;
 }
 
 /**
@@ -19,6 +18,7 @@ export interface TestCase {
  */
 export interface Test {
     name: string;
+    function: string;
     cases: TestCase[];
     skip: boolean;
 }

@@ -1,29 +1,56 @@
 import { expect } from 'chai';
 
-import { suite, test, TestAnnotation, testData, testSymbol } from '../index.js';
+import { suite, test, TestAnnotation, testSymbol } from '../index.js';
 import { SkipTestFixture } from './test.fixtures.js';
 
 @suite('@test')
 export class TestDecoratorTests {
-    @test
-    @testData({ testName: 'should add test metadata when method is annoted' })
-    public shouldAddTestMetadata() {
-        const actual: TestAnnotation = Reflect.getMetadata(testSymbol, this, this.shouldAddTestMetadata.name);
+    @test({ name: 'should add test metadata when method is annoted' })
+    public shouldAddTestMetadataWhenAnnoted() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            this,
+            this.shouldAddTestMetadataWhenAnnoted.name
+        );
 
         expect(actual).to.not.be.undefined;
     }
 
-    @test
-    @testData({ testName: 'should contains method name when method is annoted' })
-    public shouldContainsMethodName() {
-        const actual: TestAnnotation = Reflect.getMetadata(testSymbol, this, this.shouldContainsMethodName.name);
+    @test({ name: 'should contains method name when method is annoted' })
+    public shouldContainsMethodNameWhenAnnoted() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            this,
+            this.shouldContainsMethodNameWhenAnnoted.name
+        );
 
-        expect(actual.name).to.equal(this.shouldContainsMethodName.name);
+        expect(actual.function).to.equal(this.shouldContainsMethodNameWhenAnnoted.name);
     }
 
-    @test
-    @testData({ testName: 'should have skip options to true when skip options is used' })
-    public shouldHaveSkipOptions() {
+    @test({ name: 'should have custom name options when one is specified' })
+    public shouldHaveCustomNameWhenSpecified() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            TestDecoratorTests.prototype,
+            TestDecoratorTests.prototype.shouldHaveCustomNameWhenSpecified.name
+        );
+
+        expect(actual.options.name).to.equals('should have custom name options when one is specified');
+    }
+
+    @test({ name: 'should not have custom name options when one is not specified' })
+    public shouldNotHaveCustomNameWhenNotSpecified() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            TestDecoratorTests.prototype,
+            TestDecoratorTests.prototype.shouldHaveCustomNameWhenSpecified.name
+        );
+
+        expect(actual.options.name).to.be.undefined;
+    }
+
+    @test({ name: 'should have skip options to true when skip options is set to true' })
+    public shouldHaveSkipOptionsWhenSpecifiedWithTrue() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
             SkipTestFixture.prototype,
@@ -34,13 +61,24 @@ export class TestDecoratorTests {
         expect(actual.options.skip).to.be.true;
     }
 
-    @test
-    @testData({ testName: 'should have skip options to false when skip options is not used' })
-    public shouldNotHaveSkipOptions() {
+    @test({ name: 'should have skip options to false when skip options is set to false' })
+    public shouldHaveSkipOptionsWhenSpecifiedWithFalse() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            SkipTestFixture.prototype,
+            SkipTestFixture.prototype.notSkippedTest.name
+        );
+
+        expect(actual.options.skip).to.not.be.undefined;
+        expect(actual.options.skip).to.be.false;
+    }
+
+    @test({ name: 'should have skip options to false when skip options is not specified' })
+    public shouldNotHaveSkipOptionsWhenNotSpecified() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
             TestDecoratorTests.prototype,
-            TestDecoratorTests.prototype.shouldNotHaveSkipOptions.name
+            TestDecoratorTests.prototype.shouldNotHaveSkipOptionsWhenNotSpecified.name
         );
 
         expect(actual.options.skip).to.be.false;

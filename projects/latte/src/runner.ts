@@ -18,10 +18,6 @@ const isTest = (value: unknown): value is Test => (value as Test).cases !== unde
  * @returns Returns a test case title.
  */
 const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
-    if (testCase.name) {
-        return testCase.name;
-    }
-
     if (testCase.args.length === 0) {
         return testName;
     }
@@ -42,7 +38,7 @@ const addTest = (target: object, test: Test): void => {
         const testRunner = test.skip ? it.skip : it;
         testRunner(title, () => {
             const instance = Object.create(target);
-            instance[test.name](...testCase.args);
+            instance[test.function](...testCase.args);
         });
     }
 };

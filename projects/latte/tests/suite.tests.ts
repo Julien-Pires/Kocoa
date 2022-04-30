@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
-import { suite, SuiteAnnotation, suiteSymbol, test, testData } from '../index.js';
+import { suite, SuiteAnnotation, suiteSymbol, test } from '../index.js';
 import * as Reflect from '../src/annotations/reflect.js';
 import { MultipleSuiteFixture, SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
 
@@ -11,39 +11,35 @@ chai.use(chaiSubset);
 
 @suite('@suite')
 export class TestSuiteClassDecoratorTests {
-    @test
+    @test({ name: 'should contains suite metadata when class has one annotation' })
     @suite('class')
-    @testData({ testName: 'should contains suite metadata when class has one annotation' })
-    public classShouldContainsSingleSuite() {
+    public classShouldContainsSingleSuiteWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, SingleSuiteFixture);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(1);
     }
 
-    @test
+    @test({ name: 'should contains mutliple suite metadata when class has multiple annotation' })
     @suite('class')
-    @testData({ testName: 'should contains mutliple suite metadata when class has multiple annotation' })
-    public classShouldContainsMultipleSuite() {
+    public classShouldContainsMultipleSuiteWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, MultipleSuiteFixture);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(3);
     }
 
-    @test
+    @test({ name: 'should contains correct suite name when class has annotations' })
     @suite('class')
-    @testData({ testName: 'should contains correct suite name when target has annotations' })
-    public classShouldContainsSuiteName() {
+    public classShouldContainsSuiteNameWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, MultipleSuiteFixture);
 
         expect(actual).to.containSubset([{ name: 'testSuite' }, { name: 'sample' }, { name: 'class' }]);
     }
 
-    @test
+    @test({ name: 'should contains test suite metadata when method has one annotation' })
     @suite('method')
-    @testData({ testName: 'should contains test suite metadata when target has one annotation' })
-    public methodShouldContainsSingleSuite() {
+    public methodShouldContainsSingleSuiteWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
             MultipleSuiteFixture.prototype,
@@ -54,12 +50,9 @@ export class TestSuiteClassDecoratorTests {
         expect(actual).to.be.of.length(1);
     }
 
-    @test
+    @test({ name: 'should contains multiple test suite metadata when method has multiple annotation' })
     @suite('method')
-    @testData({
-        testName: 'should contains multiple test suite metadata when target has multiple annotation'
-    })
-    public methodShouldContainsMultipleSuite() {
+    public methodShouldContainsMultipleSuiteWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
             MultipleSuiteFixture.prototype,
@@ -70,10 +63,9 @@ export class TestSuiteClassDecoratorTests {
         expect(actual).to.be.of.length(3);
     }
 
-    @test
+    @test({ name: 'should contains correct suite name when method has annotations' })
     @suite('method')
-    @testData({ testName: 'should contains correct suite name when target has annotations' })
-    public methodShouldContainsSuiteName() {
+    public methodShouldContainsSuiteNameWhenAnnoted() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
             MultipleSuiteFixture.prototype,
@@ -83,29 +75,26 @@ export class TestSuiteClassDecoratorTests {
         expect(actual).to.containSubset([{ name: 'testSuite' }, { name: 'sample' }, { name: 'method' }]);
     }
 
-    @test
+    @test({ name: 'should have skip options to true when skip options is used' })
     @suite('class')
-    @testData({ testName: 'should have skip options to true when skip options is used' })
-    public shouldHaveSkipOptionsOnClass() {
+    public shouldHaveSkipOptionsOnClassWhenSpecified() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, SkipOptionsFixtures);
 
         expect(actual[0].options.skip).to.not.be.undefined;
         expect(actual[0].options.skip).to.be.true;
     }
 
-    @test
+    @test({ name: 'should have skip options to false when skip options is not used' })
     @suite('class')
-    @testData({ testName: 'should have skip options to false when skip options is not used' })
-    public shouldNotHaveSkipOptionsOnClass() {
+    public shouldNotHaveSkipOptionsOnClassWhenNotSpecified() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, SingleSuiteFixture);
 
         expect(actual[0].options.skip).to.be.false;
     }
 
-    @test
+    @test({ name: 'should have skip options to true when skip options is used' })
     @suite('method')
-    @testData({ testName: 'should have skip options to true when skip options is used' })
-    public shouldHaveSkipOptionsOnMethod() {
+    public shouldHaveSkipOptionsOnMethodWhenSpecified() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
             SkipOptionsFixtures.prototype,
@@ -116,10 +105,9 @@ export class TestSuiteClassDecoratorTests {
         expect(actual[0].options.skip).to.be.true;
     }
 
-    @test
+    @test({ name: 'should have skip options to false when skip options is not used' })
     @suite('method')
-    @testData({ testName: 'should have skip options to false when skip options is not used' })
-    public shouldNotHaveSkipOptionsOnMethod() {
+    public shouldNotHaveSkipOptionsOnMethodWhenNotSpecified() {
         const actual = Reflect.getAllMetadata<SuiteAnnotation>(
             suiteSymbol,
             MultipleSuiteFixture.prototype,

@@ -1,4 +1,5 @@
 export interface TestOptions {
+    name?: string;
     skip?: boolean;
 }
 
@@ -10,14 +11,14 @@ export interface SuiteOptions {
  * Contains additional options for a test case
  */
 export interface TestDataOptions {
-    testName?: string;
+    expected?: unknown;
 }
 
 /**
  * Contains test metadata
  */
 export interface TestAnnotation {
-    name: string;
+    function: string;
     options: TestOptions;
 }
 
@@ -26,7 +27,7 @@ export interface TestAnnotation {
  */
 export interface TestDataAnnotation {
     args: unknown[];
-    name?: string;
+    options: TestDataOptions;
 }
 
 /**
