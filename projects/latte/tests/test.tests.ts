@@ -38,12 +38,12 @@ export class TestDecoratorTests {
         expect(actual.options.name).to.equals('should have custom name options when one is specified');
     }
 
-    @test({ name: 'should not have custom name options when one is not specified' })
-    public shouldNotHaveCustomNameWhenNotSpecified() {
+    @test
+    public 'should not have custom name options when one is not specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
             TestDecoratorTests.prototype,
-            TestDecoratorTests.prototype.shouldHaveCustomNameWhenSpecified.name
+            TestDecoratorTests.prototype['should not have custom name options when one is not specified'].name
         );
 
         expect(actual.options.name).to.be.undefined;
