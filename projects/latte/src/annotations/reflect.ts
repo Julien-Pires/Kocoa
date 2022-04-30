@@ -1,31 +1,25 @@
 import 'reflect-metadata';
 
-export {};
+type AppendMetadata = {
+    <T>(metadataKey: unknown, metadataValue: T, target: object): void;
+    <T>(metadataKey: unknown, metadataValue: T, target: object, propertyKey: string | symbol): void;
+};
 
-declare global {
-    namespace Reflect {
-        function appendMetadata<T>(metadataKey: any, metadataValue: T, target: Object): void;
-        function appendMetadata<T>(
-            metadataKey: any,
-            metadataValue: T,
-            target: Object,
-            propertyKey: string | symbol
-        ): void;
-        function getAllMetadata<T>(metadataKey: any, target: Object): T[];
-        function getAllMetadata<T>(metadataKey: any, target: Object, propertyKey: string | symbol): T[];
-    }
-}
+type GetAllMetadata = {
+    <T>(metadataKey: unknown, target: object): T[];
+    <T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[];
+};
 
-Reflect.appendMetadata = function <T>(
-    metadataKey: any,
-    metadataValue: any,
-    target: Object,
+export const appendMetadata = (<T>(
+    metadataKey: unknown,
+    metadataValue: T,
+    target: object,
     propertyKey: string | symbol
-): void {
+): void => {
     const existingMetadata: T[] = Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
     Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey);
-} as any;
+}) as AppendMetadata;
 
-Reflect.getAllMetadata = function <T>(metadataKey: any, target: Object, propertyKey: string | symbol): T[] {
+export const getAllMetadata = (<T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[] => {
     return Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
-} as any;
+}) as GetAllMetadata;

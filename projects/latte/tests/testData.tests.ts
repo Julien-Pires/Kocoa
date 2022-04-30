@@ -3,8 +3,9 @@ import chaiSubset from 'chai-subset';
 
 import { test, testData, TestDataAnnotation, testDataSymbol, suite } from '../index.js';
 import { TestDataFixture } from './testData.fixtures.js';
+import * as Reflect from '../src/annotations/reflect.js';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiSubset);
 
@@ -58,6 +59,14 @@ export class TestDataDecoratorTests {
         );
 
         expect(actual).to.containSubset([{ args: [1, 2] }, { args: [100, 200] }, { args: [1000, 2000] }]);
+    }
+
+    @test
+    @testData(1, 2, 3)
+    @testData(100, 200, 300)
+    @testData(9999, 1, 10000)
+    public shouldPassTestFixturesToTestFunction(n1: number, n2: number, expected: number) {
+        expect(n1 + n2).to.equals(expected);
     }
 
     @test

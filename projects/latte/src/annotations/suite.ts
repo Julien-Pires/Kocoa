@@ -1,15 +1,19 @@
 import { runTest } from '../runner.js';
 import { suiteSymbol } from './metadata.js';
-import { SuiteOptions } from './types.js';
+import * as Reflect from './reflect.js';
+import { Constructor, SuiteOptions } from './types.js';
 
 /**
  * Represents possible targets for the test suite decorator
  */
 type SuiteAttribute = {
-    (target: Function): void;
-    (target: Object, propertyKey: string | symbol): void;
+    <T>(target: Constructor<T>): void;
+    (target: object, propertyKey: string | symbol): void;
 };
 
+/**
+ * Default values for test suite options
+ */
 const defaultOptions: SuiteOptions = {
     skip: false
 };
@@ -19,8 +23,8 @@ const defaultOptions: SuiteOptions = {
  * @param name Name of the test suite
  * @param options Represents additional settings for the test suite
  */
-export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
-    return function (target: any, propertyKey: string | symbol) {
+export const suite = (name: string, options?: SuiteOptions): SuiteAttribute =>
+    function <T>(target: Constructor<T>, propertyKey: string | symbol) {
         Reflect.appendMetadata(
             suiteSymbol,
             { name, options: { ...defaultOptions, ...(options ?? {}) } },
@@ -33,4 +37,3 @@ export const suite = (name: string, options?: SuiteOptions): SuiteAttribute => {
 
         runTest(target);
     } as SuiteAttribute;
-};
