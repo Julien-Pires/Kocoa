@@ -38,6 +38,13 @@
       "summary": "Apply lint rules on each projects",
       "description": "Apply lint rules on each projects",
       "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint:fix",
+      "summary": "Apply lint rules on each projects and fix any errors",
+      "description": "Apply lint rules on each projects and fix any errors",
+      "enableParallelism": true
     }
     // {
     //   /**

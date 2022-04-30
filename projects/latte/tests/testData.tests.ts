@@ -62,6 +62,14 @@ export class TestDataDecoratorTests {
     }
 
     @test
+    @testData(1, 2, 3)
+    @testData(100, 200, 300)
+    @testData(9999, 1, 10000)
+    public shouldPassTestFixturesToTestFunction(n1: number, n2: number, expected: number) {
+        expect(n1 + n2).to.equals(expected);
+    }
+
+    @test
     @testData({ testName: 'should not have test name when name is not specified' })
     public shouldNotHaveTestName() {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(

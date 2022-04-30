@@ -18,7 +18,7 @@ export class TestDecoratorTests {
     public shouldContainsMethodName() {
         const actual: TestAnnotation = Reflect.getMetadata(testSymbol, this, this.shouldContainsMethodName.name);
 
-        expect(actual.name).to.equal('shouldContainsMethodName');
+        expect(actual.name).to.equal(this.shouldContainsMethodName.name);
     }
 
     @test

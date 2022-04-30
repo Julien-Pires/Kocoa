@@ -41,7 +41,7 @@ const addTest = (target: object, test: Test): void => {
         const testRunner = test.skip ? it.skip : it;
         testRunner(title, () => {
             const instance = Object.create(target);
-            instance[test.name].apply(testCase.args);
+            instance[test.name](...testCase.args);
         });
     }
 };
