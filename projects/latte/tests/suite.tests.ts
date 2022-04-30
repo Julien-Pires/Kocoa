@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
-import { test, testData, suite, SuiteAnnotation, suiteSymbol } from '../index.js';
+import { suite, SuiteAnnotation, suiteSymbol, test, testData } from '../index.js';
+import * as Reflect from '../src/annotations/reflect.js';
 import { MultipleSuiteFixture, SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
 
 const { expect } = chai;

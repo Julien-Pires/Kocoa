@@ -18,7 +18,6 @@ export interface TestDataOptions {
  */
 export interface TestAnnotation {
     name: string;
-    function: Function;
     options: TestOptions;
 }
 
@@ -37,3 +36,21 @@ export interface SuiteAnnotation {
     name: string;
     options: SuiteOptions;
 }
+
+/**
+ * Represents test method parameters
+ */
+export type TestFunctionArgs<TArgs extends readonly unknown[]> = TArgs extends [
+    ...args: infer Args,
+    options: TestDataOptions
+]
+    ? Args
+    : TArgs extends [options: TestDataOptions]
+    ? never
+    : TArgs;
+
+export type TypedDecorator<TArgs extends readonly unknown[]> = (
+    target: object,
+    propertyKey: string | symbol,
+    descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>
+) => void;

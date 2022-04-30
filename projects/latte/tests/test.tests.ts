@@ -22,14 +22,6 @@ export class TestDecoratorTests {
     }
 
     @test
-    @testData({ testName: 'should contains method body when method is annoted' })
-    public shouldContainsMethod() {
-        const actual: TestAnnotation = Reflect.getMetadata(testSymbol, this, this.shouldContainsMethod.name);
-
-        expect(actual.function).to.equal(this.shouldContainsMethod);
-    }
-
-    @test
     @testData({ testName: 'should have skip options to true when skip options is used' })
     public shouldHaveSkipOptions() {
         const actual: TestAnnotation = Reflect.getMetadata(

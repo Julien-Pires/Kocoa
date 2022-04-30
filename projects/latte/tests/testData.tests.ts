@@ -3,6 +3,7 @@ import chaiSubset from 'chai-subset';
 
 import { test, testData, TestDataAnnotation, testDataSymbol, suite } from '../index.js';
 import { TestDataFixture } from './testData.fixtures.js';
+import * as Reflect from '../src/annotations/reflect.js';
 
 const { expect } = chai;
 

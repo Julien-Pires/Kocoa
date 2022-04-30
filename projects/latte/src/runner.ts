@@ -8,7 +8,7 @@ import { Node, Test, TestCase, TestSuite } from './types/index.js';
  * @param value Value to check against.
  * @returns Return true if the value is a Test instance otherwise false.
  */
-const isTest = (value: any): value is Test => (value as Test).function !== undefined;
+const isTest = (value: unknown): value is Test => (value as Test).cases !== undefined;
 
 /**
  * Creates test case title from specified test and test case metadata
@@ -35,13 +35,13 @@ const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
  * @param target Parent target of the test.
  * @param test Test to run.
  */
-const addTest = (target: any, test: Test): void => {
+const addTest = (target: object, test: Test): void => {
     for (const testCase of test.cases) {
         const title = buildTestCaseTitle(test.name, testCase);
         const testRunner = test.skip ? it.skip : it;
         testRunner(title, () => {
             const instance = Object.create(target);
-            test.function.apply(instance, testCase.args);
+            instance[test.name].apply(testCase.args);
         });
     }
 };
@@ -51,7 +51,7 @@ const addTest = (target: any, test: Test): void => {
  * @param target Parent target of the test.
  * @param node Childrens of the current test suite.
  */
-const addTestSuite = (target: any, node: Node<TestSuite, Test>): void => {
+const addTestSuite = (target: object, node: Node<TestSuite, Test>): void => {
     const testSuite = node.value;
     if (!testSuite) {
         return;
@@ -68,7 +68,7 @@ const addTestSuite = (target: any, node: Node<TestSuite, Test>): void => {
  * @param target Parent target of the test node.
  * @param node Current test node to visit.
  */
-const visit = (target: any, node: Node<TestSuite, Test>): void => {
+const visit = (target: object, node: Node<TestSuite, Test>): void => {
     for (const children of node.childrens) {
         const { value } = children;
         if (isTest(value)) {
@@ -84,7 +84,7 @@ const visit = (target: any, node: Node<TestSuite, Test>): void => {
  * Run all tests for the specified target
  * @param target Target used to run all tests.
  */
-export const runTest = (target: any): void => {
+export const runTest = (target: new () => unknown): void => {
     const tree = buildTests(target);
     visit(target.prototype, tree);
 };

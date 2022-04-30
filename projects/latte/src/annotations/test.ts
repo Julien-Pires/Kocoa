@@ -20,12 +20,11 @@ const defaultOptions: TestOptions = {
  */
 const setTestAnnotation =
     (options: TestOptions) =>
-    (target: object, propertyKey: string, descriptor: PropertyDescriptor): void => {
+    (target: object, propertyKey: string): void => {
         Reflect.defineMetadata(
             testSymbol,
             {
                 name: propertyKey,
-                function: descriptor.value,
                 options: { ...defaultOptions, ...options }
             },
             target,
@@ -39,9 +38,9 @@ const setTestAnnotation =
  * @param propertyKey Name of the target method in the parent context.
  * @param descriptor Descriptor that contains method information.
  */
-export const test: TestAttribute = ((target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+export const test: TestAttribute = ((target: object, propertyKey: string, descriptor: PropertyDescriptor) => {
     if (descriptor) {
-        return setTestAnnotation({})(target, propertyKey, descriptor);
+        return setTestAnnotation({})(target, propertyKey);
     }
 
     return setTestAnnotation(target as TestOptions);
