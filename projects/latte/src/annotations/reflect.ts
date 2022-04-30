@@ -20,10 +20,6 @@ export const appendMetadata = (<T>(
     Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey);
 }) as AppendMetadata;
 
-export const getAllMetadata = (<T>(
-    metadataKey: unknown,
-    target: object,
-    propertyKey: string | symbol
-): T[] => {
+export const getAllMetadata = (<T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[] => {
     return Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
 }) as GetAllMetadata;
