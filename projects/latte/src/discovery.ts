@@ -1,4 +1,5 @@
 import {
+    Constructor,
     getAllMetadata,
     SuiteAnnotation,
     suiteSymbol,
@@ -68,7 +69,7 @@ const findAllTests = (target: object): readonly [readonly TestSuite[], Test][] =
  * @param target Target used to build the tree.
  * @returns Returns a tree that represents all test suite and tests of the specified target.
  */
-export const buildTests = (target: new () => unknown): Tree<TestSuite, Test> => {
+export const buildTests = <T>(target: Constructor<T>): Tree<TestSuite, Test> => {
     const tree = createTree<TestSuite, Test>();
     const rootTestSuite = findTestSuite(target);
     insertNodes(

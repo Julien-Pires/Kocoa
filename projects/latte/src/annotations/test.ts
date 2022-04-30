@@ -9,6 +9,9 @@ type TestAttribute = {
     (target: object, propertyKey: string | symbol): void;
 };
 
+/**
+ * Default values for test options
+ */
 const defaultOptions: TestOptions = {
     skip: false
 };

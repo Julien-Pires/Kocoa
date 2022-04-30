@@ -1,4 +1,5 @@
 import 'mocha';
+import { Constructor } from './annotations/types.js';
 
 import { buildTests } from './discovery.js';
 import { Node, Test, TestCase, TestSuite } from './types/index.js';
@@ -84,7 +85,7 @@ const visit = (target: object, node: Node<TestSuite, Test>): void => {
  * Run all tests for the specified target
  * @param target Target used to run all tests.
  */
-export const runTest = (target: new () => unknown): void => {
+export const runTest = <T>(target: Constructor<T>): void => {
     const tree = buildTests(target);
     visit(target.prototype, tree);
 };

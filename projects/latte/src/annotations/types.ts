@@ -54,3 +54,5 @@ export type TypedDecorator<TArgs extends readonly unknown[]> = (
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<TArgs>) => unknown>
 ) => void;
+
+export type Constructor<T> = new () => T;
