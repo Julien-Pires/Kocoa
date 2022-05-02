@@ -1,6 +1,6 @@
 flag_management:
   individual_flags:
-    - name: app
+    - name: apps
       paths: 
       - apps/latte 
       carryforward: true

@@ -92,7 +92,7 @@ jobs:
       matrix:
         include:
           - project: apps
-            flag: app
+            flag: apps
           - project: samples
             flag: samples
     steps:
