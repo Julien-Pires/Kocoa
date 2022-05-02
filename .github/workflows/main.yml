@@ -91,9 +91,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - project: apps/latte
+          - project: apps
             flag: app
-          - project: samples/latte-tutorial
+          - project: samples
             flag: samples
     steps:
       - uses: actions/checkout@v3
@@ -106,7 +106,7 @@ jobs:
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v2
         with:
-          directory: ./${{ matrix.project }}/coverage
+          directory: ./${{ matrix.project }}/
           flags: "${{ matrix.flag }}"
 
   sonarcloud:
