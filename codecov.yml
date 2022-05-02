@@ -4,7 +4,7 @@ flag_management:
       paths: 
       - apps/latte 
       carryforward: true
-    - name: samples
+    - name: latte-tutorial
       paths: 
       - samples/latte-tutorial
       carryforward: true
