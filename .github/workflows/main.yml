@@ -92,7 +92,7 @@ jobs:
       matrix:
         include:
           - project: apps/latte
-            flag: "@latte/latte"
+            flag: latte-latte
           - project: samples/latte-tutorial
             flag: latte-tutorial
     steps:
