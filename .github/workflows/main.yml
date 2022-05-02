@@ -107,7 +107,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           directory: ./${{ matrix.project }}/coverage
-          flags: ${{ matrix.flag }}
+          flags: "${{ matrix.flag }}"
 
   sonarcloud:
     needs: test-coverage
