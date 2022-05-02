@@ -22,8 +22,10 @@ jobs:
       - name: Archive build folders
         uses: actions/upload-artifact@v3
         with:
-          name: projects-build
-          path: projects/*/build/**
+          name: build
+          path: |
+            apps/*/build/**
+            samples/*/build/**
 
   lint:
     runs-on: ubuntu-latest
@@ -53,8 +55,7 @@ jobs:
       - name: Download builds
         uses: actions/download-artifact@v3
         with:
-          name: projects-build
-          path: projects
+          name: build
       - name: Setup Rush
         uses: ./.github/actions/rush
       - name: Run tests
@@ -71,8 +72,7 @@ jobs:
       - name: Download builds
         uses: actions/download-artifact@v3
         with:
-          name: projects-build
-          path: projects
+          name: build
       - name: Setup Rush
         uses: ./.github/actions/rush
       - name: Run tests with coverage
@@ -80,8 +80,10 @@ jobs:
       - name: Upload code coverage artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage-data
-          path: projects/*/coverage/
+          name: code-coverage
+          path: |
+            apps/*/coverage/**
+            samples/*/coverage/**
 
   codeCov:
     needs: test-coverage
@@ -89,10 +91,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - project: latte
-            flag: latte
-          - project: latte-samples
-            flag: samples
+          - project: apps/latte
+            flag: "@latte/latte"
+          - project: samples/latte-tutorial
+            flag: latte-tutorial
     steps:
       - uses: actions/checkout@v3
         with:
@@ -100,13 +102,12 @@ jobs:
       - name: Download code coverage artifacts
         uses: actions/download-artifact@v3
         with:
-          name: code-coverage-data
-          path: projects/
+          name: code-coverage
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v2
         with:
-          directory: ./projects/${{ matrix.project }}/coverage
-          flags: ${{ matrix.flag }}
+          directory: ./${{ matrix.project }}/coverage
+          flags: "${{ matrix.flag }}"
 
   sonarcloud:
     needs: test-coverage
@@ -118,8 +119,7 @@ jobs:
     - name: Download code coverage artifacts
       uses: actions/download-artifact@v3
       with:
-        name: code-coverage-data
-        path: projects/
+        name: code-coverage
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:

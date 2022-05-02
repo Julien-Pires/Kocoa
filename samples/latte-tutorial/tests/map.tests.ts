@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { test, testData, suite } from 'latte';
+import { test, testData, suite } from '@latte/latte';
 
 @suite('Map')
 export class MapTests {
