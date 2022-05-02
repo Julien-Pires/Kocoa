@@ -1,10 +1,10 @@
 flag_management:
   individual_flags:
-    - name: latte-latte
+    - name: app
       paths: 
       - apps/latte 
       carryforward: true
-    - name: latte-tutorial
+    - name: samples
       paths: 
       - samples/latte-tutorial
       carryforward: true

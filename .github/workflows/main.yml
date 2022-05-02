@@ -92,9 +92,9 @@ jobs:
       matrix:
         include:
           - project: apps/latte
-            flag: latte-latte
+            flag: app
           - project: samples/latte-tutorial
-            flag: latte-tutorial
+            flag: samples
     steps:
       - uses: actions/checkout@v3
         with:
