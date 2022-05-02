@@ -91,7 +91,7 @@ jobs:
         include:
           - project: latte
             flag: latte
-          - project: latte-samples
+          - project: latte-tutorial
             flag: samples
     steps:
       - uses: actions/checkout@v3

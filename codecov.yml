@@ -2,9 +2,9 @@ flag_management:
   individual_flags:
     - name: latte
       paths: 
-      - projects/latte 
+      - apps/latte 
       carryforward: true
     - name: samples
       paths: 
-      - projects/latte-samples
+      - samples/latte-tutorial
       carryforward: true

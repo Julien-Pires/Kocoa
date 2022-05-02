@@ -391,11 +391,11 @@
   "projects": [
     {
       "packageName": "latte",
-      "projectFolder": "projects/latte"
+      "projectFolder": "apps/latte"
     },
     {
-      "packageName": "latte-samples",
-      "projectFolder": "projects/latte-samples"
+      "packageName": "latte-tutorial",
+      "projectFolder": "samples/latte-tutorial"
     }
     // {
     //   /**
