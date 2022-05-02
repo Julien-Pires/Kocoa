@@ -18,6 +18,10 @@ const isTest = (value: unknown): value is Test => (value as Test).cases !== unde
  * @returns Returns a test case title.
  */
 const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
+    if (testCase.args.length === 0) {
+        return testName;
+    }
+
     const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
 
     return `${testName} (${parameters})`;
