@@ -5,4 +5,9 @@ export class SkipTestFixture {
     public skippedTest() {
         return true;
     }
+
+    @test({ skip: false })
+    public notSkippedTest() {
+        return true;
+    }
 }

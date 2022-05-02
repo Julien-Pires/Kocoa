@@ -29,12 +29,12 @@ const buildTest = (target: object, propertyKey: string | symbol): Test => {
     const testAnnotation: TestAnnotation = Reflect.getMetadata(testSymbol, target, propertyKey);
     const testDatas = getAllMetadata<TestDataAnnotation>(testDataSymbol, target, propertyKey);
     const testCases = testDatas.map((data) => ({
-        args: data.args,
-        ...(data.name ? { name: data.name } : {})
+        args: data.args
     }));
 
     return {
-        name: testAnnotation.name,
+        function: testAnnotation.function,
+        name: testAnnotation.options.name ?? testAnnotation.function,
         cases: testCases.length > 0 ? testCases : [{ args: [] }],
         skip: testAnnotation.options?.skip ?? false
     };

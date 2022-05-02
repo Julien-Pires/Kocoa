@@ -16,7 +16,7 @@ type TestDataArgs<TArgs extends readonly unknown[]> =
  * @returns Returns true if the value is an instance of TestDataOptions otherwise false
  */
 const isTestCaseOptions = (options: unknown): options is TestDataOptions =>
-    (options as TestDataOptions)?.testName !== undefined;
+    (options as TestDataOptions)?.expected !== undefined;
 
 /**
  * Extracts test case data and options from an arguments array
@@ -45,7 +45,7 @@ export const testData =
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
             args: testDataArgs,
-            ...(options.testName ? { name: options.testName } : {})
+            options
         };
 
         Reflect.appendMetadata(testDataSymbol, testDataAnnotation, target, propertyKey);

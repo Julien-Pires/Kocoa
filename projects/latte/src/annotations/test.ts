@@ -27,7 +27,7 @@ const setTestAnnotation =
         Reflect.defineMetadata(
             testSymbol,
             {
-                name: propertyKey,
+                function: propertyKey,
                 options: { ...defaultOptions, ...options }
             },
             target,
