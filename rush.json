@@ -390,7 +390,7 @@
    */
   "projects": [
     {
-      "packageName": "latte",
+      "packageName": "@latte/latte",
       "projectFolder": "apps/latte"
     },
     {

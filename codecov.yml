@@ -1,6 +1,6 @@
 flag_management:
   individual_flags:
-    - name: latte
+    - name: "@latte/latte"
       paths: 
       - apps/latte 
       carryforward: true
