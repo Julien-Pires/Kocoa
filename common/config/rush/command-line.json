@@ -12,39 +12,47 @@
    */
   "commands": [
     {
-      "commandKind": "bulk",
       "name": "clear",
+      "commandKind": "bulk",
       "summary": "Delete build folder on each projects",
       "description": "Delete build for on each projects",
       "enableParallelism": true
     },
     {
-      "commandKind": "bulk",
       "name": "test",
+      "commandKind": "bulk",
       "summary": "Run all tests on each projects",
       "description": "Run all tests on each projects",
       "enableParallelism": true
     },
     {
-      "commandKind": "bulk",
       "name": "test:coverage",
+      "commandKind": "bulk",
       "summary": "Run code coverage on supported projects",
       "description": "Run code coverage on supported projects",
       "enableParallelism": true
     },
     {
-      "commandKind": "bulk",
       "name": "lint",
+      "commandKind": "bulk",
       "summary": "Apply lint rules on each projects",
       "description": "Apply lint rules on each projects",
       "enableParallelism": true
     },
     {
-      "commandKind": "bulk",
       "name": "lint:fix",
+      "commandKind": "bulk",
       "summary": "Apply lint rules on each projects and fix any errors",
       "description": "Apply lint rules on each projects and fix any errors",
       "enableParallelism": true
+    },
+    {
+      "name": "commit",
+      "commandKind": "global",
+      "summary": "Add new commit with commitizen",
+      "autoinstallerName": "commit",
+      "shellCommand": "cz",
+      "safeForSimultaneousRushProcesses": true
     }
     // {
     //   /**
