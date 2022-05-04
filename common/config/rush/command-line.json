@@ -12,6 +12,30 @@
    */
   "commands": [
     {
+      "name": "foo",
+      "commandKind": "global",
+      "summary": "Initialiaze the repository (e.g: git hooks, commit lint,...)",
+      "autoinstallerName": "commit",
+      "shellCommand": "husky install && husky add ./.husky/commit-msg 'rush commit:lint --edit $1'",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "commit",
+      "commandKind": "global",
+      "summary": "Add new commit with commitizen",
+      "autoinstallerName": "commit",
+      "shellCommand": "cz",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "commit:lint",
+      "commandKind": "global",
+      "summary": "Check commit format with commitlint",
+      "autoinstallerName": "commit",
+      "shellCommand": "commitlint",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
       "name": "clear",
       "commandKind": "bulk",
       "summary": "Delete build folder on each projects",
@@ -45,14 +69,6 @@
       "summary": "Apply lint rules on each projects and fix any errors",
       "description": "Apply lint rules on each projects and fix any errors",
       "enableParallelism": true
-    },
-    {
-      "name": "commit",
-      "commandKind": "global",
-      "summary": "Add new commit with commitizen",
-      "autoinstallerName": "commit",
-      "shellCommand": "cz",
-      "safeForSimultaneousRushProcesses": true
     }
     // {
     //   /**
