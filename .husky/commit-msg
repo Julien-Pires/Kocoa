@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-rush commit:lint --edit $1
+cat $1 | rush commit:lint

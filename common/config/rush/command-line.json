@@ -16,7 +16,7 @@
       "commandKind": "global",
       "summary": "Initialiaze the repository (e.g: git hooks, commit lint,...)",
       "autoinstallerName": "commit",
-      "shellCommand": "husky install && husky add ./.husky/commit-msg 'rush commit:lint --edit $1'",
+      "shellCommand": "husky install && husky add ./.husky/commit-msg 'cat $1 | rush commit:lint' && chmod a+x .husky/commit-msg",
       "safeForSimultaneousRushProcesses": true
     },
     {
