@@ -20,6 +20,6 @@ jobs:
         id: changed-files
       - name: Get packages list
         run: |
-          projects=(cat ./rush.json | jq '.projects[].projectFolder')
+          projects=("$(cat ./rush.json | jq '.projects[].projectFolder')")
           echo "${projects}"
       
