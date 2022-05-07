@@ -1,4 +1,5 @@
 {
+    "extends": "semantic-release-monorepo",
     "branches": ["main", "next", "feature/ci_add_sementic_release"],
     "tagFormat": "@kocoa/espresso@${version}"
 }
