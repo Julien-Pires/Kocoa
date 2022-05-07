@@ -90,7 +90,7 @@ jobs:
             samples/*/coverage/**
 
   codeCov:
-    name: ${{ matrix.flag }} coverage
+    name: Upload ${{ matrix.flag }} coverage
     needs: test-coverage
     runs-on: ubuntu-latest
     strategy:
