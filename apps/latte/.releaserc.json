@@ -1,5 +1,8 @@
 {
     "extends": "semantic-release-monorepo",
-    "branches": ["main", "next", "feature/ci_add_sementic_release"],
+    "branches": ["main", "next", {
+        "name": "feature/ci_add_sementic_release",
+        "channel": "beta"
+    }],
     "tagFormat": "@kocoa/latte@${version}"
 }
