@@ -9,7 +9,7 @@
       "name": "prepare",
       "commandKind": "global",
       "summary": "Initialiaze the repository",
-      "autoinstallerName": "commit",
+      "autoinstallerName": "tools",
       "shellCommand": "sh ./common/scripts/prepare.sh",
       "safeForSimultaneousRushProcesses": false
     },
@@ -17,7 +17,7 @@
       "name": "prepare:full",
       "commandKind": "global",
       "summary": "Initialize the repository after a full cleanup",
-      "autoinstallerName": "commit",
+      "autoinstallerName": "tools",
       "shellCommand": "sh ./common/scripts/prepare_full.sh",
       "safeForSimultaneousRushProcesses": false
     },
@@ -25,7 +25,7 @@
       "name": "commit",
       "commandKind": "global",
       "summary": "Add new commit with commitizen",
-      "autoinstallerName": "commit",
+      "autoinstallerName": "tools",
       "shellCommand": "cz",
       "safeForSimultaneousRushProcesses": true
     },
@@ -33,7 +33,7 @@
       "name": "commit:lint",
       "commandKind": "global",
       "summary": "Check commit format with commitlint",
-      "autoinstallerName": "commit",
+      "autoinstallerName": "tools",
       "shellCommand": "commitlint",
       "safeForSimultaneousRushProcesses": true
     },
