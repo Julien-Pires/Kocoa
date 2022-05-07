@@ -27,8 +27,6 @@ const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
     return `${testName} (${parameters})`;
 };
 
-
-
 /**
  * Adds a test to the current test execution context.
  * @param target Parent target of the test.
