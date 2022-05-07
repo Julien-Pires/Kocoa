@@ -1,9 +1,0 @@
-{
-    "extends": "semantic-release-monorepo",
-    "branches": ["main", "next", {
-        "name": "feature/ci_add_sementic_release",
-        "channel": "RC",
-        "prerelease": "RC"
-    }],
-    "tagFormat": "@kocoa/espresso@${version}"
-}
