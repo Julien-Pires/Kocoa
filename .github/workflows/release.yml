@@ -13,3 +13,4 @@ jobs:
       - uses: jitterbit/get-changed-files@v1
         with:
           format: json
+      - run: echo "$all"
