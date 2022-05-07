@@ -1,0 +1,15 @@
+name: Release
+
+on:
+  push:
+    branches: '**'
+
+jobs:
+  release:
+    name: Publish packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jitterbit/get-changed-files@v1
+        with:
+          format: json
