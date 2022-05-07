@@ -1,0 +1,12 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "commitizen": "4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "@commitlint/config-conventional": "16.2.4",
+    "@commitlint/cli": "16.2.4",
+    "husky": "7.0.4"
+  }
+}
