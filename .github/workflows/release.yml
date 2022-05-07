@@ -20,8 +20,6 @@ jobs:
       - name: Get changed files
         uses: jitterbit/get-changed-files@v1
         id: changed-files
-      - name: Rush changes
-        run: 
       - name: Get packages list
         run: cat ./rush.json | jq '.projects[].projectFolder'
       
