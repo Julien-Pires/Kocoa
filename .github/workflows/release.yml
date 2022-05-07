@@ -17,6 +17,8 @@ jobs:
           node-version: lts/*
       - name: Setup Rush
         uses: ./.github/actions/rush
+      - name: Build packages
+        run: node common/scripts/install-run-rush.js build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
