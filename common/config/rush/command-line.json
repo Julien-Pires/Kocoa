@@ -71,6 +71,13 @@
       "summary": "Apply lint rules on each projects and fix any errors",
       "description": "Apply lint rules on each projects and fix any errors",
       "enableParallelism": true
+    },
+    {
+      "name": "release",
+      "commandKind": "bulk",
+      "summary": "Publish package and changelog",
+      "enableParallelism": false,
+      "allowWarningsInSuccessfulBuild": true
     }
   ],
   "parameters": [

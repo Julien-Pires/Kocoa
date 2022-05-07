@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { test, testData, suite } from '@latte/latte';
+import { test, testData, suite } from 'kocoa';
 
 @suite('Array')
 export class ArrayTests {

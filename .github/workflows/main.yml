@@ -20,7 +20,7 @@ jobs:
         uses: ./.github/actions/rush
       - name: Build projects
         run: node common/scripts/install-run-rush.js build
-      - name: Archive build folders
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - name: Download builds
+      - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build
@@ -97,9 +97,9 @@ jobs:
       matrix:
         include:
           - directory: apps
-            flag: apps
+            flag: Apps
           - directory: samples
-            flag: samples
+            flag: Samples
     steps:
       - uses: actions/checkout@v3
         with:

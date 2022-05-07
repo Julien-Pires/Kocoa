@@ -18,5 +18,5 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-
     - name: Install Rush
-      run: node common/scripts/install-run-rush.js install
       shell: bash
+      run: node common/scripts/install-run-rush.js install
