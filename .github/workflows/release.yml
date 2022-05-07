@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: jitterbit/get-changed-files@v1
+        id: diff
         with:
           format: json
-      - run: echo "$all"
+      - run: echo "${{ steps.diff.outputs.all }}"
