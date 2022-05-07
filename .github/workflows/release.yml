@@ -15,7 +15,8 @@ jobs:
           node-version: lts/*
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - run: rush change --verify
+      - name: Rush changes
+        run: rush change --verify
       - name: Get changed files
         uses: jitterbit/get-changed-files@v1
         id: changed-files
