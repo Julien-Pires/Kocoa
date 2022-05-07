@@ -10,8 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: jitterbit/get-changed-files@v1
-        id: diff
+      - uses: actions/setup-node@v3
         with:
-          format: json
-      - run: echo "${{ steps.diff.outputs.all }}"
+          node-version: lts/*
+      - name: Setup Rush
+        uses: ./.github/actions/rush
+      - name: Get changed files
+        uses: jitterbit/get-changed-files@v1
+        id: changed-files
+      - name: Rush changes
+        run: 
+      - name: Get packages list
+        run: cat ./rush.json | jq '.projects[].projectFolder'
+      
