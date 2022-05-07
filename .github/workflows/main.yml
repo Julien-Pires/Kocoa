@@ -42,7 +42,7 @@ jobs:
         run: node common/scripts/install-run-rush.js lint
 
   test:
-    name: Node ${{ matrix.node }} - ${{ matrix.os }}
+    name: Run tests on Node ${{ matrix.node }} - ${{ matrix.os }}
     needs: build
     runs-on: ubuntu-latest
     strategy:
