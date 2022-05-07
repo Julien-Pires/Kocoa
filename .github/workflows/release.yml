@@ -15,11 +15,11 @@ jobs:
           node-version: lts/*
       - name: Setup Rush
         uses: ./.github/actions/rush
-      - name: Rush changes
-        run: node common/scripts/install-run-rush.js change
       - name: Get changed files
         uses: jitterbit/get-changed-files@v1
         id: changed-files
       - name: Get packages list
-        run: cat ./rush.json | jq '.projects[].projectFolder'
+        run: |
+          projects=(cat ./rush.json | jq '.projects[].projectFolder')
+          echo "${projects}"
       
