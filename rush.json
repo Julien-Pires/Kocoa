@@ -29,6 +29,10 @@
       "projectFolder": "apps/latte"
     },
     {
+      "packageName": "@kocoa/espresso",
+      "projectFolder": "apps/espresso"
+    },
+    {
       "packageName": "@kocoa/latte-tutorial",
       "projectFolder": "samples/latte-tutorial"
     }
