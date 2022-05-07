@@ -10,14 +10,6 @@ import {
 } from './annotations/index.js';
 import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types/index.js';
 
-
-
-
-
-
-
-
-
 /**
  * Checks if specified property is a test (has test metadata).
  * @param target Target parent of the property.
