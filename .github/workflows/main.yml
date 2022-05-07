@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,6 +29,7 @@ jobs:
             samples/*/build/**
 
   lint:
+    name: Check lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,8 +42,8 @@ jobs:
         run: node common/scripts/install-run-rush.js lint
 
   test:
+    name: Node ${{ matrix.node }} - ${{ matrix.os }}
     needs: build
-    name: Node ${{ matrix.node-version }} - ${{ matrix.os }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -63,6 +65,7 @@ jobs:
         run: node common/scripts/install-run-rush.js test -v
 
   test-coverage:
+    name: Generate code coverage
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -87,6 +90,7 @@ jobs:
             samples/*/coverage/**
 
   codeCov:
+    name: ${{ matrix.flag }} coverage
     needs: test-coverage
     runs-on: ubuntu-latest
     strategy:
@@ -111,6 +115,7 @@ jobs:
           flags: "${{ matrix.flag }}"
 
   sonarcloud:
+    name: Sonarcloud
     needs: test-coverage
     runs-on: ubuntu-latest
     steps:
