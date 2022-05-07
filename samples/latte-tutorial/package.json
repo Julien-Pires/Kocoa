@@ -1,5 +1,5 @@
 {
-    "name": "latte-tutorial",
+    "name": "@kocoa/latte-tutorial",
     "version": "1.0.0",
     "description": "",
     "main": "./build/index.js",
@@ -10,18 +10,19 @@
         "test": "mocha --colors ./build",
         "test:coverage": "c8 npm test",
         "lint": "npx eslint . --ext .js,.ts",
-        "lint:fix": "npm run lint -- --fix"
+        "lint:fix": "npm run lint -- --fix",
+        "release": "echo 'No release for this package'"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Julien-Pires/Latte.git"
+        "url": "git+https://github.com/Julien-Pires/Kocoa.git"
     },
     "author": "Julien Pires",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Julien-Pires/Latte/issues"
+        "url": "https://github.com/Julien-Pires/Kocoa/issues"
     },
-    "homepage": "https://github.com/Julien-Pires/Latte#readme",
+    "homepage": "https://github.com/Julien-Pires/Kocoa#readme",
     "devDependencies": {
         "@types/mocha": "~9.1.0",
         "@types/chai": "~4.3.0",
@@ -37,7 +38,7 @@
         "eslint-plugin-import": "~2.26.0",
         "eslint-config-prettier": "~8.5.0",
         "eslint-plugin-prettier": "~4.0.0",
-        "@latte/latte": "workspace:*"
+        "@kocoa/latte": "workspace:*"
     },
     "dependencies": {
         "reflect-metadata": "~0.1.13"

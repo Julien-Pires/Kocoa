@@ -97,9 +97,9 @@ jobs:
       matrix:
         include:
           - directory: apps
-            flag: apps
+            flag: Apps
           - directory: samples
-            flag: samples
+            flag: Samples
     steps:
       - uses: actions/checkout@v3
         with:
