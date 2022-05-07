@@ -16,7 +16,7 @@ jobs:
       - name: Setup Rush
         uses: ./.github/actions/rush
       - name: Rush changes
-        run: node common/scripts/install-run-rush.js change --verify
+        run: node common/scripts/install-run-rush.js change
       - name: Get changed files
         uses: jitterbit/get-changed-files@v1
         id: changed-files
