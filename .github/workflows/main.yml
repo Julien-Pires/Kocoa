@@ -41,6 +41,7 @@ jobs:
 
   test:
     needs: build
+    name: Node ${{ matrix.node-version }} - ${{ matrix.os }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
