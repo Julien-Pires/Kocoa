@@ -1,10 +1,10 @@
 flag_management:
   individual_flags:
-    - name: apps
+    - name: Apps
       paths: 
-      - apps/latte 
+      - apps/kocoa 
       carryforward: true
-    - name: samples
+    - name: Samples
       paths: 
-      - samples/latte-tutorial
+      - samples/kocoa-tutorial
       carryforward: true
