@@ -1,3 +1,4 @@
+export * from './memberData.js';
 export * from './metadata.js';
 export * from './reflect.js';
 export * from './suite.js';
