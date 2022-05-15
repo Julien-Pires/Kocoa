@@ -1,6 +1,7 @@
-import { testDataSymbol } from './metadata.js';
-import * as Reflect from './reflect.js';
-import { TestDataOptions, TypedDecorator } from './types.js';
+import { testDataSymbol } from '../metadata.js';
+import * as Reflect from '../reflect.js';
+import { TestDataOptions } from '../types/index.js';
+import { TestFunction } from './types.js';
 
 /**
  * Represents possible combination for test case parameters
@@ -40,11 +41,11 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
  * @param args Data to be passed for this test case
  */
 export const testData =
-    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>): TypedDecorator<TArgs> =>
-    (target: object, propertyKey: string): void => {
+    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) =>
+    (target: object, propertyKey: string, descriptor: TypedPropertyDescriptor<TestFunction<TArgs>>): void => {
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
-            args: testDataArgs,
+            args: () => testDataArgs,
             options
         };
 

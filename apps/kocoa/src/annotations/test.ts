@@ -1,5 +1,5 @@
-import { testSymbol } from './metadata.js';
-import { TestOptions } from './types.js';
+import { testSymbol } from '../metadata.js';
+import { TestOptions } from '../types/index.js';
 
 /**
  * Represents all possible signatures for the test decorator
