@@ -28,7 +28,7 @@ export interface TestAnnotation {
  * Contains test case metadata
  */
 export interface TestDataAnnotation {
-    args: (target: Constructor<unknown>) => Iterable<readonly unknown[]>;
+    args: () => Iterable<readonly unknown[]>;
     options: TestDataOptions;
 }
 

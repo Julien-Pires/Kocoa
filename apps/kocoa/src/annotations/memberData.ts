@@ -1,14 +1,35 @@
-import { TestFunctionArgs } from "./types";
+import { testDataSymbol } from '../metadata.js';
+import * as Reflect from '../reflect.js';
 
-type MemberDataArgs<TArgs extends unknown[]> = Iterable<TArgs>;
+type MemberData<TData extends unknown[]> = 
+    | Iterable<TData>
+    | ((...args: unknown[]) => Iterable<TData>);
 
-type Data<TClass, TProperty extends keyof TClass> = 
-    TClass extends { [key in TProperty]: MemberDataArgs<infer Args> } ? Args : never
+type IterableFunctionParameters<TMember extends MemberData<unknown[]>> =
+    TMember extends ((...args: infer TArgs) => Iterable<unknown[]>) ? TArgs : [];
 
-export const memberData = <TProperty extends string | symbol>(dataProperty: TProperty) => {
-    return <TClass extends { [key in TProperty]: MemberDataArgs<unknown[]> }>(
-        target: TClass, 
+type MemberDataValues<TMember> = TMember extends MemberData<infer TData> ? TData : never;
+
+export const memberData = <TMember extends MemberData<unknown[]>>(
+    member: TMember, 
+    ...args: IterableFunctionParameters<TMember>
+) => {
+    return (
+        target: object, 
         propertyKey: string, 
-        descriptor: TypedPropertyDescriptor<(...args: TestFunctionArgs<Data<TClass, TProperty>>
-    ) => unknown>) => {};
+        descriptor: TypedPropertyDescriptor<(...args: MemberDataValues<TMember>) => unknown>
+    ) => {
+        // const testDataAnnotation = {
+        //     args: () => {
+        //         if (member instanceof Function) {
+        //             return member(args);
+        //         }
+
+        //         return member;
+        //     },
+        //     options: {}
+        // };
+
+        // Reflect.appendMetadata(testDataSymbol, testDataAnnotation, target, propertyKey);
+    };
 };
