@@ -1,6 +1,6 @@
 import { testDataSymbol } from '../metadata.js';
 import * as Reflect from '../reflect.js';
-import { TestDataOptions } from '../types/index.js';
+import { TestDataAnnotation, TestDataOptions } from '../types/index.js';
 import { TestFunction } from './types.js';
 
 /**
@@ -42,12 +42,12 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
  */
 export const testData =
     <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) =>
-    (target: object, propertyKey: string, descriptor: TypedPropertyDescriptor<TestFunction<TArgs>>): void => {
+    (target: object, propertyKey: string, _descriptor: TypedPropertyDescriptor<TestFunction<TArgs>>): void => {
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
-            args: () => testDataArgs,
+            args: () => [testDataArgs],
             options
         };
 
-        Reflect.appendMetadata(testDataSymbol, testDataAnnotation, target, propertyKey);
+        Reflect.appendMetadata<TestDataAnnotation>(testDataSymbol, testDataAnnotation, target, propertyKey);
     };

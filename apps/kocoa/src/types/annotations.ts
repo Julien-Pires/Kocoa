@@ -1,4 +1,4 @@
-import { Constructor } from ".";
+import { Constructor } from '.';
 
 export interface TestOptions {
     name?: string;

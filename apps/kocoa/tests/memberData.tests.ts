@@ -1,62 +1,60 @@
 import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
-import { memberData, suite, test } from '../index.js';
+import { memberData, suite, test, testData } from '../index.js';
 import { testDataSymbol } from '../src/metadata.js';
 import * as Reflect from '../src/reflect.js';
-import { MemberDataFixture } from './memberData.fixtures.js';
 import { TestDataAnnotation } from '../src/types/index.js';
+import { MemberDataFixture } from './memberData.fixtures.js';
 
 const { expect } = chai;
 
 chai.use(chaiSubset);
 
-@suite('@memberData')
+@suite('@memberData annotation')
 export class MemberDataDecoratorTests {
-    static readonly data = [
-        [1, 2, 3],
-        [100, 200, 300],
-        [9999, 1, 10000]
-    ];
-
-    @test({ name: 'should not contains test data when member data is empty' })
-    public shouldContainsNoTestDataMetadata() {
+    @test({ name: 'should contains test data annotations when member is annoted' })
+    @testData(MemberDataFixture.prototype.singleFieldDataTest.name, 1)
+    @testData(MemberDataFixture.prototype.multiFieldDataTest.name, 2)
+    public shouldContainsTestDataAnnotations(testMethod: string, count: number) {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.emptyFieldDataTest.name
+            testMethod
         );
 
         expect(actual).to.not.be.undefined;
-        expect(actual).to.be.of.length(0);
+        expect(actual).to.be.of.length(count);
     }
 
-    @test({ name: 'should contains one additionnal test datas for each member entry' })
-    public shouldContainsAllTestDataMetadata() {
+    @test({ name: 'should contains no test data entry when target member data is empty' })
+    @testData(MemberDataFixture.prototype.emptyFieldDataTest.name)
+    public shouldNotContainsDataEntry(testMethod: string) {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.fieldDataTest.name
+            testMethod
         );
 
-        expect(actual).to.not.be.undefined;
-        expect(actual).to.be.of.length(MemberDataFixture.data.length);
+        expect(actual[0].args()).to.be.of.length(0);
     }
 
-    @test({ name: 'should contains test data from property' })
-    public shouldHaveTestsData() {
+    @test({ name: 'should contains one data entry for each member data entry' })
+    @testData(MemberDataFixture.prototype.arrayFieldDataTest.name, MemberDataFixture.oddNumber)
+    @testData(MemberDataFixture.prototype.iterableFieldDataTest.name, MemberDataFixture.evenNumber)
+    public shouldContainsDataEntry<T>(testMethod: string, expected: Iterable<T>) {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.fieldDataTest.name
+            testMethod
         );
-        const actual = annotations.map((annotation) => annotation.args);
-        
-        expect(actual).to.deep.equal(MemberDataFixture.data);
+        const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
+
+        expect(actual).to.deep.equal(Array.from(expected));
     }
 
-    @test({ name: 'should apply test data as arguments on target method' })
-    @memberData(MemberDataDecoratorTests.data)
+    @test({ name: 'should call test method for each member data entry' })
+    @memberData(MemberDataFixture.oddNumber)
     public shouldApplyTestDataToTestFunction(numberOne: number, numberTwo: number, expected: number) {
         expect(numberOne + numberTwo).to.equals(expected);
     }

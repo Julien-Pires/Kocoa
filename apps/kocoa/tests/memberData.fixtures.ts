@@ -1,39 +1,62 @@
 import { memberData } from '../index.js';
 
-export class MemberDataFixture {
-    static readonly empty: [];
+class DataClass<T> implements Iterable<T> {
+    constructor(private readonly _data: T[]) {}
 
-    static readonly data: [number, string, string][] = [
-        [1, 'Foo', 'Foo: 1'],
-        [100, 'Bar', 'Bar: 100'],
-        [1000, 'Foobar', 'Foobar: 1000']
-    ]
+    [Symbol.iterator]() {
+        let index = -1;
+        const data = this._data;
 
-    static * getEmpty() {}
-
-    static * getData(): Iterable<[number, number, number]> {
-        yield [1, 1, 2];
-        yield [100, 100, 200];
-        yield [1000, 1000, 2000];
+        return {
+            next: () => ({ value: data[++index], done: !(index in data) })
+        };
     }
+}
+
+export class MemberDataFixture {
+    static readonly empty: [] = [];
+
+    static readonly data: number[][] = [
+        [1, 1, 2],
+        [100, 100, 200],
+        [1000, 1000, 2000]
+    ];
+
+    static readonly oddNumber: number[][] = [
+        [1, 3, 4],
+        [100, 300, 400],
+        [1000, 3000, 4000]
+    ];
+
+    static readonly evenNumber = new DataClass([
+        [2, 4, 6],
+        [200, 400, 600],
+        [2000, 4000, 6000]
+    ]);
 
     @memberData(MemberDataFixture.empty)
     public emptyFieldDataTest() {
         return true;
     }
 
-    @memberData(MemberDataFixture.data)
-    public fieldDataTest(quantity: number, item: string, expected: string) {
-        return `${item}: ${quantity}` == expected;
+    @memberData(MemberDataFixture.oddNumber)
+    public singleFieldDataTest(first: number, second: number, expected: number) {
+        return first + second == expected;
     }
 
-    @memberData(MemberDataFixture.getEmpty)
-    public emptyMethodDataTest() {
-        return true;
+    @memberData(MemberDataFixture.evenNumber)
+    @memberData(MemberDataFixture.oddNumber)
+    public multiFieldDataTest(first: number, second: number, expected: number) {
+        return first + second == expected;
     }
 
-    @memberData(MemberDataFixture.getData)
-    public methodDataTest(first: number, second: number, expected: number) {
+    @memberData(MemberDataFixture.oddNumber)
+    public arrayFieldDataTest(first: number, second: number, expected: number) {
+        return first + second == expected;
+    }
+
+    @memberData(MemberDataFixture.evenNumber)
+    public iterableFieldDataTest(first: number, second: number, expected: number) {
         return first + second == expected;
     }
 }

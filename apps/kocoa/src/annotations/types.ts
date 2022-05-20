@@ -1,4 +1,4 @@
-import { TestDataOptions } from "../types/index.js";
+import { TestDataOptions } from '../types/index.js';
 
 /**
  * Represents test method parameters

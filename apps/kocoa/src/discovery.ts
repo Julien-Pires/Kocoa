@@ -1,8 +1,16 @@
 import { suiteSymbol, testDataSymbol, testSymbol } from './metadata.js';
 import { getAllMetadata } from './reflect.js';
 import {
-    Constructor, createTree, insertLeaf, insertNodes, SuiteAnnotation, Test, TestAnnotation,
-    TestDataAnnotation, TestSuite, Tree
+    Constructor,
+    createTree,
+    insertLeaf,
+    insertNodes,
+    SuiteAnnotation,
+    Test,
+    TestAnnotation,
+    TestDataAnnotation,
+    TestSuite,
+    Tree
 } from './types/index.js';
 
 /**
@@ -23,14 +31,12 @@ const hasTest = (target: object, propertyKey: string | symbol): boolean =>
 const buildTest = (target: object, propertyKey: string | symbol): Test => {
     const testAnnotation: TestAnnotation = Reflect.getMetadata(testSymbol, target, propertyKey);
     const testDatas = getAllMetadata<TestDataAnnotation>(testDataSymbol, target, propertyKey);
-    const testCases = testDatas.map((data) => ({
-        args: data.args
-    }));
+    const testCases = testDatas.flatMap((data) => Array.from(data.args())).map((data) => ({ args: data }));
 
     return {
         function: testAnnotation.function,
         name: testAnnotation.options.name ?? testAnnotation.function,
-        cases: [],//testCases.length > 0 ? testCases : [{ args: () => [] }],
+        cases: testCases.length > 0 ? testCases : [{ args: [] }],
         skip: testAnnotation.options?.skip ?? false
     };
 };
