@@ -34,6 +34,10 @@ export class MemberDataFixture {
         [2000, 4000, 6000]
     ]);
 
+    public noMemberData() {
+        return true;
+    }
+
     @memberData(MemberDataFixture.empty)
     public emptyFieldDataTest() {
         return true;
