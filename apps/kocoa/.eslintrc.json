@@ -18,16 +18,5 @@
     },
     "rules": {
         "prettier/prettier": "error"
-    },
-    "overrides": [
-        {
-            "files": [
-                "tests/**/*.tests.ts",
-                "tests/**/*.fixtures.ts"
-            ],
-            "rules": { 
-                "@typescript-eslint/no-unused-expressions": "off"
-            }
-        }
-    ]
+    }
 }

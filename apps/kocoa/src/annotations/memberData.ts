@@ -2,12 +2,12 @@ import { testDataSymbol } from '../metadata.js';
 import * as Reflect from '../reflect.js';
 
 /**
- * Represents all possible types of data source
+ * Represents all possible types of data source.
  */
 type MemberData<TData extends unknown[]> = Iterable<TData> | ((...args: unknown[]) => Iterable<TData>);
 
 /**
- * Extracts arguments list when data source is a function
+ * Extracts arguments list when data source is a function.
  */
 type ExtractIterableFunctionParameters<TMember extends MemberData<unknown[]>> = TMember extends (
     ...args: infer TArgs
@@ -16,15 +16,15 @@ type ExtractIterableFunctionParameters<TMember extends MemberData<unknown[]>> = 
     : [];
 
 /**
- * Get the list of data returned by the data source
+ * Get the list of data returned by the data source.
  */
 type MemberDataValues<TMember> = TMember extends MemberData<infer TData> ? TData : never;
 
 /**
  * Provides a data source for a test method. Each entry of the iterable will create a new test case.
  * @param member Member that represents the data source. It can be either an iterable or a function that returns
- * iterable
- * @param args Represents a list of arguments to apply on the member when member is a function
+ * an iterable.
+ * @param args Represents a list of arguments to apply on the member when member is a function.
  */
 export const memberData = <TMember extends MemberData<unknown[]>>(
     member: TMember,
