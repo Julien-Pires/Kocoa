@@ -39,19 +39,24 @@ export class MemberDataDecoratorTests {
     }
 
     @test
-    public 'should have no data entry when member data is empty'() {
-        const actual = Reflect.getAllMetadata<TestDataAnnotation>(
+    @testData(MemberDataFixture.prototype.emptyFieldDataTest.name)
+    @testData(MemberDataFixture.prototype.emptyMethodDataTest.name)
+    public 'should have no data entry when member data is empty'(testMethod: string) {
+        const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.emptyFieldDataTest.name
+            testMethod
         );
+        const actual = Array.from(annotations[0].args());
 
-        expect(actual[0].args()).to.be.of.length(0);
+        expect(actual).to.be.of.length(0);
     }
 
     @test
     @testData(MemberDataFixture.prototype.arrayFieldDataTest.name, MemberDataFixture.oddNumber)
     @testData(MemberDataFixture.prototype.iterableFieldDataTest.name, MemberDataFixture.evenNumber)
+    @testData(MemberDataFixture.prototype.arrayMethodDataTest.name, MemberDataFixture.getOddNumber())
+    @testData(MemberDataFixture.prototype.iterableMethodDataTest.name, MemberDataFixture.getEvenNumber())
     public 'should contains one data entry for each member data entry'<T>(testMethod: string, expected: Iterable<T>) {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
@@ -65,6 +70,7 @@ export class MemberDataDecoratorTests {
 
     @test
     @memberData(MemberDataFixture.oddNumber)
+    @memberData(MemberDataFixture.getOddNumber)
     public 'should apply data on test method for each member data entry'(
         numberOne: number,
         numberTwo: number,
