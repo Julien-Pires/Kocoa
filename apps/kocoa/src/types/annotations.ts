@@ -1,23 +1,27 @@
-import { Constructor } from '.';
-
+/**
+ * Represents a set of options for a test
+ */
 export interface TestOptions {
     name?: string;
     skip?: boolean;
 }
 
+/**
+ * Represents a set of options for a test suite
+ */
 export interface SuiteOptions {
     skip?: boolean;
 }
 
 /**
- * Contains additional options for a test case
+ * Represents a set of options for test data
  */
 export interface TestDataOptions {
     expected?: unknown;
 }
 
 /**
- * Contains test metadata
+ * Provides information about a test method
  */
 export interface TestAnnotation {
     function: string;
@@ -25,7 +29,7 @@ export interface TestAnnotation {
 }
 
 /**
- * Contains test case metadata
+ * Provides a data source for a test
  */
 export interface TestDataAnnotation {
     args: () => Iterable<readonly unknown[]>;
@@ -33,7 +37,7 @@ export interface TestDataAnnotation {
 }
 
 /**
- * Contains test suite metadata
+ * Provides information about a test suite
  */
 export interface SuiteAnnotation {
     name: string;
