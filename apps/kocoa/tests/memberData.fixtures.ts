@@ -16,12 +16,6 @@ class DataClass<T> implements Iterable<T> {
 export class MemberDataFixture {
     static readonly empty: [] = [];
 
-    static readonly data: number[][] = [
-        [1, 1, 2],
-        [100, 100, 200],
-        [1000, 1000, 2000]
-    ];
-
     static readonly oddNumber: number[][] = [
         [1, 3, 4],
         [100, 300, 400],
@@ -51,8 +45,8 @@ export class MemberDataFixture {
         yield [2000, 4000, 6000];
     }
 
-    static *getEmails(domain: string) {
-        yield [`myAddress@${domain}`];
+    static *multiplyByTwo(number: number) {
+        yield [number, number * 2];
     }
 
     public noMemberData() {
@@ -60,12 +54,8 @@ export class MemberDataFixture {
     }
 
     @memberData(MemberDataFixture.empty)
-    public emptyFieldDataTest() {
-        return true;
-    }
-
     @memberData(MemberDataFixture.getEmpty)
-    public emptyMethodDataTest() {
+    public emptyMemberDataTest() {
         return true;
     }
 
@@ -100,8 +90,8 @@ export class MemberDataFixture {
         return first + second == expected;
     }
 
-    @memberData(MemberDataFixture.getEmails, 'myDomain.com')
-    public checkEmailTest(email: string) {
-        return email !== '';
+    @memberData(MemberDataFixture.multiplyByTwo, 2)
+    public checkEmailTest(initial: number, result: number) {
+        return initial * 2 === result;
     }
 }

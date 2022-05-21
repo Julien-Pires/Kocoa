@@ -39,17 +39,15 @@ export class MemberDataDecoratorTests {
     }
 
     @test
-    @testData(MemberDataFixture.prototype.emptyFieldDataTest.name)
-    @testData(MemberDataFixture.prototype.emptyMethodDataTest.name)
-    public 'should have no data entry when member data is empty'(testMethod: string) {
+    public 'should have no data entry when member data is empty'() {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            testMethod
+            MemberDataFixture.prototype.emptyMemberDataTest.name
         );
-        const actual = Array.from(annotations[0].args());
+        const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
-        expect(actual).to.be.of.length(0);
+        expect(actual).all.members([]);
     }
 
     @test
@@ -87,7 +85,7 @@ export class MemberDataDecoratorTests {
             MemberDataFixture.prototype.checkEmailTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
-        const expected = Array.from(MemberDataFixture.getEmails('myDomain.com'));
+        const expected = Array.from(MemberDataFixture.multiplyByTwo(2));
 
         expect(actual).to.have.deep.members(expected);
     }
