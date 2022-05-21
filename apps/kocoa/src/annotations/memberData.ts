@@ -2,7 +2,7 @@ import { testDataSymbol } from '../metadata.js';
 import * as Reflect from '../reflect.js';
 
 /**
- * Represents all possible types of data source.
+ * Represents supported memberData data source.
  */
 type MemberData<TData extends unknown[]> = Iterable<TData> | ((...args: unknown[]) => Iterable<TData>);
 
