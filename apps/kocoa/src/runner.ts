@@ -1,8 +1,7 @@
 import 'mocha';
-import { Constructor } from './annotations/types.js';
 
 import { buildTests } from './discovery.js';
-import { Node, Test, TestCase, TestSuite } from './types/index.js';
+import { Constructor, Node, Test, TestCase, TestSuite } from './types/index.js';
 
 /**
  * Checks if specified value is a Test instance.

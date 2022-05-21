@@ -10,7 +10,7 @@ export interface TestSuite {
  * Represents a test case.
  */
 export interface TestCase {
-    args: unknown[];
+    args: readonly unknown[];
 }
 
 /**

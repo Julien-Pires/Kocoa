@@ -1,7 +1,7 @@
 import { runTest } from '../runner.js';
-import { suiteSymbol } from './metadata.js';
-import * as Reflect from './reflect.js';
-import { Constructor, SuiteOptions } from './types.js';
+import { suiteSymbol } from '../metadata.js';
+import * as Reflect from '../reflect.js';
+import { Constructor, SuiteOptions } from '../types/index.js';
 
 /**
  * Represents possible targets for the test suite decorator

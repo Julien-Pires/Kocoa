@@ -1,14 +1,17 @@
+import { suiteSymbol, testDataSymbol, testSymbol } from './metadata.js';
+import { getAllMetadata } from './reflect.js';
 import {
     Constructor,
-    getAllMetadata,
+    createTree,
+    insertLeaf,
+    insertNodes,
     SuiteAnnotation,
-    suiteSymbol,
+    Test,
     TestAnnotation,
     TestDataAnnotation,
-    testDataSymbol,
-    testSymbol
-} from './annotations/index.js';
-import { createTree, insertLeaf, insertNodes, Test, TestSuite, Tree } from './types/index.js';
+    TestSuite,
+    Tree
+} from './types/index.js';
 
 /**
  * Checks if specified property is a test (has test metadata).
@@ -28,9 +31,7 @@ const hasTest = (target: object, propertyKey: string | symbol): boolean =>
 const buildTest = (target: object, propertyKey: string | symbol): Test => {
     const testAnnotation: TestAnnotation = Reflect.getMetadata(testSymbol, target, propertyKey);
     const testDatas = getAllMetadata<TestDataAnnotation>(testDataSymbol, target, propertyKey);
-    const testCases = testDatas.map((data) => ({
-        args: data.args
-    }));
+    const testCases = testDatas.flatMap((data) => Array.from(data.args())).map((data) => ({ args: data }));
 
     return {
         function: testAnnotation.function,

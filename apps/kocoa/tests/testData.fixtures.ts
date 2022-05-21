@@ -1,6 +1,10 @@
 import { testData } from '../index.js';
 
 export class TestDataFixture {
+    public noTestData() {
+        return true;
+    }
+
     @testData()
     public singleTestData() {
         return true;

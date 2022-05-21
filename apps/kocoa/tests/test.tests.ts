@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 
-import { suite, test, TestAnnotation, testSymbol } from '../index.js';
+import { suite, test } from '../index.js';
+import { testSymbol } from '../src/metadata.js';
 import { SkipTestFixture } from './test.fixtures.js';
+import { TestAnnotation } from '../src/types';
 
 @suite('@test')
 export class TestDecoratorTests {
