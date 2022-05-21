@@ -23,7 +23,7 @@ export const memberData = <TMember extends MemberData<unknown[]>>(
         const testDataAnnotation = {
             args: () => {
                 if (member instanceof Function) {
-                    return member(args);
+                    return member(...args);
                 }
 
                 return member;

@@ -78,4 +78,17 @@ export class MemberDataDecoratorTests {
     ) {
         expect(numberOne + numberTwo).to.equals(expected);
     }
+
+    @test
+    public 'should apply member data args when member data is a method'() {
+        const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
+            testDataSymbol,
+            MemberDataFixture.prototype,
+            MemberDataFixture.prototype.checkEmailTest.name
+        );
+        const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
+        const expected = Array.from(MemberDataFixture.getEmails('myDomain.com'));
+
+        expect(actual).to.have.deep.members(expected);
+    }
 }

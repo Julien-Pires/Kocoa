@@ -51,6 +51,10 @@ export class MemberDataFixture {
         yield [2000, 4000, 6000];
     }
 
+    static *getEmails(domain: string) {
+        yield [`myAddress@${domain}`];
+    }
+
     public noMemberData() {
         return true;
     }
@@ -94,5 +98,10 @@ export class MemberDataFixture {
     @memberData(MemberDataFixture.getEvenNumber)
     public iterableMethodDataTest(first: number, second: number, expected: number) {
         return first + second == expected;
+    }
+
+    @memberData(MemberDataFixture.getEmails, 'myDomain.com')
+    public checkEmailTest(email: string) {
+        return email !== '';
     }
 }
