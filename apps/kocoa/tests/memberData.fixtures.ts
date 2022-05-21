@@ -14,29 +14,30 @@ class DataClass<T> implements Iterable<T> {
 }
 
 export class MemberDataFixture {
-    static readonly empty: [] = []
+    static readonly empty: [] = [];
 
     static readonly data: number[][] = [
         [1, 1, 2],
         [100, 100, 200],
         [1000, 1000, 2000]
-    ]
+    ];
 
     static readonly oddNumber: number[][] = [
         [1, 3, 4],
         [100, 300, 400],
         [1000, 3000, 4000]
-    ]
+    ];
 
     static readonly evenNumber = new DataClass([
         [2, 4, 6],
         [200, 400, 600],
         [2000, 4000, 6000]
-    ])
+    ]);
 
-    static * getEmpty () {}
+    /* eslint-disable @typescript-eslint/no-empty-function */ //
+    static *getEmpty() {}
 
-    static getOddNumber (): number[][] { 
+    static getOddNumber(): number[][] {
         return [
             [1, 3, 4],
             [100, 300, 400],
@@ -44,7 +45,7 @@ export class MemberDataFixture {
         ];
     }
 
-    static * getEvenNumber() { 
+    static *getEvenNumber() {
         yield [2, 4, 6];
         yield [200, 400, 600];
         yield [2000, 4000, 6000];
