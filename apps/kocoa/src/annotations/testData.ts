@@ -1,7 +1,7 @@
 import { testDataSymbol } from '../metadata.js';
 import * as Reflect from '../reflect.js';
 import { TestDataAnnotation, TestDataOptions } from '../types/index.js';
-import { TestFunction } from './types.js';
+import { TestFunctionAnnotation } from './types.js';
 
 /**
  * Represents possible variations for testData arguments.
@@ -41,8 +41,8 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
  * @param args Represents a list of data to pass to the test method.
  */
 export const testData =
-    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>) =>
-    (target: object, propertyKey: string, _descriptor: TypedPropertyDescriptor<TestFunction<TArgs>>): void => {
+    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>): TestFunctionAnnotation<TArgs> =>
+    (target: object, propertyKey: string): void => {
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
             args: () => [testDataArgs],

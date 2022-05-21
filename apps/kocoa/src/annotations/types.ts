@@ -12,4 +12,8 @@ export type TestFunctionArgs<TArgs extends readonly unknown[]> = TArgs extends [
     ? never
     : TArgs;
 
-export type TestFunction<TArgs extends readonly unknown[]> = (...args: TestFunctionArgs<TArgs>) => unknown;
+export type TestFunctionAnnotation<TArgs extends readonly unknown[]> = (
+    target: object,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<(...args: TArgs) => unknown>
+) => void;

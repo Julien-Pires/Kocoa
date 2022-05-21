@@ -1,44 +1,41 @@
 import { testDataSymbol } from '../metadata.js';
 import * as Reflect from '../reflect.js';
+import { TestFunctionAnnotation } from './types.js';
 
 /**
- * Represents supported memberData data source.
+ * Represents a test data source.
  */
-type MemberData<TData extends unknown[]> = Iterable<TData> | ((...args: unknown[]) => Iterable<TData>);
+type DataSource<TData extends unknown[]> = Iterable<TData> | ((...args: readonly unknown[]) => Iterable<TData>);
 
 /**
- * Extracts arguments list when data source is a function.
+ * Gets types for a single data source row.
  */
-type ExtractIterableFunctionParameters<TMember extends MemberData<unknown[]>> = TMember extends (
+type DataSourceRow<TMember> = TMember extends DataSource<infer TData> ? TData : never;
+
+/**
+ * Extract function arguments types when data source is a function.
+ */
+type ExtractDataSourceParameters<TMember extends DataSource<unknown[]>> = TMember extends (
     ...args: infer TArgs
 ) => Iterable<unknown[]>
     ? TArgs
     : [];
 
 /**
- * Get the list of data returned by the data source.
- */
-type MemberDataValues<TMember> = TMember extends MemberData<infer TData> ? TData : never;
-
-/**
  * Provides a data source for a test method. Each entry of the iterable will create a new test case.
  * @param member Member that represents the data source. It can be either an iterable or a function that returns
  * an iterable.
- * @param args Represents a list of arguments to apply on the member when member is a function.
+ * @param memberArgs Represents a list of arguments to apply on the member when member is a function.
  */
-export const memberData = <TMember extends MemberData<unknown[]>>(
+export const memberData = <TMember extends DataSource<unknown[]>>(
     member: TMember,
-    ...args: ExtractIterableFunctionParameters<TMember>
-) => {
-    return (
-        target: object,
-        propertyKey: string,
-        _descriptor: TypedPropertyDescriptor<(...args: MemberDataValues<TMember>) => unknown>
-    ) => {
+    ...memberArgs: ExtractDataSourceParameters<TMember>
+): TestFunctionAnnotation<DataSourceRow<TMember>> => {
+    return (target: object, propertyKey: string) => {
         const testDataAnnotation = {
             args: () => {
                 if (member instanceof Function) {
-                    return member(...args);
+                    return member(...memberArgs);
                 }
 
                 return member;
