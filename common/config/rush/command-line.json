@@ -22,6 +22,13 @@
       "safeForSimultaneousRushProcesses": false
     },
     {
+      "name": "project:new",
+      "commandKind": "global",
+      "summary": "Add a new project to the repository",
+      "shellCommand": "sh ./common/scripts/add-project.sh",
+      "safeForSimultaneousRushProcesses": false
+    },
+    {
       "name": "commit",
       "commandKind": "global",
       "summary": "Add new commit with commitizen",
