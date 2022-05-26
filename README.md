@@ -1,10 +1,8 @@
 <div align="center">
 
-<div>
-    <img src="./docs/images/kocoa.svg" alt="logo" width="96" height="96"
-    style="display: inline-block;" />
-    <h1 style="display: inline-block;" align="center">Kocoa</h1>
-</div>
+<img src="./docs/images/kocoa.svg" alt="logo" width="128" height="128" style="display: inline-block;" />
+
+# Kocoa
 
 ![MIT license](https://img.shields.io/badge/license-MIT-blue.svg) [![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Julien-Pires/kocoa)
 
