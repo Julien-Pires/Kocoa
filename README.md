@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./docs/images/kocoa.svg" alt="logo" width="128" height="128" style="display: inline-block;" />
+<img src="docs/images/kocoa.svg" alt="" width="128" height="128" />
 
 # Kocoa
 
