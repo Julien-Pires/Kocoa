@@ -1,6 +1,9 @@
 <div align="center">
 
+<img src="docs/images/kocoa.svg" alt="" width="128" height="128" />
+
 # Kocoa
+
 ![MIT license](https://img.shields.io/badge/license-MIT-blue.svg) [![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Julien-Pires/kocoa)
 
 ![CI workflow](https://github.com/Julien-Pires/kocoa/actions/workflows/main.yml/badge.svg)
