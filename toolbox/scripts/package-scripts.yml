@@ -1,0 +1,3 @@
+scripts:
+  project:
+    new: 'node --loader ts-node/esm ./src/project/new.ts'

@@ -7,7 +7,7 @@
     "clear": "rm -rf ./build",
     "lint": "npx eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
-    "project:new": "node --loader ts-node/esm ./src/project/new.ts"
+    "start": "nps"
   },
   "devDependencies": {
     "@eslint/create-config": "~0.1.2",
@@ -27,6 +27,7 @@
     "chalk": "5.0.1",
     "clear": "0.1.0",
     "find-up": "~6.3.0",
-    "comment-json": "~4.2.2"
+    "comment-json": "~4.2.2",
+    "nps": "~5.10.0"
   }
 }
