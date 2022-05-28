@@ -6,6 +6,9 @@ import { findUp } from 'find-up';
 import * as fs from 'fs/promises';
 import inquirer from 'inquirer';
 import * as path from 'path';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 interface Answers {
     project: string;
@@ -118,5 +121,8 @@ console.log(chalk.green(`Project created at: ${projectFullPath}`));
 
 console.log('Updating rush configuration...');
 await updateRushConfig(projectInfo);
-exec('rush update');
+const { stderr } = await execAsync('rush update');
+if (stderr) {
+    throw new Error(`An error occurred will updating rush.\n${stderr}`);
+}
 console.log(chalk.green(`Rush configuration updated`));
