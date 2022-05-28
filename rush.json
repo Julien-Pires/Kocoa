@@ -23,6 +23,7 @@
   },
   "variants": [
   ],
+  "projectFolderMaxDepth": 3,
   "projects": [
     {
       "packageName": "kocoa",
@@ -31,6 +32,10 @@
     {
       "packageName": "kocoa-tutorial",
       "projectFolder": "samples/kocoa-tutorial"
+    },
+    {
+      "packageName": "@tools/cli",
+      "projectFolder": "common/scripts/cli"
     }
   ]
 }

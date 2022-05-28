@@ -25,7 +25,7 @@
       "name": "project:new",
       "commandKind": "global",
       "summary": "Add a new project to the repository",
-      "shellCommand": "sh ./common/scripts/add-project.sh",
+      "shellCommand": "npm --prefix ./common/scripts/cli run project:new",
       "safeForSimultaneousRushProcesses": false
     },
     {
