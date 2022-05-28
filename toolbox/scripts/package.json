@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -d",
+    "build": "echo 'No build required'",
     "clear": "rm -rf ./build",
     "lint": "npx eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
