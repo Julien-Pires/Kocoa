@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "echo 'No build required'",
+    "start": "nps",
+    "build": "echo 'No build required for this project'",
     "clear": "rm -rf ./build",
     "lint": "npx eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
-    "start": "nps"
+    "test": "echo 'No test for this project'",
+    "test:coverage": "echo 'No test coverage for this project'",
+    "release": "echo 'No release for this project'"
   },
   "devDependencies": {
     "@eslint/create-config": "~0.1.2",

@@ -1,25 +1,19 @@
 import chalk from 'chalk';
 import { exec } from 'child_process';
 import clear from 'clear';
-import { parse, stringify } from 'comment-json';
 import { findUp } from 'find-up';
 import * as fs from 'fs/promises';
 import inquirer from 'inquirer';
 import * as path from 'path';
 import { promisify } from 'util';
 
+import { exists, isNullOrEmpty, updateJSON } from '../utils/index.js';
+
 const execAsync = promisify(exec);
 
 interface Answers {
     project: string;
     projectDir: string;
-    description: string;
-}
-
-interface ProjectInfo {
-    name: string;
-    directory: string;
-    rootDir: string;
     description: string;
 }
 
@@ -31,63 +25,7 @@ if (!rushConfigFile) {
 const rootDir = path.dirname(rushConfigFile);
 const projectTemplateDir = path.join(rootDir, '/common/templates/project');
 
-const isNullOrEmpty = (value: string) => !value || /^\s*$/.test(value);
-
-const exists = async (path: string) =>
-    fs
-        .access(path)
-        .then(() => true)
-        .catch(() => false);
-
-const validateProjectDir = async (project: string, dir: string) => {
-    if (isNullOrEmpty(dir)) {
-        return false;
-    }
-
-    const fullPath = path.join(dir, project);
-    if (await exists(fullPath)) {
-        return chalk.red(`Path already exists: ${fullPath}`);
-    }
-
-    return true;
-};
-
-const copyProjectTemplate = async (project: ProjectInfo): Promise<string> => {
-    const fullPath = path.join(project.rootDir, project.directory);
-    await fs.cp(projectTemplateDir, fullPath, { recursive: true });
-
-    return fullPath;
-};
-
-const updatePackageJson = async (project: ProjectInfo) => {
-    const fullPath = path.join(project.rootDir, project.directory);
-    const packageJsonPath = path.join(fullPath, 'package.json');
-    const packageJson = parse(await fs.readFile(packageJsonPath, 'utf-8'));
-    if (!packageJson) {
-        throw new Error(`Failed to read package.json at: ${packageJsonPath}`);
-    }
-
-    packageJson['name'] = project.name;
-    packageJson['description'] = project.description;
-    await fs.writeFile(packageJsonPath, stringify(packageJson, null, 4));
-};
-
-const updateRushConfig = async (project: ProjectInfo) => {
-    const rushConfig = parse(await fs.readFile(rushConfigFile, 'utf-8'));
-    if (!rushConfig) {
-        throw new Error(`Failed to read rush configuration file at: ${rushConfigFile}`);
-    }
-    rushConfig['projects'].push({
-        packageName: project.name,
-        projectFolder: project.directory
-    });
-    await fs.writeFile(rushConfigFile, stringify(rushConfig, null, 4));
-};
-
-clear();
-
-console.log(chalk.bold.cyan('Following steps will guide to you add a new project.'));
-const answers = await inquirer.prompt<Answers>([
+const questions = [
     {
         type: 'input',
         name: 'project',
@@ -98,36 +36,62 @@ const answers = await inquirer.prompt<Answers>([
         type: 'input',
         name: 'projectDir',
         message: `Project directory: `,
-        default: 'apps',
-        validate: (input: string, { project }: Answers) => validateProjectDir(project, path.join(rootDir, input))
+        default: (answers: Answers) => path.join('apps', answers.project),
+        validate: async (input: string) => {
+            if (isNullOrEmpty(input)) {
+                return false;
+            }
+
+            const fullpath = path.join(rootDir, input);
+            const isAvailable = !(await exists(path.join(rootDir, input)));
+            if (!isAvailable) {
+                return chalk.red(`❗ Path already exists at: ${fullpath}`);
+            }
+
+            return true;
+        }
     },
     {
         type: 'input',
         name: 'description',
-        message: `Project description: `
+        message: `Project description ${chalk.italic.grey('(Optional)')}: `
     }
-]);
+];
 
+clear();
+
+console.log(chalk.bold.cyan('Following steps will guide to you add a new project.'));
+
+const { project, projectDir, description } = await inquirer.prompt<Answers>(questions);
 const projectInfo = {
-    name: answers.project,
-    directory: answers.projectDir,
-    rootDir,
-    description: answers.description
+    name: project,
+    directory: projectDir,
+    fullpath: path.join(rootDir, projectDir),
+    description: description
 };
 
-console.log('Preparing project...');
+console.log('\n⌛ Preparing project...');
 
-const projectFullPath = await copyProjectTemplate(projectInfo);
-await updatePackageJson(projectInfo);
+await fs.cp(projectTemplateDir, projectInfo.fullpath, { recursive: true });
+await updateJSON(path.join(projectInfo.fullpath, 'package.json'), () => ({ name: project, description: description }));
 
-console.log(chalk.green(`Project created at: ${projectFullPath}`));
+console.log(chalk.green(`✅ Project created at: ${projectInfo.fullpath}`));
 
-console.log('Updating rush configuration...');
+console.log('\n⌛ Updating rush configuration...');
 
-await updateRushConfig(projectInfo);
+await updateJSON(rushConfigFile, (rushConfig) => ({
+    projects: [
+        ...(rushConfig !== null ? rushConfig['projects'] : []),
+        {
+            packageName: project,
+            projectFolder: projectDir
+        }
+    ]
+}));
 const { stderr } = await execAsync('rush update');
 if (stderr) {
-    throw new Error(`An error occurred will updating rush.\n${stderr}`);
+    throw new Error(`❌ An error occurred while updating rush.\n${stderr}`);
 }
 
-console.log(chalk.green(`Rush configuration updated`));
+console.log(chalk.green(`✅ Rush configuration updated`));
+console.log(chalk.bold.green(`\nProject successfully created`));
