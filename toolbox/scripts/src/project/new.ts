@@ -114,15 +114,20 @@ const projectInfo = {
     rootDir,
     description: answers.description
 };
+
 console.log('Preparing project...');
+
 const projectFullPath = await copyProjectTemplate(projectInfo);
 await updatePackageJson(projectInfo);
+
 console.log(chalk.green(`Project created at: ${projectFullPath}`));
 
 console.log('Updating rush configuration...');
+
 await updateRushConfig(projectInfo);
 const { stderr } = await execAsync('rush update');
 if (stderr) {
     throw new Error(`An error occurred will updating rush.\n${stderr}`);
 }
+
 console.log(chalk.green(`Rush configuration updated`));
