@@ -34,8 +34,8 @@
       "projectFolder": "samples/kocoa-tutorial"
     },
     {
-      "packageName": "@tools/cli",
-      "projectFolder": "common/scripts/cli"
+      "packageName": "@toolbox/scripts",
+      "projectFolder": "toolbox/scripts"
     }
   ]
 }
