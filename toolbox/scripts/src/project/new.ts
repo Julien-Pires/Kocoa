@@ -50,14 +50,14 @@ const validateProjectDir = async (project: string, dir: string) => {
 };
 
 const copyProjectTemplate = async (project: ProjectInfo): Promise<string> => {
-    const fullPath = path.join(project.rootDir, project.directory, project.name);
+    const fullPath = path.join(project.rootDir, project.directory);
     await fs.cp(projectTemplateDir, fullPath, { recursive: true });
 
     return fullPath;
 };
 
 const updatePackageJson = async (project: ProjectInfo) => {
-    const fullPath = path.join(project.rootDir, project.directory, project.name);
+    const fullPath = path.join(project.rootDir, project.directory);
     const packageJsonPath = path.join(fullPath, 'package.json');
     const packageJson = parse(await fs.readFile(packageJsonPath, 'utf-8'));
     if (!packageJson) {
