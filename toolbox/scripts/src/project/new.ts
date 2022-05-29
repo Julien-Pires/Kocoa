@@ -7,7 +7,7 @@ import inquirer from 'inquirer';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { exists, isNullOrEmpty, updateJSON } from '../utils/index.js';
+import { exists, icon, isNullOrEmpty, updateJSON } from '../utils/index.js';
 
 const execAsync = promisify(exec);
 
@@ -19,7 +19,7 @@ interface Answers {
 
 const rushConfigFile = await findUp('rush.json');
 if (!rushConfigFile) {
-    throw new Error('Failed to find rush.json configuration.');
+    throw new Error(`${icon.crossmark} Failed to find rush.json configuration.`);
 }
 
 const rootDir = path.dirname(rushConfigFile);
@@ -45,7 +45,7 @@ const questions = [
             const fullpath = path.join(rootDir, input);
             const isAvailable = !(await exists(path.join(rootDir, input)));
             if (!isAvailable) {
-                return chalk.red(`❗ Path already exists at: ${fullpath}`);
+                return chalk.red(`${icon.exclamation} Path already exists at: ${fullpath}`);
             }
 
             return true;
@@ -60,7 +60,7 @@ const questions = [
 
 clear();
 
-console.log(chalk.bold.cyan('Following steps will guide to you add a new project.'));
+console.log(chalk.bold.cyan('Following steps will guide you to add a new project.'));
 
 const { project, projectDir, description } = await inquirer.prompt<Answers>(questions);
 const projectInfo = {
@@ -70,14 +70,14 @@ const projectInfo = {
     description: description
 };
 
-console.log('\n⌛ Preparing project...');
+console.log(`\n${icon.hourglass} Preparing project...`);
 
 await fs.cp(projectTemplateDir, projectInfo.fullpath, { recursive: true });
 await updateJSON(path.join(projectInfo.fullpath, 'package.json'), () => ({ name: project, description: description }));
 
-console.log(chalk.green(`✅ Project created at: ${projectInfo.fullpath}`));
+console.log(chalk.green(`${icon.checkmark} Project created at: ${projectInfo.fullpath}`));
 
-console.log('\n⌛ Updating rush configuration...');
+console.log(`\n${icon.hourglass} Updating rush configuration...`);
 
 await updateJSON(rushConfigFile, (rushConfig) => ({
     projects: [
@@ -90,8 +90,8 @@ await updateJSON(rushConfigFile, (rushConfig) => ({
 }));
 const { stderr } = await execAsync('rush update');
 if (stderr) {
-    throw new Error(`❌ An error occurred while updating rush.\n${stderr}`);
+    throw new Error(`${icon.crossmark} An error occurred while updating rush.\n${stderr}`);
 }
 
-console.log(chalk.green(`✅ Rush configuration updated`));
+console.log(chalk.green(`${icon.checkmark} Rush configuration updated`));
 console.log(chalk.bold.green(`\nProject successfully created`));
