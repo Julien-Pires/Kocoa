@@ -57,9 +57,7 @@ export class TestDataDecoratorTests {
 
     @test
     @testData(1, 2, 3)
-    @testData(100, 200, 300)
-    @testData(9999, 1, 10000)
-    public 'should apply data on test method'(numberOne: number, numberTwo: number, expected: number) {
-        expect(numberOne + numberTwo).to.equals(expected);
+    public 'should apply data on test method'(first: number, second: number, expected: number) {
+        expect(first + second).to.equals(expected);
     }
 }
