@@ -8,22 +8,16 @@ export class SingleSuiteFixture {}
 @suite('class')
 export class MultipleSuiteFixture {
     @suite('testSuite')
-    public singleTestSuite() {
-        return true;
-    }
+    public singleTestSuite() {}
 
     @suite('testSuite')
     @suite('sample')
     @suite('method')
-    public multipleTestSuite() {
-        return true;
-    }
+    public multipleTestSuite() {}
 }
 
 @suite('SkipClass', { skip: true })
 export class SkipOptionsFixtures {
     @suite('SkipMethod', { skip: true })
-    public skippedMethod() {
-        return true;
-    }
+    public skippedMethod() {}
 }

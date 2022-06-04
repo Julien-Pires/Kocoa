@@ -1,27 +1,17 @@
 import { test } from '../index.js';
 
 export class TestClass {
-    public noTest() {
-        return true;
-    }
+    public noTest() {}
 
     @test
-    public runTest() {
-        return true;
-    }
+    public runTest() {}
 
     @test({ name: 'my custom test' })
-    public runCustomTest() {
-        return true;
-    }
+    public runCustomTest() {}
 
     @test({ skip: true })
-    public skippedTest() {
-        return true;
-    }
+    public skippedTest() {}
 
     @test({ skip: false })
-    public notSkippedTest() {
-        return true;
-    }
+    public notSkippedTest() {}
 }
