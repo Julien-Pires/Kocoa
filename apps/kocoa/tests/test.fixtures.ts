@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { test } from '../index.js';
 
 export class TestClass {
