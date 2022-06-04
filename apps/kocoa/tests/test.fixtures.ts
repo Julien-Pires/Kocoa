@@ -2,7 +2,7 @@
 
 import { test } from '../index.js';
 
-export class TestClass {
+export class TestClassFixture {
     public noTest() {}
 
     @test

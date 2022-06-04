@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { suite, test } from '../index.js';
 import { testSymbol } from '../src/metadata.js';
-import { TestClass } from './test.fixtures.js';
+import { TestClassFixture } from './test.fixtures.js';
 import { TestAnnotation } from '../src/types';
 
 @suite('@test')
@@ -11,8 +11,8 @@ export class TestDecoratorTests {
     public 'should not have test annotation when method is not annoted'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.noTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.noTest.name
         );
 
         expect(actual).to.be.undefined;
@@ -22,8 +22,8 @@ export class TestDecoratorTests {
     public 'should have test annotation when method is annoted'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.runTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
         expect(actual).to.not.be.undefined;
@@ -33,19 +33,19 @@ export class TestDecoratorTests {
     public 'should use method name as test name when custom name is not specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.runTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
-        expect(actual.function).to.equal(TestClass.prototype.runTest.name);
+        expect(actual.function).to.equal(TestClassFixture.prototype.runTest.name);
     }
 
     @test
     public 'should use custom test name when one is specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.runCustomTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runCustomTest.name
         );
 
         expect(actual.options.name).to.equals('my custom test');
@@ -55,8 +55,8 @@ export class TestDecoratorTests {
     public 'should have skip option set to true when skip option is set to true'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.skippedTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.skippedTest.name
         );
 
         expect(actual.options.skip).to.not.be.undefined;
@@ -67,8 +67,8 @@ export class TestDecoratorTests {
     public 'should have skip option set to false when skip option is not specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.runTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
         expect(actual.options.skip).to.be.false;
@@ -78,8 +78,8 @@ export class TestDecoratorTests {
     public 'should have skip option to false when skip option is set to false'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestClass.prototype,
-            TestClass.prototype.notSkippedTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.notSkippedTest.name
         );
 
         expect(actual.options.skip).to.be.false;
