@@ -1,19 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { testData } from '../index.js';
 
 export class TestDataFixture {
-    public noTestData() {
-        return true;
-    }
+    public noDataSourceTest() {}
 
     @testData()
-    public singleTestData() {
-        return true;
-    }
+    public singleDataSourceTest() {}
 
     @testData(1, 2)
     @testData(100, 200)
     @testData(1000, 2000)
-    public multipleTestData(a: number, b: number) {
-        return a + b;
-    }
+    public multipleDataSourceTest(_a: number, _b: number) {}
 }

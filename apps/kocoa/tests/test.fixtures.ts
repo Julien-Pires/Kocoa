@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { test } from '../index.js';
 
-export class SkipTestFixture {
+export class TestClassFixture {
+    public noTest() {}
+
+    @test
+    public runTest() {}
+
+    @test({ name: 'my custom test' })
+    public runCustomTest() {}
+
     @test({ skip: true })
-    public skippedTest() {
-        return true;
-    }
+    public skippedTest() {}
 
     @test({ skip: false })
-    public notSkippedTest() {
-        return true;
-    }
+    public notSkippedTest() {}
 }

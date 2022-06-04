@@ -2,85 +2,84 @@ import { expect } from 'chai';
 
 import { suite, test } from '../index.js';
 import { testSymbol } from '../src/metadata.js';
-import { SkipTestFixture } from './test.fixtures.js';
+import { TestClassFixture } from './test.fixtures.js';
 import { TestAnnotation } from '../src/types';
 
 @suite('@test')
 export class TestDecoratorTests {
-    @test({ name: 'should add test metadata when method is annoted' })
-    public shouldAddTestMetadataWhenAnnoted() {
+    @test
+    public 'should not have test annotation when method is not annoted'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            this,
-            this.shouldAddTestMetadataWhenAnnoted.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.noTest.name
+        );
+
+        expect(actual).to.be.undefined;
+    }
+
+    @test
+    public 'should have test annotation when method is annoted'() {
+        const actual: TestAnnotation = Reflect.getMetadata(
+            testSymbol,
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
         expect(actual).to.not.be.undefined;
     }
 
-    @test({ name: 'should contains method name when method is annoted' })
-    public shouldContainsMethodNameWhenAnnoted() {
+    @test
+    public 'should use method name as test name when custom name is not specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            this,
-            this.shouldContainsMethodNameWhenAnnoted.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
-        expect(actual.function).to.equal(this.shouldContainsMethodNameWhenAnnoted.name);
-    }
-
-    @test({ name: 'should have custom name options when one is specified' })
-    public shouldHaveCustomNameWhenSpecified() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
-            TestDecoratorTests.prototype,
-            TestDecoratorTests.prototype.shouldHaveCustomNameWhenSpecified.name
-        );
-
-        expect(actual.options.name).to.equals('should have custom name options when one is specified');
+        expect(actual.function).to.equal(TestClassFixture.prototype.runTest.name);
     }
 
     @test
-    public 'should not have custom name options when one is not specified'() {
+    public 'should use custom test name when one is specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestDecoratorTests.prototype,
-            TestDecoratorTests.prototype['should not have custom name options when one is not specified'].name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runCustomTest.name
         );
 
-        expect(actual.options.name).to.be.undefined;
+        expect(actual.options.name).to.equals('my custom test');
     }
 
-    @test({ name: 'should have skip options to true when skip options is set to true' })
-    public shouldHaveSkipOptionsWhenSpecifiedWithTrue() {
+    @test
+    public 'should have skip option set to true when skip option is set to true'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            SkipTestFixture.prototype,
-            SkipTestFixture.prototype.skippedTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.skippedTest.name
         );
 
         expect(actual.options.skip).to.not.be.undefined;
         expect(actual.options.skip).to.be.true;
     }
 
-    @test({ name: 'should have skip options to false when skip options is set to false' })
-    public shouldHaveSkipOptionsWhenSpecifiedWithFalse() {
+    @test
+    public 'should have skip option set to false when skip option is not specified'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            SkipTestFixture.prototype,
-            SkipTestFixture.prototype.notSkippedTest.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.runTest.name
         );
 
-        expect(actual.options.skip).to.not.be.undefined;
         expect(actual.options.skip).to.be.false;
     }
 
-    @test({ name: 'should have skip options to false when skip options is not specified' })
-    public shouldNotHaveSkipOptionsWhenNotSpecified() {
+    @test
+    public 'should have skip option to false when skip option is set to false'() {
         const actual: TestAnnotation = Reflect.getMetadata(
             testSymbol,
-            TestDecoratorTests.prototype,
-            TestDecoratorTests.prototype.shouldNotHaveSkipOptionsWhenNotSpecified.name
+            TestClassFixture.prototype,
+            TestClassFixture.prototype.notSkippedTest.name
         );
 
         expect(actual.options.skip).to.be.false;

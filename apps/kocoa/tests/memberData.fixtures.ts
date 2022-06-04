@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { memberData } from '../index.js';
 
 class DataClass<T> implements Iterable<T> {
@@ -14,84 +17,65 @@ class DataClass<T> implements Iterable<T> {
 }
 
 export class MemberDataFixture {
-    static readonly empty: [] = [];
+    static readonly emptyDataSource: [] = [];
 
-    static readonly oddNumber: number[][] = [
+    static readonly arrayDataSource: number[][] = [
         [1, 3, 4],
         [100, 300, 400],
         [1000, 3000, 4000]
     ];
 
-    static readonly evenNumber = new DataClass([
+    static readonly iterableDataSource = new DataClass([
         [2, 4, 6],
         [200, 400, 600],
         [2000, 4000, 6000]
     ]);
 
-    /* eslint-disable @typescript-eslint/no-empty-function */ //
-    static *getEmpty() {}
+    static *emptyIterableDataSource() {}
 
-    static getOddNumber(): number[][] {
-        return [
-            [1, 3, 4],
-            [100, 300, 400],
-            [1000, 3000, 4000]
-        ];
+    static arrayMethodDataSource(): number[][] {
+        return MemberDataFixture.arrayDataSource;
     }
 
-    static *getEvenNumber() {
-        yield [2, 4, 6];
-        yield [200, 400, 600];
-        yield [2000, 4000, 6000];
+    static *iterableMethodDataSource() {
+        yield [4, 2, 2];
+        yield [400, 200, 200];
+        yield [4000, 2000, 2000];
     }
 
-    static *multiplyByTwo(number: number) {
-        yield [number, number * 2];
+    static *parameterizedDataSource(add: number) {
+        yield [1 + add, 3 + add, 4 + add];
+        yield [100 + add, 300 + add, 400 + add];
+        yield [1000 + add, 3000 + add, 4000 + add];
     }
 
-    public noMemberData() {
+    public noDataSourceTest() {
         return true;
     }
 
-    @memberData(MemberDataFixture.empty)
-    @memberData(MemberDataFixture.getEmpty)
-    public emptyMemberDataTest() {
-        return true;
-    }
+    @memberData(MemberDataFixture.emptyDataSource)
+    @memberData(MemberDataFixture.emptyIterableDataSource)
+    public emptyDataSourceTest() {}
 
-    @memberData(MemberDataFixture.oddNumber)
-    public singleFieldDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.arrayDataSource)
+    public singleDataSourceTest(__first: number, __second: number, __expected: number) {}
 
-    @memberData(MemberDataFixture.evenNumber)
-    @memberData(MemberDataFixture.oddNumber)
-    public multiFieldDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.arrayDataSource)
+    @memberData(MemberDataFixture.arrayMethodDataSource)
+    public multipleDataSourceTest(__first: number, _second: number, _expected: number) {}
 
-    @memberData(MemberDataFixture.oddNumber)
-    public arrayFieldDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.arrayDataSource)
+    public arrayDataSourceTest(_first: number, _second: number, _expected: number) {}
 
-    @memberData(MemberDataFixture.evenNumber)
-    public iterableFieldDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.iterableDataSource)
+    public iterableDataSourceTest(_first: number, _second: number, _expected: number) {}
 
-    @memberData(MemberDataFixture.getOddNumber)
-    public arrayMethodDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.arrayMethodDataSource)
+    public arrayMethodDataSourceTest(_first: number, _second: number, _expected: number) {}
 
-    @memberData(MemberDataFixture.getEvenNumber)
-    public iterableMethodDataTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    @memberData(MemberDataFixture.iterableMethodDataSource)
+    public iterableMethodDataSourceTest(_first: number, _second: number, _expected: number) {}
 
-    @memberData(MemberDataFixture.multiplyByTwo, 2)
-    public checkEmailTest(initial: number, result: number) {
-        return initial * 2 === result;
-    }
+    @memberData(MemberDataFixture.parameterizedDataSource, 2)
+    public parameterizedDataSourceTest(_first: number, _second: number, _expected: number) {}
 }

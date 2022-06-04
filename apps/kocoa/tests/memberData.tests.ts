@@ -18,15 +18,15 @@ export class MemberDataDecoratorTests {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.noMemberData.name
+            MemberDataFixture.prototype.noDataSourceTest.name
         );
 
         expect(actual).to.be.of.length(0);
     }
 
     @test
-    @testData(MemberDataFixture.prototype.singleFieldDataTest.name, 1)
-    @testData(MemberDataFixture.prototype.multiFieldDataTest.name, 2)
+    @testData(MemberDataFixture.prototype.singleDataSourceTest.name, 1)
+    @testData(MemberDataFixture.prototype.multipleDataSourceTest.name, 2)
     public 'should have data annotations when method is annoted'(testMethod: string, count: number) {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
@@ -43,7 +43,7 @@ export class MemberDataDecoratorTests {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.emptyMemberDataTest.name
+            MemberDataFixture.prototype.emptyDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
@@ -51,10 +51,13 @@ export class MemberDataDecoratorTests {
     }
 
     @test
-    @testData(MemberDataFixture.prototype.arrayFieldDataTest.name, MemberDataFixture.oddNumber)
-    @testData(MemberDataFixture.prototype.iterableFieldDataTest.name, MemberDataFixture.evenNumber)
-    @testData(MemberDataFixture.prototype.arrayMethodDataTest.name, MemberDataFixture.getOddNumber())
-    @testData(MemberDataFixture.prototype.iterableMethodDataTest.name, MemberDataFixture.getEvenNumber())
+    @testData(MemberDataFixture.prototype.arrayDataSourceTest.name, MemberDataFixture.arrayDataSource)
+    @testData(MemberDataFixture.prototype.iterableDataSourceTest.name, MemberDataFixture.iterableDataSource)
+    @testData(MemberDataFixture.prototype.arrayMethodDataSourceTest.name, MemberDataFixture.arrayMethodDataSource())
+    @testData(
+        MemberDataFixture.prototype.iterableMethodDataSourceTest.name,
+        MemberDataFixture.iterableMethodDataSource()
+    )
     public 'should contains one data entry for each member data entry'<T>(testMethod: string, expected: Iterable<T>) {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
@@ -67,25 +70,25 @@ export class MemberDataDecoratorTests {
     }
 
     @test
-    @memberData(MemberDataFixture.oddNumber)
-    @memberData(MemberDataFixture.getOddNumber)
+    @memberData(MemberDataFixture.arrayDataSource)
+    @memberData(MemberDataFixture.arrayMethodDataSource)
     public 'should apply data on test method for each member data entry'(
-        numberOne: number,
-        numberTwo: number,
+        first: number,
+        second: number,
         expected: number
     ) {
-        expect(numberOne + numberTwo).to.equals(expected);
+        expect(first + second).to.equals(expected);
     }
 
     @test
-    public 'should apply member data args when member data is a method'() {
+    public 'should apply additional parameters when member data is a function with parameters'() {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             MemberDataFixture.prototype,
-            MemberDataFixture.prototype.checkEmailTest.name
+            MemberDataFixture.prototype.parameterizedDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
-        const expected = Array.from(MemberDataFixture.multiplyByTwo(2));
+        const expected = Array.from(MemberDataFixture.parameterizedDataSource(2));
 
         expect(actual).to.have.deep.members(expected);
     }
