@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { memberData } from '../index.js';
 
 class DataClass<T> implements Iterable<T> {
@@ -53,43 +55,27 @@ export class MemberDataFixture {
 
     @memberData(MemberDataFixture.emptyDataSource)
     @memberData(MemberDataFixture.emptyIterableDataSource)
-    public emptyDataSourceTest() {
-        return true;
-    }
+    public emptyDataSourceTest() {}
 
     @memberData(MemberDataFixture.arrayDataSource)
-    public singleDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public singleDataSourceTest(__first: number, __second: number, __expected: number) {}
 
     @memberData(MemberDataFixture.arrayDataSource)
     @memberData(MemberDataFixture.arrayMethodDataSource)
-    public multipleDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public multipleDataSourceTest(__first: number, _second: number, _expected: number) {}
 
     @memberData(MemberDataFixture.arrayDataSource)
-    public arrayDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public arrayDataSourceTest(_first: number, _second: number, _expected: number) {}
 
     @memberData(MemberDataFixture.iterableDataSource)
-    public iterableDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public iterableDataSourceTest(_first: number, _second: number, _expected: number) {}
 
     @memberData(MemberDataFixture.arrayMethodDataSource)
-    public arrayMethodDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public arrayMethodDataSourceTest(_first: number, _second: number, _expected: number) {}
 
     @memberData(MemberDataFixture.iterableMethodDataSource)
-    public iterableMethodDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public iterableMethodDataSourceTest(_first: number, _second: number, _expected: number) {}
 
     @memberData(MemberDataFixture.parameterizedDataSource, 2)
-    public parameterizedDataSourceTest(first: number, second: number, expected: number) {
-        return first + second == expected;
-    }
+    public parameterizedDataSourceTest(_first: number, _second: number, _expected: number) {}
 }
