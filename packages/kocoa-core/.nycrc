@@ -1,0 +1,10 @@
+{
+    "reporter": [
+        "text",
+        "text-summary",
+        "lcov"
+    ],
+    "exclude": [
+        "**/*.tests.{js,ts}"
+    ]
+}
