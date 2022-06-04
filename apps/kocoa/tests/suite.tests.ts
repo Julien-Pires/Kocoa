@@ -16,8 +16,8 @@ export class TestSuiteClassDecoratorTests {
     @test
     @testData(SingleSuiteFixture, 1)
     @testData(MultipleSuiteFixture, 3)
-    public 'should contains test suite annotation when class is annoted'(ctor: object, expected: number) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor);
+    public 'should contains test suite annotation when class is annoted'(prototype: object, expected: number) {
+        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);
@@ -26,8 +26,11 @@ export class TestSuiteClassDecoratorTests {
     @test
     @testData(SingleSuiteFixture, [{ name: 'testSuite' }])
     @testData(MultipleSuiteFixture, [{ name: 'testSuite' }, { name: 'sample' }, { name: 'class' }])
-    public 'should have specified name for test suite annotation on class'(ctor: object, expected: { name: string }[]) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor);
+    public 'should have specified name for test suite annotation on class'(
+        prototype: object,
+        expected: { name: string }[]
+    ) {
+        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
 
         expect(actual).to.containSubset(expected);
     }
@@ -36,11 +39,11 @@ export class TestSuiteClassDecoratorTests {
     @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.singleTestSuite.name, 1)
     @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.multipleTestSuite.name, 3)
     public 'should contains test suite annotation when method is annoted'(
-        ctor: object,
+        prototype: object,
         methodName: string,
         expected: number
     ) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor, methodName);
+        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);
@@ -56,11 +59,11 @@ export class TestSuiteClassDecoratorTests {
         { name: 'method' }
     ])
     public 'should have specified name for test suite annotation on method'(
-        ctor: object,
+        prototype: object,
         methodName: string,
         expected: { name: string }[]
     ) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor, methodName);
+        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName);
 
         expect(actual).to.containSubset(expected);
     }
@@ -68,10 +71,13 @@ export class TestSuiteClassDecoratorTests {
     @test
     @testData(SkipOptionsFixtures)
     @testData(SkipOptionsFixtures.prototype, SkipOptionsFixtures.prototype.skippedMethod.name)
-    public 'should have skip option set to true when skip options is set to true'(ctor: object, methodName?: string) {
+    public 'should have skip option set to true when skip options is set to true'(
+        prototype: object,
+        methodName?: string
+    ) {
         const actual = methodName
-            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor, methodName)
-            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor);
+            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName)
+            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
 
         expect(actual[0].options.skip).to.be.true;
     }
@@ -80,12 +86,12 @@ export class TestSuiteClassDecoratorTests {
     @testData(SingleSuiteFixture)
     @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.singleTestSuite.name)
     public 'should have skip option set to false when skip options is not specified'(
-        ctor: object,
+        prototype: object,
         methodName?: string
     ) {
         const actual = methodName
-            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor, methodName)
-            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, ctor);
+            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName)
+            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
 
         expect(actual[0].options.skip).to.be.false;
     }
