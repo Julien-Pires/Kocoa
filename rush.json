@@ -36,6 +36,10 @@
         {
             "packageName": "@kocoa/core",
             "projectFolder": "packages/kocoa-core"
+        },
+        {
+            "packageName": "@kocoa/adapter-mocha",
+            "projectFolder": "packages/kocoa-adapter-mocha"
         }
     ]
 }
