@@ -18,7 +18,7 @@ export class TestDataDecoratorTests {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             TestDataFixture.prototype,
-            TestDataFixture.prototype.noTestData.name
+            TestDataFixture.prototype.noDataSourceTest.name
         );
 
         expect(actual).to.not.be.undefined;
@@ -26,8 +26,8 @@ export class TestDataDecoratorTests {
     }
 
     @test
-    @testData(TestDataFixture.prototype.singleTestData.name, 1)
-    @testData(TestDataFixture.prototype.multipleTestData.name, 3)
+    @testData(TestDataFixture.prototype.singleDataSourceTest.name, 1)
+    @testData(TestDataFixture.prototype.multipleDataSourceTest.name, 3)
     public 'should have data annotations when method is annoted'(testMethod: string, expected: number) {
         const actual = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
@@ -44,7 +44,7 @@ export class TestDataDecoratorTests {
         const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
             testDataSymbol,
             TestDataFixture.prototype,
-            TestDataFixture.prototype.multipleTestData.name
+            TestDataFixture.prototype.multipleDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 

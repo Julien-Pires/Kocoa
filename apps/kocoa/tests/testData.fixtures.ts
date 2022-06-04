@@ -4,13 +4,13 @@
 import { testData } from '../index.js';
 
 export class TestDataFixture {
-    public noTestData() {}
+    public noDataSourceTest() {}
 
     @testData()
-    public singleTestData() {}
+    public singleDataSourceTest() {}
 
     @testData(1, 2)
     @testData(100, 200)
     @testData(1000, 2000)
-    public multipleTestData(_a: number, _b: number) {}
+    public multipleDataSourceTest(_a: number, _b: number) {}
 }
