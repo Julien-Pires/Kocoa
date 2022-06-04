@@ -1,6 +1,20 @@
 import { test } from '../index.js';
 
-export class SkipTestFixture {
+export class TestClass {
+    public noTest() {
+        return true;
+    }
+
+    @test
+    public runTest() {
+        return true;
+    }
+
+    @test({ name: 'my custom test' })
+    public runCustomTest() {
+        return true;
+    }
+
     @test({ skip: true })
     public skippedTest() {
         return true;
