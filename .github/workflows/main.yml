@@ -25,7 +25,7 @@ jobs:
         with:
           name: build
           path: |
-            apps/*/build/**
+            packages/*/build/**
             samples/*/build/**
 
   lint:
@@ -86,7 +86,7 @@ jobs:
         with:
           name: code-coverage
           path: |
-            apps/*/coverage/**
+            packages/*/coverage/**
             samples/*/coverage/**
 
   codeCov:
@@ -96,8 +96,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - directory: apps
-            flag: Apps
+          - directory: packages
+            flag: Packages
           - directory: samples
             flag: Samples
     steps:

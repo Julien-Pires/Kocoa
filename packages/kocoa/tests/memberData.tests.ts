@@ -4,8 +4,8 @@ import chaiSubset from 'chai-subset';
 import { memberData, suite, test, testData } from '../index.js';
 import { testDataSymbol } from '../src/metadata.js';
 import * as Reflect from '../src/reflect.js';
-import { TestDataAnnotation } from '../src/types/index.js';
 import { MemberDataFixture } from './memberData.fixtures.js';
+import { TestDataAnnotation } from './types/index.js';
 
 const { expect } = chai;
 

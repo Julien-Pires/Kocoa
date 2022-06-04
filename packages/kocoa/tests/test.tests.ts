@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { suite, test } from '../index.js';
 import { testSymbol } from '../src/metadata.js';
 import { TestClassFixture } from './test.fixtures.js';
-import { TestAnnotation } from '../src/types';
+import { TestAnnotation } from './types';
 
 @suite('@test')
 export class TestDecoratorTests {
