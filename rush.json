@@ -32,6 +32,10 @@
         {
             "packageName": "@toolbox/scripts",
             "projectFolder": "toolbox/scripts"
+        },
+        {
+            "packageName": "@kocoa/core",
+            "projectFolder": "packages/kocoa-core"
         }
     ]
 }
