@@ -30,7 +30,6 @@ export class MemberDataFixture {
         [2000, 4000, 6000]
     ]);
 
-    /* eslint-disable @typescript-eslint/no-empty-function */ //
     static *emptyIterableDataSource() {}
 
     static arrayMethodDataSource(): number[][] {
