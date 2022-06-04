@@ -23,7 +23,7 @@
     "projects": [
         {
             "packageName": "kocoa",
-            "projectFolder": "apps/kocoa"
+            "projectFolder": "packages/kocoa"
         },
         {
             "packageName": "kocoa-tutorial",

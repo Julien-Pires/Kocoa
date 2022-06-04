@@ -36,7 +36,7 @@ const questions = [
         type: 'input',
         name: 'projectDir',
         message: `Project directory: `,
-        default: (answers: Answers) => path.join('apps', answers.project),
+        default: (answers: Answers) => path.join('packages', answers.project),
         validate: async (input: string) => {
             if (isNullOrEmpty(input)) {
                 return false;

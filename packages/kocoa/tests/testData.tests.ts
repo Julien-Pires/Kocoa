@@ -2,10 +2,10 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import { testDataSymbol } from '../src/metadata.js';
-import * as Reflect from '../src/reflect.js';
+import { testDataSymbol } from './metadata.js';
+import * as Reflect from './reflect.js';
 import { TestDataFixture } from './testData.fixtures.js';
-import { TestDataAnnotation } from '../src/types/index.js';
+import { TestDataAnnotation } from './types/index.js';
 
 const { expect } = chai;
 

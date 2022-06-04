@@ -1,8 +1,8 @@
 flag_management:
   individual_flags:
-    - name: Apps
+    - name: Packages
       paths: 
-      - apps/kocoa 
+      - packages/kocoa 
       carryforward: true
     - name: Samples
       paths: 
