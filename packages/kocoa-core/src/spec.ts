@@ -1,9 +1,9 @@
-export interface Test {
+export interface Spec {
     name: string;
     function: string;
     skip: boolean;
 }
 
-export interface TestSuite {
+export interface Suite {
     name: string;
 }

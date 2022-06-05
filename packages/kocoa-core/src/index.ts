@@ -1,2 +1,2 @@
 export * from './adapter.js';
-export * from './tests.js';
+export * from './spec.js';
