@@ -1,7 +1,7 @@
 {
-    "name": "@kocoa/core",
+    "name": "@kocoa/types",
     "author": "Julien Pires",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "license": "MIT",
     "description": "",
     "repository": {
@@ -18,15 +18,13 @@
     "scripts": {
         "build": "tsc -d",
         "clear": "rm -rf ./build ./coverage",
-        "test": "mocha --colors ./build",
-        "test:coverage": "c8 npm test",
+        "test": "echo 'No tests for this package'",
+        "test:coverage": "echo 'No test coverage for this package'",
         "lint": "npx eslint . --ext .js,.ts",
         "lint:fix": "npm run lint -- --fix",
         "release": "npx semantic-release"
     },
     "devDependencies": {
-        "@types/mocha": "~9.1.0",
-        "@types/chai": "~4.3.0",
         "@eslint/create-config": "~0.1.2",
         "@semantic-release/changelog": "~6.0.1",
         "@semantic-release/git": "~10.0.1",
@@ -35,9 +33,6 @@
         "@typescript-eslint/eslint-plugin": "~5.21.0",
         "typescript": "~4.7.2",
         "prettier": "2.6.1",
-        "mocha": "~9.2.1",
-        "chai": "~4.3.6",
-        "c8": "~7.11.0",
         "eslint": "~8.14.0",
         "eslint-plugin-import": "~2.26.0",
         "eslint-config-prettier": "~8.5.0",
@@ -49,7 +44,6 @@
         "access": "public"
     },
     "files": [
-        ".mocharc.yaml",
         "README.md",
         "CHANGELOG.md",
         "LICENSE",
