@@ -34,8 +34,8 @@
             "projectFolder": "toolbox/scripts"
         },
         {
-            "packageName": "@kocoa/core",
-            "projectFolder": "packages/kocoa-core"
+            "packageName": "@kocoa/types",
+            "projectFolder": "packages/kocoa-types"
         },
         {
             "packageName": "@kocoa/adapter-mocha",
