@@ -1,7 +1,8 @@
-export interface Spec {
+export interface Spec<TFunc extends string | symbol> {
     name: string;
-    function: string;
+    function: TFunc;
     skip: boolean;
+    data: () => Iterable<unknown[]>;
 }
 
 export interface Suite {

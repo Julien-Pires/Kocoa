@@ -1,6 +1,5 @@
 import { Spec, Suite } from './spec';
 
 export interface Adapter {
-    createSuite: (suite: Suite, obj: unknown) => void;
-    createSpec: (spec: Spec, obj: unknown) => void;
+    addSuite: <TTarget>(suite: Suite, specs: Spec<Extract<keyof TTarget, string | symbol>>[], suiteTarget: TTarget) => void;
 }
