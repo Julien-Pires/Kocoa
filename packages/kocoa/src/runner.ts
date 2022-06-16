@@ -35,9 +35,9 @@ const addTest = (target: object, test: Test): void => {
     for (const testCase of test.cases) {
         const title = buildTestCaseTitle(test.name, testCase);
         const testRunner = test.skip ? it.skip : it;
-        testRunner(title, () => {
+        testRunner(title, async () => {
             const instance = Object.create(target);
-            instance[test.function](...testCase.args);
+            await instance[test.function](...testCase.args);
         });
     }
 };
