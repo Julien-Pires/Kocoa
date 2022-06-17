@@ -1,0 +1,5 @@
+{
+    "kocoa": {
+        "adapter": "@kocoa/adapter-configuration-package"
+    }
+}
