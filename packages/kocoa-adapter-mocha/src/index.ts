@@ -1,1 +1,1 @@
-export * from './adapter.js';
+export { MochaAdapter as adapter } from './adapter.js';
