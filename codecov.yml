@@ -1,14 +1,14 @@
 flag_management:
   individual_flags:
-    - name: Kocoa
+    - name: kocoa
       paths:
         - packages/kocoa 
       carryforward: true
-    - name: '@Kocoa/core'
+    - name: '@kocoa/core'
       paths:
         - packages/kocoa-core
       carryforward: true
-    - name: '@Kocoa/adapter-mocha'
+    - name: '@kocoa/adapter-mocha'
       paths:
         - packages/kocoa-adapter-mocha
       carryforward: true
