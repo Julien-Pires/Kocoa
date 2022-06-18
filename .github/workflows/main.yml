@@ -96,8 +96,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - directory: packages
-            flag: Packages
+          - directory: packages/kocoa
+            flag: kocoa
+          - directory: packages/kocoa-core
+            flag: '@kocoa/core'
+          - directory: packages/kocoa-adapter-mocha
+            flag: '@kocoa/adapter-mocha'
           - directory: samples
             flag: Samples
     steps:
