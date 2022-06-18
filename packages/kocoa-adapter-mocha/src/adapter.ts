@@ -5,7 +5,7 @@ import { Adapter, Spec, Suite } from '@kocoa/types';
 import { MochaSpec } from './spec';
 
 /**
- * Adapter class for Mocha to run suite and tests.
+ * Adapter class for Mocha library.
  */
 export class MochaAdapter implements Adapter {
     private readonly _rootSuite: MochaSuite;
