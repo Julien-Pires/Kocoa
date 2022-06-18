@@ -1,4 +1,4 @@
-import { Suite } from "mocha";
+import { Suite } from 'mocha';
 
 export interface SuiteInfo {
     name: string;
