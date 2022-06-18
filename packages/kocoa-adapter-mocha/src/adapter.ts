@@ -1,6 +1,6 @@
 import * as Mocha from 'mocha';
 
-import { Adapter, Spec, Suite } from '@kocoa/types';
+import { Adapter, Spec, Suite } from '@kocoa/core';
 
 import { MochaSpec } from './spec.js';
 import { MochaSuite } from './suite.js';
