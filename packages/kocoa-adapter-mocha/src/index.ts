@@ -1,1 +1,1 @@
-export class MyClass {}
+export * from './adapter.js';
