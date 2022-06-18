@@ -1,10 +1,18 @@
 flag_management:
   individual_flags:
-    - name: Packages
-      paths: 
-      - packages/kocoa 
+    - name: Kocoa
+      paths:
+        - packages/kocoa 
+      carryforward: true
+    - name: '@Kocoa/core'
+      paths:
+        - packages/kocoa-core
+      carryforward: true
+    - name: '@Kocoa/adapter-mocha'
+      paths:
+        - packages/kocoa-adapter-mocha
       carryforward: true
     - name: Samples
-      paths: 
-      - samples/kocoa-tutorial
+      paths:
+        - samples/kocoa-tutorial
       carryforward: true
