@@ -3,7 +3,7 @@ import { Test } from 'mocha';
 /**
  * Represents test informations.
  */
-interface SpecInfo {
+export interface SpecInfo {
     name: string;
     function: string | symbol;
     skip: boolean;
@@ -22,8 +22,8 @@ export class MochaSpec extends Test {
     constructor(private readonly spec: SpecInfo, private readonly data: unknown[], private readonly target: object) {
         super(spec.name);
 
+        this.pending = spec.skip;
         this.fn = this.runSync;
-        this.pending = this.spec.skip;
     }
 
     /**
