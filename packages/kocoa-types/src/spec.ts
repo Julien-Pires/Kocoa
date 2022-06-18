@@ -9,4 +9,5 @@ export interface Spec<TFunc extends string | symbol> {
 
 export interface Suite {
     name: string;
+    skip: boolean;
 }
