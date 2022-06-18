@@ -1,7 +1,7 @@
 import { Test } from 'mocha';
 
 /**
- * Represents test informations.
+ * Represents a test.
  */
 export interface SpecInfo<TFunc extends string | symbol | number> {
     name: string;
@@ -15,7 +15,7 @@ export interface SpecInfo<TFunc extends string | symbol | number> {
 export class MochaSpec<TTarget extends object, TFunc extends keyof TTarget> extends Test {
     /**
      * Constructor of MochaSpec class.
-     * @param spec Informations about the current test.
+     * @param spec Object that contains information for this test.
      * @param data Test data to use when running the test.
      * @param target Prototype of the class that owns this test.
      */
