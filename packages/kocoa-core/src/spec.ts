@@ -1,10 +1,10 @@
-export type SpecData = unknown[];
+export type SpecArgs = readonly unknown[];
 
 export interface Spec<TFunc extends string | symbol> {
     name: string;
     function: TFunc;
     skip: boolean;
-    data: () => Iterable<SpecData>;
+    data: SpecArgs;
 }
 
 export interface Suite {
