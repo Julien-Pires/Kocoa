@@ -1,4 +1,4 @@
-import { testSymbol } from '../metadata.js';
+import { testSymbol } from '../annotation/metadata.js';
 import { TestOptions } from '../types/index.js';
 
 /**

@@ -1,6 +1,6 @@
-import { runTest } from '../runner.js';
-import { suiteSymbol } from '../metadata.js';
-import * as Reflect from '../reflect.js';
+import { runTest } from '../oldRunner.js';
+import { suiteSymbol } from '../annotation/metadata.js';
+import * as Reflect from '../annotation/reflect.js';
 import { Constructor, SuiteOptions } from '../types/index.js';
 
 /**

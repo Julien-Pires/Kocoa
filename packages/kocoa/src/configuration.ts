@@ -1,6 +1,6 @@
 import { cosmiconfig } from 'cosmiconfig';
 
-interface Configuration {
+export interface Configuration {
     adapter: string | undefined;
 }
 

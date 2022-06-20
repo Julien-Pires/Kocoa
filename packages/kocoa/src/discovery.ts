@@ -1,5 +1,5 @@
-import { suiteSymbol, testDataSymbol, testSymbol } from './metadata.js';
-import { getAllMetadata } from './reflect.js';
+import { suiteSymbol, testDataSymbol, testSymbol } from './annotation/metadata.js';
+import { getAllMetadata } from './annotation/reflect.js';
 import {
     Constructor,
     createTree,

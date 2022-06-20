@@ -1,5 +1,5 @@
-import { testDataSymbol } from '../metadata.js';
-import * as Reflect from '../reflect.js';
+import { testDataSymbol } from '../annotation/metadata.js';
+import * as Reflect from '../annotation/reflect.js';
 import { TestDataAnnotation, TestDataOptions } from '../types/index.js';
 import { TestFunctionAnnotation } from './types.js';
 

@@ -2,15 +2,15 @@
  * Represents a set of options for a test
  */
 export interface TestOptions {
-    name?: string;
-    skip?: boolean;
+    name: string;
+    skip: boolean;
 }
 
 /**
  * Represents a set of options for a test suite
  */
 export interface SuiteOptions {
-    skip?: boolean;
+    skip: boolean;
 }
 
 /**

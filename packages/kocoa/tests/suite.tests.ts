@@ -2,8 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import { suiteSymbol } from '../src/metadata.js';
-import * as Reflect from '../src/reflect.js';
+import { suiteSymbol } from './annotation/metadata.js';
+import * as Reflect from './annotation/reflect.js';
 import { MultipleSuiteFixture, SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
 import { SuiteAnnotation } from './types/annotations.js';
 
