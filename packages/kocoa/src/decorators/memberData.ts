@@ -29,10 +29,10 @@ type ExtractDataSourceParameters<TMember extends DataSource<readonly unknown[]>>
  * an iterable.
  * @param memberArgs Represents a list of arguments to apply on the member when member is a function.
  */
-export const memberData = <TMember extends DataSource<readonly unknown[]>>(
+export function memberData<TMember extends DataSource<readonly unknown[]>>(
     member: TMember,
     ...memberArgs: ExtractDataSourceParameters<TMember>
-): TestFunctionAnnotation<DataSourceRow<TMember>> => {
+): TestFunctionAnnotation<DataSourceRow<TMember>> {
     return (target: object, propertyKey: string) => {
         const testDataAnnotation: TestDataAnnotation = {
             args: () => {
@@ -47,4 +47,4 @@ export const memberData = <TMember extends DataSource<readonly unknown[]>>(
 
         return setTestDataMetadata(testDataAnnotation, target, propertyKey);
     };
-};
+}

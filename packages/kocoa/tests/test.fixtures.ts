@@ -8,7 +8,7 @@ export class TestClassFixture {
     @test
     public runTest() {}
 
-    @test({ name: 'my custom test' })
+    @test('my custom test')
     public runCustomTest() {}
 
     @test({ skip: true })

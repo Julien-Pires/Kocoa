@@ -11,10 +11,7 @@ export class MochaSpec<TTarget extends object, TFunc extends Exclude<keyof TTarg
      * @param spec Object that contains information for this test.
      * @param target Prototype of the class that owns this test.
      */
-    constructor(
-        private readonly spec: Spec<TFunc>,
-        private readonly target: TTarget
-    ) {
+    constructor(private readonly spec: Spec<TFunc>, private readonly target: TTarget) {
         super(spec.name);
 
         this.pending = spec.skip;

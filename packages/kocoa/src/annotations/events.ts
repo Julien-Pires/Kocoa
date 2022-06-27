@@ -31,7 +31,7 @@ export interface RunnerEventEmitter {
     off: EventHandler;
 }
 
-export const createRunnerEventEmitter = (): RunnerEventEmitter => {
+export function createRunnerEventEmitter(): RunnerEventEmitter {
     const emitter = new EventEmitter();
 
     return {
@@ -48,4 +48,4 @@ export const createRunnerEventEmitter = (): RunnerEventEmitter => {
             return this;
         }
     };
-};
+}

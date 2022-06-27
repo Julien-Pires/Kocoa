@@ -8,30 +8,21 @@ import { TestClassFixture } from './test.fixtures.js';
 export class TestDecoratorTests {
     @test
     public 'should not have test annotation when method is not annoted'() {
-        const actual = Annotation.getTestMetadata(
-            TestClassFixture.prototype,
-            TestClassFixture.prototype.noTest.name
-        );
+        const actual = Annotation.getTestMetadata(TestClassFixture.prototype, TestClassFixture.prototype.noTest.name);
 
         expect(actual).to.be.undefined;
     }
 
     @test
     public 'should have test annotation when method is annoted'() {
-        const actual = Annotation.getTestMetadata(
-            TestClassFixture.prototype,
-            TestClassFixture.prototype.runTest.name
-        );
+        const actual = Annotation.getTestMetadata(TestClassFixture.prototype, TestClassFixture.prototype.runTest.name);
 
         expect(actual).to.not.be.undefined;
     }
 
     @test
     public 'should use method name as test name when custom name is not specified'() {
-        const actual = Annotation.getTestMetadata(
-            TestClassFixture.prototype,
-            TestClassFixture.prototype.runTest.name
-        );
+        const actual = Annotation.getTestMetadata(TestClassFixture.prototype, TestClassFixture.prototype.runTest.name);
 
         expect(actual.function).to.equal(TestClassFixture.prototype.runTest.name);
     }
@@ -59,10 +50,7 @@ export class TestDecoratorTests {
 
     @test
     public 'should have skip option set to false when skip option is not specified'() {
-        const actual = Annotation.getTestMetadata(
-            TestClassFixture.prototype,
-            TestClassFixture.prototype.runTest.name
-        );
+        const actual = Annotation.getTestMetadata(TestClassFixture.prototype, TestClassFixture.prototype.runTest.name);
 
         expect(actual.options.skip).to.be.false;
     }

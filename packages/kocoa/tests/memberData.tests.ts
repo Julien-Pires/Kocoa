@@ -13,7 +13,10 @@ chai.use(chaiSubset);
 export class MemberDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = Annotation.getTestDataMetadata(MemberDataFixture.prototype, MemberDataFixture.prototype.noDataSourceTest.name);
+        const actual = Annotation.getTestDataMetadata(
+            MemberDataFixture.prototype,
+            MemberDataFixture.prototype.noDataSourceTest.name
+        );
 
         expect(actual).to.be.of.length(0);
     }
@@ -30,7 +33,10 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should have no data entry when member data is empty'() {
-        const annotations = Annotation.getTestDataMetadata(MemberDataFixture.prototype, MemberDataFixture.prototype.emptyDataSourceTest.name);
+        const annotations = Annotation.getTestDataMetadata(
+            MemberDataFixture.prototype,
+            MemberDataFixture.prototype.emptyDataSourceTest.name
+        );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
         expect(actual).all.members([]);
@@ -64,7 +70,10 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should apply additional parameters when member data is a function with parameters'() {
-        const annotations = Annotation.getTestDataMetadata(MemberDataFixture.prototype, MemberDataFixture.prototype.parameterizedDataSourceTest.name);
+        const annotations = Annotation.getTestDataMetadata(
+            MemberDataFixture.prototype,
+            MemberDataFixture.prototype.parameterizedDataSourceTest.name
+        );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
         const expected = Array.from(MemberDataFixture.parameterizedDataSource(2));
 

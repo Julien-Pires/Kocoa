@@ -14,15 +14,16 @@ type TestDataArgs<TArgs extends readonly unknown[]> =
  * @param options Value to check against.
  * @returns Returns true if the value is an instance of TestDataOptions otherwise false.
  */
-const isTestCaseOptions = (options: unknown): options is TestDataOptions =>
-    (options as TestDataOptions)?.expected !== undefined;
+function isTestCaseOptions(options: unknown): options is TestDataOptions {
+    return (options as TestDataOptions)?.expected !== undefined;
+}
 
 /**
  * Extracts test case data and options from an arguments list.
  * @param args Represents the list of arguments to process.
  * @returns Returns a tuple with test data and test options.
  */
-const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDataOptions] => {
+function destructureArgs(args: readonly unknown[]): [readonly unknown[], TestDataOptions] {
     if (args.length === 0) {
         return [[], {}];
     }
@@ -32,15 +33,16 @@ const destructureArgs = (args: readonly unknown[]): [readonly unknown[], TestDat
     }
 
     return [args, {}];
-};
+}
 
 /**
  * Provides a data source for a single test on a test method.
  * @param args Represents a list of data to pass to the test method.
  */
-export const testData =
-    <TArgs extends readonly unknown[]>(...args: TestDataArgs<TArgs>): TestFunctionAnnotation<TArgs> =>
-    (target: object, propertyKey: string): void => {
+export function testData<TArgs extends readonly unknown[]>(
+    ...args: TestDataArgs<TArgs>
+): TestFunctionAnnotation<TArgs> {
+    return (target: object, propertyKey: string): void => {
         const [testDataArgs, options] = destructureArgs(args);
         const testDataAnnotation = {
             args: () => [testDataArgs],
@@ -49,3 +51,4 @@ export const testData =
 
         return setTestDataMetadata(testDataAnnotation, target, propertyKey);
     };
+}

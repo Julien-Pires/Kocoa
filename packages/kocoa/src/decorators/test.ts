@@ -1,28 +1,49 @@
 import { setTestMetadata } from '../annotations/metadata.js';
-import { TestOptions as AnnotationOptions } from './../types/index.js';
+import { TestOptions } from '../types/index.js';
 
-export interface TestOptions {
-    name?: string;
-    skip?: boolean;
-}
+type OptionalTestOptions = {
+    [TKey in keyof TestOptions]?: TestOptions[TKey];
+};
 
 type TestDecorator = (target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor) => void;
 
 /**
- * Represents all possible signatures for the test decorator
- */
-type TestAttribute = {
-    (target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void;
-    (options: TestOptions): TestDecorator;
-    (name: string, options: TestOptions): TestDecorator;
-};
-
-/**
  * Default values for test options
  */
-const defaultOptions: AnnotationOptions = {
+const defaultOptions: TestOptions = {
     skip: false
-};
+} as const;
+
+function isOptions(value: unknown): value is OptionalTestOptions {
+    const options = value as OptionalTestOptions;
+
+    return options.skip !== undefined;
+}
+
+function isDecorator(args: unknown[]): args is [object, string | symbol, PropertyDescriptor] {
+    return args[0] instanceof Object;
+}
+
+function destructureArgs(args: unknown[]): [string | null, OptionalTestOptions] {
+    if (args.length === 0) {
+        return [null, {}];
+    }
+
+    if (args.length === 1) {
+        const [first] = args;
+        if (typeof first === 'string') {
+            return [first, {}];
+        }
+
+        if (isOptions(first)) {
+            return [null, first];
+        }
+
+        return [null, {}];
+    }
+
+    return [args[0] as string, args[1] as OptionalTestOptions];
+}
 
 /**
  * Specifies that a method is a test.
@@ -30,26 +51,26 @@ const defaultOptions: AnnotationOptions = {
  * @param propertyKey Name of the target method in the parent context.
  * @param descriptor Descriptor that contains method information.
  */
-export const test: TestAttribute = ((
-    arg1: object | string | TestOptions,
-    arg2: (string | symbol) | TestOptions,
-    descriptor: PropertyDescriptor
-) => {
-    const options = descriptor ? { ...defaultOptions } : { ...defaultOptions, ...(arg1 as TestOptions) };
+export function test(name: string): TestDecorator;
+export function test(options: TestOptions): TestDecorator;
+export function test(name: string, options: TestOptions): TestDecorator;
+export function test(target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void;
+export function test(...args: unknown[]): void | TestDecorator {
+    const [name, options] = destructureArgs(args);
     const decorator: TestDecorator = (target, propertyKey) => {
         return setTestMetadata(
             {
-                name: options.name ?? propertyKey.toString(),
+                name: name ?? propertyKey.toString(),
                 function: propertyKey,
-                options
+                options: { ...defaultOptions, ...options }
             },
             target,
             propertyKey
         );
     };
-    if (descriptor) {
-        return decorator(arg1 as object, arg2 as string | symbol, descriptor);
+    if (isDecorator(args)) {
+        return decorator(...args);
     }
 
     return decorator;
-}) as TestAttribute;
+}

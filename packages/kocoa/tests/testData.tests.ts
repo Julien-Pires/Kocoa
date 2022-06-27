@@ -28,10 +28,7 @@ export class TestDataDecoratorTests {
     @testData(TestDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(TestDataFixture.prototype.multipleDataSourceTest.name, 3)
     public 'should have data annotations when method is annoted'(testMethod: string, expected: number) {
-        const actual = Annotation.getTestDataMetadata(
-            TestDataFixture.prototype,
-            testMethod
-        );
+        const actual = Annotation.getTestDataMetadata(TestDataFixture.prototype, testMethod);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);

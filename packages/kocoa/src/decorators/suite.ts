@@ -22,7 +22,8 @@ const defaultOptions: SuiteOptions = {
  * @param name Name of the test suite
  * @param options Represents additional settings for the test suite
  */
-export const suite = (name: string, options?: SuiteOptions): SuiteAttribute =>
-    function <T>(target: Constructor<T>, propertyKey: string | symbol) {
+export function suite(name: string, options?: SuiteOptions): SuiteAttribute {
+    return (<T>(target: Constructor<T>, propertyKey: string | symbol) => {
         return setSuiteMetadata({ name, options: { ...defaultOptions, ...(options ?? {}) } }, target, propertyKey);
-    } as SuiteAttribute;
+    }) as SuiteAttribute;
+}
