@@ -2,10 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import { suiteSymbol } from './annotation/metadata.js';
-import * as Reflect from './annotation/reflect.js';
+import * as Annotation from './annotations/index.js';
 import { MultipleSuiteFixture, SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
-import { SuiteAnnotation } from './types/annotations.js';
 
 const { expect } = chai;
 
@@ -17,7 +15,7 @@ export class TestSuiteClassDecoratorTests {
     @testData(SingleSuiteFixture, 1)
     @testData(MultipleSuiteFixture, 3)
     public 'should contains test suite annotation when class is annoted'(prototype: object, expected: number) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
+        const actual = Annotation.getSuiteMetadata(prototype);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);
@@ -30,69 +28,23 @@ export class TestSuiteClassDecoratorTests {
         prototype: object,
         expected: { name: string }[]
     ) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
+        const actual = Annotation.getSuiteMetadata(prototype);
 
         expect(actual).to.containSubset(expected);
     }
 
     @test
-    @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.singleTestSuite.name, 1)
-    @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.multipleTestSuite.name, 3)
-    public 'should contains test suite annotation when method is annoted'(
-        prototype: object,
-        methodName: string,
-        expected: number
-    ) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName);
+    public 'should have skip option set to true when skip options is set to true'() {
+        const actual = Annotation.getSuiteMetadata(SkipOptionsFixtures);
 
-        expect(actual).to.not.be.undefined;
-        expect(actual).to.be.of.length(expected);
-    }
-
-    @test
-    @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.singleTestSuite.name, [
-        { name: 'testSuite' }
-    ])
-    @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.multipleTestSuite.name, [
-        { name: 'testSuite' },
-        { name: 'sample' },
-        { name: 'method' }
-    ])
-    public 'should have specified name for test suite annotation on method'(
-        prototype: object,
-        methodName: string,
-        expected: { name: string }[]
-    ) {
-        const actual = Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName);
-
-        expect(actual).to.containSubset(expected);
-    }
-
-    @test
-    @testData(SkipOptionsFixtures)
-    @testData(SkipOptionsFixtures.prototype, SkipOptionsFixtures.prototype.skippedMethod.name)
-    public 'should have skip option set to true when skip options is set to true'(
-        prototype: object,
-        methodName?: string
-    ) {
-        const actual = methodName
-            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName)
-            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
-
-        expect(actual[0].options.skip).to.be.true;
+        expect(actual.options.skip).to.be.true;
     }
 
     @test
     @testData(SingleSuiteFixture)
-    @testData(MultipleSuiteFixture.prototype, MultipleSuiteFixture.prototype.singleTestSuite.name)
-    public 'should have skip option set to false when skip options is not specified'(
-        prototype: object,
-        methodName?: string
-    ) {
-        const actual = methodName
-            ? Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype, methodName)
-            : Reflect.getAllMetadata<SuiteAnnotation>(suiteSymbol, prototype);
+    public 'should have skip option set to false when skip options is not specified'() {
+        const actual = Annotation.getSuiteMetadata(SingleSuiteFixture);
 
-        expect(actual[0].options.skip).to.be.false;
+        expect(actual.options.skip).to.be.false;
     }
 }

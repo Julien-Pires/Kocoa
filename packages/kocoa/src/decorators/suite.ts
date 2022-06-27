@@ -1,7 +1,6 @@
-import { runTest } from '../oldRunner.js';
-import { suiteSymbol } from '../annotation/metadata.js';
-import * as Reflect from '../annotation/reflect.js';
-import { Constructor, SuiteOptions } from '../types/index.js';
+import { SuiteOptions } from '../annotations/index.js';
+import { setSuiteMetadata } from '../annotations/metadata.js';
+import { Constructor } from '../types/index.js';
 
 /**
  * Represents possible targets for the test suite decorator
@@ -25,15 +24,5 @@ const defaultOptions: SuiteOptions = {
  */
 export const suite = (name: string, options?: SuiteOptions): SuiteAttribute =>
     function <T>(target: Constructor<T>, propertyKey: string | symbol) {
-        Reflect.appendMetadata(
-            suiteSymbol,
-            { name, options: { ...defaultOptions, ...(options ?? {}) } },
-            target,
-            propertyKey
-        );
-        if (propertyKey) {
-            return;
-        }
-
-        runTest(target);
+        return setSuiteMetadata({ name, options: { ...defaultOptions, ...(options ?? {}) } }, target, propertyKey);
     } as SuiteAttribute;

@@ -1,27 +1,18 @@
 import { Test } from 'mocha';
 
-/**
- * Represents a test.
- */
-export interface SpecInfo<TFunc extends string | symbol | number> {
-    name: string;
-    function: TFunc;
-    skip: boolean;
-}
+import { Spec } from '@kocoa/core';
 
 /**
  * Represents a Mocha test to run with specified test data.
  */
-export class MochaSpec<TTarget extends object, TFunc extends keyof TTarget> extends Test {
+export class MochaSpec<TTarget extends object, TFunc extends Exclude<keyof TTarget, number>> extends Test {
     /**
      * Constructor of MochaSpec class.
      * @param spec Object that contains information for this test.
-     * @param data Test data to use when running the test.
      * @param target Prototype of the class that owns this test.
      */
     constructor(
-        private readonly spec: SpecInfo<TFunc>,
-        private readonly data: unknown[],
+        private readonly spec: Spec<TFunc>,
         private readonly target: TTarget
     ) {
         super(spec.name);
@@ -35,6 +26,6 @@ export class MochaSpec<TTarget extends object, TFunc extends keyof TTarget> exte
      */
     public runSync() {
         const instance = Object.create(this.target);
-        instance[this.spec.function](...this.data);
+        instance[this.spec.function](...this.spec.data);
     }
 }

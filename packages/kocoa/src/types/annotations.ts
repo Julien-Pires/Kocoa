@@ -2,7 +2,6 @@
  * Represents a set of options for a test
  */
 export interface TestOptions {
-    name: string;
     skip: boolean;
 }
 
@@ -24,7 +23,8 @@ export interface TestDataOptions {
  * Provides information about a test method
  */
 export interface TestAnnotation {
-    function: string;
+    name: string;
+    function: string | symbol;
     options: TestOptions;
 }
 

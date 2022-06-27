@@ -1,5 +1,5 @@
-import { SuiteAnnotation, TestAnnotation, TestDataAnnotation } from '../types';
-import { createRunnerEventEmitter, RunnerEvent } from './events';
+import { SuiteAnnotation, TestAnnotation, TestDataAnnotation } from '../types/index.js';
+import { createRunnerEventEmitter, RunnerEvent } from './events.js';
 
 export const MetadataKeys = {
     test: Symbol('Test'),
@@ -31,11 +31,17 @@ export const getSuiteMetadata = (target: object): SuiteAnnotation => {
     return Reflect.getMetadata(MetadataKeys.suite, target);
 };
 
-export const getTestMetadata = (target: object): TestAnnotation[] => {
+export function getTestMetadata (target: object): TestAnnotation[];
+export function getTestMetadata (target: object, propertyKey: string | symbol): TestAnnotation;
+export function getTestMetadata (target: object, propertyKey?: string | symbol): TestAnnotation[] | TestAnnotation {
+    if (propertyKey) {
+        return Reflect.getMetadata(MetadataKeys.test, target, propertyKey);
+    }
+
     const propertyKeys = Object.getOwnPropertyNames(target);
 
-    return propertyKeys.flatMap((propertyKey: string | symbol) =>
-        Reflect.getMetadata(MetadataKeys.test, target, propertyKey)
+    return propertyKeys.flatMap((key: string | symbol) =>
+        Reflect.getMetadata(MetadataKeys.test, target, key)
     );
 };
 

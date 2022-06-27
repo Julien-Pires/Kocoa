@@ -1,6 +1,4 @@
-import { testDataSymbol } from '../annotation/metadata.js';
-import * as Reflect from '../annotation/reflect.js';
-import { TestDataAnnotation, TestDataOptions } from '../types/index.js';
+import { TestDataOptions, setTestDataMetadata } from '../annotations/index.js';
 import { TestFunctionAnnotation } from './types.js';
 
 /**
@@ -49,5 +47,5 @@ export const testData =
             options
         };
 
-        Reflect.appendMetadata<TestDataAnnotation>(testDataSymbol, testDataAnnotation, target, propertyKey);
+        return setTestDataMetadata(testDataAnnotation, target, propertyKey);
     };

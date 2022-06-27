@@ -1,4 +1,11 @@
-export * from './memberData.js';
-export * from './suite.js';
-export * from './testData.js';
-export * from './test.js';
+export {
+    events,
+    getSuiteMetadata,
+    getTestMetadata,
+    getTestDataMetadata,
+    setTestMetadata,
+    setSuiteMetadata,
+    setTestDataMetadata
+} from './metadata.js';
+export { RunnerEvent, SuiteEventArgs, TestEventArgs } from './events.js';
+export * from './types.js';

@@ -2,8 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import { testDataSymbol } from './annotation/metadata.js';
-import * as Reflect from './annotation/reflect.js';
+import * as Annotation from './annotations/index.js';
+import * as Reflect from './annotations/reflect.js';
 import { TestDataFixture } from './testData.fixtures.js';
 import { TestDataAnnotation } from './types/index.js';
 
@@ -15,8 +15,7 @@ chai.use(chaiSubset);
 export class TestDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
+        const actual = Annotation.getTestDataMetadata(
             TestDataFixture.prototype,
             TestDataFixture.prototype.noDataSourceTest.name
         );
@@ -29,8 +28,7 @@ export class TestDataDecoratorTests {
     @testData(TestDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(TestDataFixture.prototype.multipleDataSourceTest.name, 3)
     public 'should have data annotations when method is annoted'(testMethod: string, expected: number) {
-        const actual = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
+        const actual = Annotation.getTestDataMetadata(
             TestDataFixture.prototype,
             testMethod
         );
@@ -41,8 +39,7 @@ export class TestDataDecoratorTests {
 
     @test
     public 'should contains data passed to the annotation'() {
-        const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
+        const annotations = Annotation.getTestDataMetadata(
             TestDataFixture.prototype,
             TestDataFixture.prototype.multipleDataSourceTest.name
         );

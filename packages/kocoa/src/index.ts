@@ -1,1 +1,1 @@
-export * from './annotations/index.js';
+export * from './decorators/index.js';

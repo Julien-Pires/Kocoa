@@ -1,7 +1,7 @@
 import { Adapter, AdapterPlugin } from '@kocoa/core';
 
-import * as Annotation from './annotation/index';
-import { RunnerEvent, SuiteEventArgs } from './annotation/index.js';
+import * as Annotation from './annotations/index';
+import { RunnerEvent, SuiteEventArgs } from './annotations/index.js';
 import { getConfiguration } from './configuration.js';
 import { IDisposable } from './types/common.js';
 
@@ -35,7 +35,7 @@ export class Runner implements IDisposable {
             const specDataAnnotations = Annotation.getTestDataMetadata(target, spec.function);
             const specDatas = specDataAnnotations.flatMap((annotation) => Array.from(annotation.args()));
             return specDatas.map((data) => ({
-                name: spec.options.name,
+                name: spec.name,
                 function: spec.function,
                 skip: spec.options.skip,
                 data

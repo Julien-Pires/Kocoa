@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 
 import { suite, test } from '../index.js';
-import { testSymbol } from './annotation/metadata.js';
+import * as Annotation from './annotations/index.js';
 import { TestClassFixture } from './test.fixtures.js';
-import { TestAnnotation } from './types';
 
 @suite('@test')
 export class TestDecoratorTests {
     @test
     public 'should not have test annotation when method is not annoted'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.noTest.name
         );
@@ -20,8 +18,7 @@ export class TestDecoratorTests {
 
     @test
     public 'should have test annotation when method is annoted'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.runTest.name
         );
@@ -31,8 +28,7 @@ export class TestDecoratorTests {
 
     @test
     public 'should use method name as test name when custom name is not specified'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.runTest.name
         );
@@ -42,19 +38,17 @@ export class TestDecoratorTests {
 
     @test
     public 'should use custom test name when one is specified'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.runCustomTest.name
         );
 
-        expect(actual.options.name).to.equals('my custom test');
+        expect(actual.name).to.equals('my custom test');
     }
 
     @test
     public 'should have skip option set to true when skip option is set to true'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.skippedTest.name
         );
@@ -65,8 +59,7 @@ export class TestDecoratorTests {
 
     @test
     public 'should have skip option set to false when skip option is not specified'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.runTest.name
         );
@@ -76,8 +69,7 @@ export class TestDecoratorTests {
 
     @test
     public 'should have skip option to false when skip option is set to false'() {
-        const actual: TestAnnotation = Reflect.getMetadata(
-            testSymbol,
+        const actual = Annotation.getTestMetadata(
             TestClassFixture.prototype,
             TestClassFixture.prototype.notSkippedTest.name
         );

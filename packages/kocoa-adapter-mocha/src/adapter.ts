@@ -26,14 +26,12 @@ export class MochaAdapter implements Adapter {
      */
     public addSuite<TTarget extends object>(
         suite: Suite,
-        specs: Spec<Extract<keyof TTarget, string | symbol>>[],
+        specs: Spec<Exclude<keyof TTarget, number>>[],
         target: TTarget
     ): void {
         const newSuite = new MochaSuite(suite);
         for (const spec of specs) {
-            for (const specData of spec.data()) {
-                newSuite.addTest(new MochaSpec(spec, specData, target));
-            }
+            newSuite.addTest(new MochaSpec(spec, target));
         }
 
         this._rootSuite.addSuite(newSuite);

@@ -4,11 +4,7 @@ const R = global.Reflect;
 
 declare global {
     namespace Reflect {
-        export function appendMetadata<T>(
-            metadataKey: unknown,
-            metadataValue: T,
-            target: object
-        ): void;
+        export function appendMetadata<T>(metadataKey: unknown, metadataValue: T, target: object): void;
         export function appendMetadata<T>(
             metadataKey: unknown,
             metadataValue: T,
