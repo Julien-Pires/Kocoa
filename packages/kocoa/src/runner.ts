@@ -1,13 +1,12 @@
 import { Adapter, AdapterPlugin } from '@kocoa/core';
 
-import * as Annotation from './annotations/index';
-import { RunnerEvent, SuiteEventArgs } from './annotations/index.js';
+import * as Annotation from './annotations/index.js';
 import { getConfiguration } from './configuration.js';
 import { IDisposable } from './types/common.js';
 
 export class Runner implements IDisposable {
     private constructor(private readonly adapter: Adapter) {
-        Annotation.events.on(RunnerEvent.SuiteAdded, this.addSuite);
+        Annotation.metadataEvents.on('SuiteAdded', this.addSuite);
     }
 
     public static async create(configurationFile?: string): Promise<Runner> {
@@ -23,8 +22,7 @@ export class Runner implements IDisposable {
 
     public dispose() {}
 
-    public addSuite(suiteArgs: SuiteEventArgs) {
-        const { target } = suiteArgs;
+    public addSuite(target: object) {
         const suiteAnnotation = Annotation.getSuiteMetadata(target);
         const specsAnnotation = Annotation.getTestMetadata(target);
         const suite = {

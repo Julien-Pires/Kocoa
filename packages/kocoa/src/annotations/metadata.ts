@@ -1,5 +1,5 @@
+import { TypedEventEmiter } from '../common/index.js';
 import { SuiteAnnotation, TestAnnotation, TestDataAnnotation } from '../types/index.js';
-import { createRunnerEventEmitter, RunnerEvent } from './events.js';
 
 export const MetadataKeys = {
     test: Symbol('Test'),
@@ -7,16 +7,26 @@ export const MetadataKeys = {
     suite: Symbol('Suite')
 };
 
-export const events = createRunnerEventEmitter();
+export type MetadataEvents =
+    | {
+          name: 'SuiteAdded';
+          args: [target: object];
+      }
+    | {
+          name: 'TestAdded';
+          args: [target: object, propertyKey: string | symbol];
+      };
+
+export const metadataEvents = new TypedEventEmiter<MetadataEvents>();
 
 export function setSuiteMetadata(suite: SuiteAnnotation, target: object, propertyKey: string | symbol): void {
     Reflect.appendMetadata(MetadataKeys.suite, suite, target, propertyKey);
-    events.emit(RunnerEvent.SuiteAdded, { target });
+    metadataEvents.emit('SuiteAdded', target);
 }
 
 export function setTestMetadata(test: TestAnnotation, target: object, propertyKey: string | symbol): void {
     Reflect.defineMetadata(MetadataKeys.test, test, target, propertyKey);
-    events.emit(RunnerEvent.TestAdded, { target, propertyKey });
+    metadataEvents.emit('TestAdded', target, propertyKey);
 }
 
 export function setTestDataMetadata(testData: TestDataAnnotation, target: object, propertyKey: string | symbol): void {
