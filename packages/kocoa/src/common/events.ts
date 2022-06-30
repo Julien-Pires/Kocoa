@@ -7,27 +7,27 @@ export type Event = {
 
 export class TypedEventEmiter<TEvents extends Event> extends EventEmitter {
     public override on<TName extends TEvents['name']>(
-        name: TName,
+        eventName: TName,
         listener: (...args: Extract<TEvents, { name: TName }>['args']) => void
     ): this {
-        super.on(name, listener);
+        super.on(eventName, listener);
 
         return this;
     }
 
     public override off<TName extends TEvents['name']>(
-        name: TName,
+        eventName: TName,
         listener: (...args: Extract<TEvents, { name: TName }>['args']) => void
     ): this {
-        super.off(name, listener);
+        super.off(eventName, listener);
 
         return this;
     }
 
     public override emit<TName extends TEvents['name']>(
-        name: TName,
+        eventName: TName,
         ...args: Extract<TEvents, { name: TName }>['args']
     ): boolean {
-        return super.emit(name, ...args);
+        return super.emit(eventName, ...args);
     }
 }

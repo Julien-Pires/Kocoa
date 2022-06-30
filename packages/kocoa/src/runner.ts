@@ -20,7 +20,9 @@ export class Runner implements IDisposable {
         return new Runner(adapter);
     }
 
-    public dispose() {}
+    public dispose() {
+        Annotation.metadataEvents.off('SuiteAdded', this.addSuite);
+    }
 
     public addSuite(target: object) {
         const suiteAnnotation = Annotation.getSuiteMetadata(target);
