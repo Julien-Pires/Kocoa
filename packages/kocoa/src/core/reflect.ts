@@ -17,7 +17,7 @@ declare global {
     }
 }
 
-(R as any).appendMetadataImpl = <T>(
+(R as any).appendMetadata = <T>(
     metadataKey: unknown,
     metadataValue: T,
     target: object,
@@ -27,6 +27,6 @@ declare global {
     R.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey);
 };
 
-(R as any).getAllMetadataImpl = <T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[] => {
+(R as any).getAllMetadata = <T>(metadataKey: unknown, target: object, propertyKey: string | symbol): T[] => {
     return R.getMetadata(metadataKey, target, propertyKey) ?? [];
 };

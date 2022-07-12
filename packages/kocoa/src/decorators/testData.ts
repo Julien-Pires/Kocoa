@@ -1,4 +1,5 @@
-import { TestDataOptions, setTestDataMetadata } from '../annotations/index.js';
+import { TestDataAnnotation, TestDataOptions } from '../annotations.js';
+import { setAnnotation } from '../core/index.js';
 import { TestFunctionAnnotation } from './types.js';
 
 /**
@@ -44,11 +45,8 @@ export function testData<TArgs extends readonly unknown[]>(
 ): TestFunctionAnnotation<TArgs> {
     return (target: object, propertyKey: string): void => {
         const [testDataArgs, options] = destructureArgs(args);
-        const testDataAnnotation = {
-            args: () => [testDataArgs],
-            options
-        };
+        const testDataAnnotation = TestDataAnnotation({ args: () => [testDataArgs], options });
 
-        return setTestDataMetadata(testDataAnnotation, target, propertyKey);
+        return setAnnotation(testDataAnnotation, target, propertyKey);
     };
 }

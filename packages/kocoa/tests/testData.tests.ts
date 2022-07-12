@@ -2,7 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import * as Annotation from './annotations/index.js';
+import { TestDataAnnotation } from '../src/annotations.js';
+import { getAnnotation } from '../src/core/index.js';
 import { TestDataFixture } from './testData.fixtures.js';
 
 const { expect } = chai;
@@ -13,12 +14,12 @@ chai.use(chaiSubset);
 export class TestDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = Annotation.getTestDataMetadata(
-            TestDataFixture.prototype,
+        const actual = getAnnotation(
+            TestDataAnnotation,
+            TestDataFixture,
             TestDataFixture.prototype.noDataSourceTest.name
         );
 
-        expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(0);
     }
 
@@ -26,16 +27,16 @@ export class TestDataDecoratorTests {
     @testData(TestDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(TestDataFixture.prototype.multipleDataSourceTest.name, 3)
     public 'should have data annotations when method is annoted'(testMethod: string, expected: number) {
-        const actual = Annotation.getTestDataMetadata(TestDataFixture.prototype, testMethod);
+        const actual = getAnnotation(TestDataAnnotation, TestDataFixture, testMethod);
 
-        expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);
     }
 
     @test
     public 'should contains data passed to the annotation'() {
-        const annotations = Annotation.getTestDataMetadata(
-            TestDataFixture.prototype,
+        const annotations = getAnnotation(
+            TestDataAnnotation,
+            TestDataFixture,
             TestDataFixture.prototype.multipleDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));

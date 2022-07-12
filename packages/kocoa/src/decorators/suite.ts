@@ -1,5 +1,5 @@
-import { SuiteOptions } from '../annotations/index.js';
-import { setSuiteMetadata } from '../annotations/metadata.js';
+import { SuiteAnnotation, SuiteOptions } from '../annotations.js';
+import { setAnnotation } from '../core/index.js';
 import { Constructor } from '../types/index.js';
 
 /**
@@ -23,7 +23,7 @@ const defaultOptions: SuiteOptions = {
  * @param options Represents additional settings for the test suite
  */
 export function suite(name: string, options?: SuiteOptions): SuiteAttribute {
-    return (<T>(target: Constructor<T>, propertyKey: string | symbol) => {
-        return setSuiteMetadata({ name, options: { ...defaultOptions, ...(options ?? {}) } }, target, propertyKey);
+    return (<T>(target: Constructor<T>) => {
+        return setAnnotation(SuiteAnnotation({ name, options: { ...defaultOptions, ...(options ?? {}) } }), target);
     }) as SuiteAttribute;
 }

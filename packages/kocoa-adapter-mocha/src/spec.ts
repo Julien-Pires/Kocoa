@@ -15,14 +15,14 @@ export class MochaSpec<TTarget extends object, TFunc extends Exclude<keyof TTarg
         super(spec.name);
 
         this.pending = spec.skip;
-        this.fn = this.runSync;
+        this.fn = this.runSync.bind(this);
     }
 
     /**
      * Runs the current test on the specified target.
      */
     public runSync() {
-        const instance = Object.create(this.target);
+        const instance = Object.create((this.target as any).prototype);
         instance[this.spec.function](...this.spec.data);
     }
 }

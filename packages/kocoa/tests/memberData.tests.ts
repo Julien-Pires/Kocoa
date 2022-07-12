@@ -2,7 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { memberData, suite, test, testData } from '../index.js';
-import * as Annotation from './annotations/index.js';
+import { TestDataAnnotation } from '../src/annotations.js';
+import { getAnnotation } from '../src/core/index.js';
 import { MemberDataFixture } from './memberData.fixtures.js';
 
 const { expect } = chai;
@@ -13,8 +14,9 @@ chai.use(chaiSubset);
 export class MemberDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = Annotation.getTestDataMetadata(
-            MemberDataFixture.prototype,
+        const actual = getAnnotation(
+            TestDataAnnotation,
+            MemberDataFixture,
             MemberDataFixture.prototype.noDataSourceTest.name
         );
 
@@ -25,7 +27,7 @@ export class MemberDataDecoratorTests {
     @testData(MemberDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(MemberDataFixture.prototype.multipleDataSourceTest.name, 2)
     public 'should have data annotations when method is annoted'(testMethod: string, count: number) {
-        const actual = Annotation.getTestDataMetadata(MemberDataFixture.prototype, testMethod);
+        const actual = getAnnotation(TestDataAnnotation, MemberDataFixture, testMethod);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(count);
@@ -33,8 +35,9 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should have no data entry when member data is empty'() {
-        const annotations = Annotation.getTestDataMetadata(
-            MemberDataFixture.prototype,
+        const annotations = getAnnotation(
+            TestDataAnnotation,
+            MemberDataFixture,
             MemberDataFixture.prototype.emptyDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
@@ -51,7 +54,7 @@ export class MemberDataDecoratorTests {
         MemberDataFixture.iterableMethodDataSource()
     )
     public 'should contains one data entry for each member data entry'<T>(testMethod: string, expected: Iterable<T>) {
-        const annotations = Annotation.getTestDataMetadata(MemberDataFixture.prototype, testMethod);
+        const annotations = getAnnotation(TestDataAnnotation, MemberDataFixture, testMethod);
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
         expect(actual).to.deep.equal(Array.from(expected));
@@ -70,8 +73,9 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should apply additional parameters when member data is a function with parameters'() {
-        const annotations = Annotation.getTestDataMetadata(
-            MemberDataFixture.prototype,
+        const annotations = getAnnotation(
+            TestDataAnnotation,
+            MemberDataFixture,
             MemberDataFixture.prototype.parameterizedDataSourceTest.name
         );
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));

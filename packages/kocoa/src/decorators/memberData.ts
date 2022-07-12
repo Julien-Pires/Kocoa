@@ -1,5 +1,5 @@
-import { setTestDataMetadata } from '../annotations/metadata.js';
-import { TestDataAnnotation } from '../types/annotations.js';
+import { TestDataAnnotation } from '../annotations.js';
+import { setAnnotation } from '../core/index.js';
 import { TestFunctionAnnotation } from './types.js';
 
 /**
@@ -34,7 +34,7 @@ export function memberData<TMember extends DataSource<readonly unknown[]>>(
     ...memberArgs: ExtractDataSourceParameters<TMember>
 ): TestFunctionAnnotation<DataSourceRow<TMember>> {
     return (target: object, propertyKey: string) => {
-        const testDataAnnotation: TestDataAnnotation = {
+        const testDataAnnotation = TestDataAnnotation({
             args: () => {
                 if (member instanceof Function) {
                     return member(...memberArgs);
@@ -43,8 +43,8 @@ export function memberData<TMember extends DataSource<readonly unknown[]>>(
                 return member;
             },
             options: {}
-        };
+        });
 
-        return setTestDataMetadata(testDataAnnotation, target, propertyKey);
+        return setAnnotation(testDataAnnotation, target, propertyKey);
     };
 }

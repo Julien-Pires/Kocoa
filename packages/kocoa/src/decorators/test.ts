@@ -1,4 +1,5 @@
-import { setTestMetadata } from '../annotations/metadata.js';
+import { TestAnnotation } from '../annotations.js';
+import { setAnnotation } from '../core/index.js';
 import { TestOptions } from '../types/index.js';
 
 type OptionalTestOptions = {
@@ -14,35 +15,29 @@ const defaultOptions: TestOptions = {
     skip: false
 } as const;
 
-function isOptions(value: unknown): value is OptionalTestOptions {
-    const options = value as OptionalTestOptions;
+function isRawDecorator(args: unknown[]): args is [object, string | symbol, PropertyDescriptor] {
+    if (args.length <= 2) {
+        return false;
+    }
 
-    return options.skip !== undefined;
-}
-
-function isDecorator(args: unknown[]): args is [object, string | symbol, PropertyDescriptor] {
-    return args[0] instanceof Object;
+    return args[2] !== undefined;
 }
 
 function destructureArgs(args: unknown[]): [string | null, OptionalTestOptions] {
-    if (args.length === 0) {
+    if (args.length === 0 || args.length >= 3) {
         return [null, {}];
     }
 
-    if (args.length === 1) {
-        const [first] = args;
-        if (typeof first === 'string') {
-            return [first, {}];
+    const [first, second] = args;
+    if (second) {
+        if (second instanceof String) {
+            return [null, {}];
         }
 
-        if (isOptions(first)) {
-            return [null, first];
-        }
-
-        return [null, {}];
+        return [first as string, second as OptionalTestOptions];
     }
 
-    return [args[0] as string, args[1] as OptionalTestOptions];
+    return typeof first === 'string' ? [first, {}] : [null, first as OptionalTestOptions];
 }
 
 /**
@@ -58,17 +53,17 @@ export function test(target: object, propertyKey: string | symbol, descriptor: P
 export function test(...args: unknown[]): void | TestDecorator {
     const [name, options] = destructureArgs(args);
     const decorator: TestDecorator = (target, propertyKey) => {
-        return setTestMetadata(
-            {
+        return setAnnotation(
+            TestAnnotation({
                 name: name ?? propertyKey.toString(),
-                function: propertyKey,
+                method: propertyKey,
                 options: { ...defaultOptions, ...options }
-            },
+            }),
             target,
             propertyKey
         );
     };
-    if (isDecorator(args)) {
+    if (isRawDecorator(args)) {
         return decorator(...args);
     }
 

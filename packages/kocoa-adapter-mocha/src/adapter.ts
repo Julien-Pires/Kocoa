@@ -15,7 +15,9 @@ export class MochaAdapter implements Adapter {
      * Constructor of MochaAdapter class.
      */
     constructor() {
-        this._rootSuite = describe('');
+        this._rootSuite = describe('', () => {
+            return;
+        });
     }
 
     /**
