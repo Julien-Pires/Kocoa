@@ -1,11 +1,11 @@
 import { cosmiconfig } from 'cosmiconfig';
 
 export interface Configuration {
-    adapter: string | undefined;
+    adapter: string | null;
 }
 
 const defaultConfiguration: Configuration = {
-    adapter: undefined
+    adapter: null
 };
 
 export const getConfiguration = async (configurationFile?: string): Promise<Configuration> => {

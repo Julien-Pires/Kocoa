@@ -1,8 +1,7 @@
 import * as Mocha from 'mocha';
 
-import { Adapter, Spec, Suite } from '@kocoa/core';
+import { Adapter, Suite, SuiteDefinition } from '@kocoa/core';
 
-import { MochaSpec } from './spec.js';
 import { MochaSuite } from './suite.js';
 
 /**
@@ -15,27 +14,18 @@ export class MochaAdapter implements Adapter {
      * Constructor of MochaAdapter class.
      */
     constructor() {
-        this._rootSuite = describe('', () => {
-            return;
-        });
+        this._rootSuite = describe('', () => { return; });
+        if (this._rootSuite.parent) {
+            const parentSuite = this._rootSuite.parent;
+            parentSuite.suites = parentSuite.suites.filter((suite) => suite !== this._rootSuite);
+            this._rootSuite = parentSuite;
+        }
     }
 
-    /**
-     * Adds a test suite to the current Mocha run.
-     * @param suite Test suite informations.
-     * @param specs List of specs contained in the test suite.
-     * @param target Prototype of the class that owns the test suite.
-     */
-    public addSuite<TTarget extends object>(
-        suite: Suite,
-        specs: Spec<Exclude<keyof TTarget, number>>[],
-        target: TTarget
-    ): void {
-        const newSuite = new MochaSuite(suite);
-        for (const spec of specs) {
-            newSuite.addTest(new MochaSpec(spec, target));
-        }
+    public create(suite: SuiteDefinition): Suite {
+        const mochaSuite = new MochaSuite(suite.name);
+        this._rootSuite.addSuite(mochaSuite);
 
-        this._rootSuite.addSuite(newSuite);
+        return mochaSuite;
     }
 }

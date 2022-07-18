@@ -1,13 +1,20 @@
-export type SpecArgs = readonly unknown[];
+import { IDisposable } from './core.js';
 
-export interface Spec<TFunc extends string | symbol> {
+export interface SpecDefinition {
     name: string;
-    function: TFunc;
     skip: boolean;
-    data: SpecArgs;
+    init(): SpecRun;
+}
+
+export interface SpecRun extends IDisposable {
+    run(): void;
+}
+
+export interface SuiteDefinition {
+    name: string;
+    skip: boolean;
 }
 
 export interface Suite {
-    name: string;
-    skip: boolean;
+    add(spec: SpecDefinition): void;
 }

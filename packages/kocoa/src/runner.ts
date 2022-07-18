@@ -1,9 +1,11 @@
-import { Adapter, AdapterPlugin } from '@kocoa/core';
+import { Adapter, AdapterPlugin, Constructor, IDisposable } from '@kocoa/core';
 
-import { SuiteAnnotation, TestAnnotation, TestAnnotationAttribute, TestDataAnnotation } from './annotations.js';
+import {
+    SuiteAnnotation, TestAnnotation, TestAnnotationAttribute, TestDataAnnotation
+} from './annotations.js';
 import { getConfiguration } from './configuration.js';
 import { annotationsEvents, getAnnotation } from './core/index.js';
-import { IDisposable } from './types/common.js';
+import { Spec } from './spec.js';
 
 export class Runner implements IDisposable {
     private constructor(private readonly adapter: Adapter) {
@@ -51,21 +53,21 @@ export class Runner implements IDisposable {
             throw new Error(`Failed to retrieve suite for ${target}`);
         }
 
-        const specsAnnotation = Runner.getSpecAnnotations(target);
-        const suite = {
+        const suite = this.adapter.create({
             name: suiteAnnotation.name,
             skip: suiteAnnotation.options.skip
-        };
-
-        const specs = specsAnnotation.flatMap((spec) => {
-            const specDatas = Runner.getSpecDataAnnotations(spec, target);
-            return specDatas.map((data) => ({
-                name: spec.name,
-                function: spec.method,
-                skip: spec.options.skip,
-                data
-            }));
         });
-        this.adapter.addSuite(suite, specs, target as any);
+
+        const specsAnnotation = Runner.getSpecAnnotations(target);
+        for (const spec of specsAnnotation) {
+            const specDatas = Runner.getSpecDataAnnotations(spec, target);
+            for (const data of specDatas) {
+                suite.add({
+                    name: spec.name,
+                    skip: spec.options.skip,
+                    init: () => new Spec(target as Constructor<any>, spec.method, data)
+                });
+            }
+        }
     }
 }

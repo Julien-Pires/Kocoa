@@ -1,11 +1,7 @@
-import { Spec, Suite } from './spec';
+import { Suite, SuiteDefinition } from './spec.js';
 
 export interface Adapter {
-    addSuite: <TTarget extends object>(
-        suite: Suite,
-        specs: Spec<Exclude<keyof TTarget, number>>[],
-        target: TTarget
-    ) => void;
+    create: (suite: SuiteDefinition) => Suite;
 }
 
 export interface AdapterPlugin {

@@ -1,6 +1,7 @@
+import { Constructor } from '@kocoa/core';
+
 import { SuiteAnnotation, SuiteOptions } from '../annotations.js';
 import { setAnnotation } from '../core/index.js';
-import { Constructor } from '../types/index.js';
 
 /**
  * Represents possible targets for the test suite decorator

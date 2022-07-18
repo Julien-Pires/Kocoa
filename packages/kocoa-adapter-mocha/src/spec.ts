@@ -1,28 +1,26 @@
 import { Test } from 'mocha';
 
-import { Spec } from '@kocoa/core';
+import { IDisposable, SpecDefinition, SpecRun } from '@kocoa/core';
 
-/**
- * Represents a Mocha test to run with specified test data.
- */
-export class MochaSpec<TTarget extends object, TFunc extends Exclude<keyof TTarget, number>> extends Test {
-    /**
-     * Constructor of MochaSpec class.
-     * @param spec Object that contains information for this test.
-     * @param target Prototype of the class that owns this test.
-     */
-    constructor(private readonly spec: Spec<TFunc>, private readonly target: TTarget) {
+export class MochaSpec extends Test implements IDisposable {
+    private currentRun: SpecRun | null;
+
+    constructor(private readonly spec: SpecDefinition) {
         super(spec.name);
 
         this.pending = spec.skip;
-        this.fn = this.runSync.bind(this);
     }
 
-    /**
-     * Runs the current test on the specified target.
-     */
-    public runSync() {
-        const instance = Object.create((this.target as any).prototype);
-        instance[this.spec.function](...this.spec.data);
+    public init() {
+        this.currentRun = this.spec.init();
+    }
+
+    public override fn: Mocha.Func | Mocha.AsyncFunc | undefined = () => {
+        this.currentRun?.run();
+    };
+
+    public dispose(): void {
+        this.currentRun?.dispose();
+        this.currentRun = null;
     }
 }
