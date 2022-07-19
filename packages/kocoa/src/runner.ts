@@ -1,10 +1,8 @@
 import { Adapter, AdapterPlugin, Constructor, IDisposable } from '@kocoa/core';
 
-import {
-    SuiteAnnotation, TestAnnotation, TestAnnotationAttribute, TestDataAnnotation
-} from './annotations.js';
+import { SuiteAnnotation, TestAnnotation, TestAnnotationAttribute, TestDataAnnotation } from './annotations.js';
 import { getConfiguration } from './configuration.js';
-import { annotationsEvents, getAnnotation } from './core/index.js';
+import { annotationsEvents, getAnnotation } from './metadata/index.js';
 import { Spec } from './spec.js';
 
 export class Runner implements IDisposable {

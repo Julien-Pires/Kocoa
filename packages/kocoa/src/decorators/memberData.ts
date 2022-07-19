@@ -1,6 +1,4 @@
 import { TestDataAnnotation } from '../annotations.js';
-import { setAnnotation } from '../core/index.js';
-import { TestFunctionAnnotation } from './types.js';
 
 /**
  * Represents a test data source.
@@ -32,9 +30,9 @@ type ExtractDataSourceParameters<TMember extends DataSource<readonly unknown[]>>
 export function memberData<TMember extends DataSource<readonly unknown[]>>(
     member: TMember,
     ...memberArgs: ExtractDataSourceParameters<TMember>
-): TestFunctionAnnotation<DataSourceRow<TMember>> {
-    return (target: object, propertyKey: string) => {
-        const testDataAnnotation = TestDataAnnotation({
+) {
+    return TestDataAnnotation<object, (...args: DataSourceRow<TMember>) => void>(() => {
+        return {
             args: () => {
                 if (member instanceof Function) {
                     return member(...memberArgs);
@@ -43,8 +41,6 @@ export function memberData<TMember extends DataSource<readonly unknown[]>>(
                 return member;
             },
             options: {}
-        });
-
-        return setAnnotation(testDataAnnotation, target, propertyKey);
-    };
+        };
+    });
 }

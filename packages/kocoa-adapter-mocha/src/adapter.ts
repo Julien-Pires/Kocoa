@@ -14,7 +14,9 @@ export class MochaAdapter implements Adapter {
      * Constructor of MochaAdapter class.
      */
     constructor() {
-        this._rootSuite = describe('', () => { return; });
+        this._rootSuite = describe('', () => {
+            return;
+        });
         if (this._rootSuite.parent) {
             const parentSuite = this._rootSuite.parent;
             parentSuite.suites = parentSuite.suites.filter((suite) => suite !== this._rootSuite);

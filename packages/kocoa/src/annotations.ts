@@ -1,4 +1,4 @@
-import { Annotation, AnnotationUsage, createAnnotation } from './core/index.js';
+import { Annotation, AnnotationUsage, create } from './metadata/index.js';
 
 /**
  * Represents a set of options for a test
@@ -29,12 +29,14 @@ const TestAnnotationDefinition = {
     usage: AnnotationUsage.Method,
     allowMultiple: false
 } as const;
-export interface TestAnnotationAttribute extends Annotation<typeof TestAnnotationDefinition> {
+export interface TestAnnotationAttribute {
     readonly name: string;
     readonly method: string | symbol;
     readonly options: TestOptions;
 }
-export const TestAnnotation = createAnnotation<TestAnnotationAttribute>(TestAnnotationDefinition);
+export const TestAnnotation = create<TestAnnotationAttribute, typeof TestAnnotationDefinition>(
+    TestAnnotationDefinition
+);
 
 /**
  * Provides a data source for a test
@@ -44,11 +46,13 @@ const TestDataAnnotationDefinition = {
     usage: AnnotationUsage.Method,
     allowMultiple: true
 } as const;
-export interface TestDataAnnotationAttribute extends Annotation<typeof TestDataAnnotationDefinition> {
+export interface TestDataAnnotationAttribute {
     readonly args: () => Iterable<readonly unknown[]>;
     readonly options: TestDataOptions;
 }
-export const TestDataAnnotation = createAnnotation<TestDataAnnotationAttribute>(TestDataAnnotationDefinition);
+export const TestDataAnnotation = create<TestDataAnnotationAttribute, typeof TestDataAnnotationDefinition>(
+    TestDataAnnotationDefinition
+);
 
 /**
  * Provides information about a test suite
@@ -58,8 +62,10 @@ const SuiteAnnotationDefinition = {
     usage: AnnotationUsage.Class,
     allowMultiple: false
 } as const;
-export interface SuiteAnnotationAttribute extends Annotation<typeof SuiteAnnotationDefinition> {
+export interface SuiteAnnotationAttribute {
     readonly name: string;
     readonly options: SuiteOptions;
 }
-export const SuiteAnnotation = createAnnotation<SuiteAnnotationAttribute>(SuiteAnnotationDefinition);
+export const SuiteAnnotation = create<SuiteAnnotationAttribute, typeof SuiteAnnotationDefinition>(
+    SuiteAnnotationDefinition
+);

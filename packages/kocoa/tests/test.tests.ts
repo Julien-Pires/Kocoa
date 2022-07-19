@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { suite, test } from '../index.js';
 import { TestAnnotation } from '../src/annotations.js';
-import { getAnnotation } from '../src/core/index.js';
+import { getAnnotation } from './metadata/index.js';
 import { TestClassFixture } from './test.fixtures.js';
 
 @suite('@test')

@@ -1,6 +1,4 @@
 import { TestDataAnnotation, TestDataOptions } from '../annotations.js';
-import { setAnnotation } from '../core/index.js';
-import { TestFunctionAnnotation } from './types.js';
 
 /**
  * Represents possible variations for testData arguments.
@@ -38,15 +36,11 @@ function destructureArgs(args: readonly unknown[]): [readonly unknown[], TestDat
 
 /**
  * Provides a data source for a single test on a test method.
- * @param args Represents a list of data to pass to the test method.
+ * @param data Represents a list of data to pass to the test method.
  */
-export function testData<TArgs extends readonly unknown[]>(
-    ...args: TestDataArgs<TArgs>
-): TestFunctionAnnotation<TArgs> {
-    return (target: object, propertyKey: string): void => {
-        const [testDataArgs, options] = destructureArgs(args);
-        const testDataAnnotation = TestDataAnnotation({ args: () => [testDataArgs], options });
-
-        return setAnnotation(testDataAnnotation, target, propertyKey);
-    };
+export function testData<TArgs extends readonly unknown[]>(...data: TestDataArgs<TArgs>) {
+    return TestDataAnnotation<object, (...args: TArgs) => unknown>(() => {
+        const [testDataArgs, options] = destructureArgs(data);
+        return { args: () => [testDataArgs], options };
+    });
 }

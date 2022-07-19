@@ -7,7 +7,7 @@ type AnnotationsEvents = {
     args: [target: object, propertyKey?: string | symbol];
 };
 
-export class AnnotationEventEmitter {
+class AnnotationEventEmitter {
     private readonly emitter = new EventEmitter();
 
     public on<TAction extends AnnotationsEvents['name']>(
@@ -42,3 +42,5 @@ export class AnnotationEventEmitter {
         return this.emitter.emit(`${definition.key}${action}`, ...args);
     }
 }
+
+export const annotationsEvents = new AnnotationEventEmitter();
