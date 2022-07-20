@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { annotationsEvents } from './events.js';
 import { Annotation, AnnotationDefinition } from './types.js';
 
@@ -8,14 +10,20 @@ function appendMetadata<T>(
     target: object,
     propertyKey?: string | symbol
 ): void {
-    const existingMetadata: T[] = Reflect.getMetadata(metadataKey, target, propertyKey) ?? [];
-    Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey);
+    const existingMetadata: T[] =
+        (propertyKey
+            ? Reflect.getMetadata(metadataKey, target, propertyKey)
+            : Reflect.getMetadata(metadataKey, target)) ?? [];
+
+    return propertyKey
+        ? Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target, propertyKey)
+        : Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target);
 }
 
 export function setAnnotation<TAnnotation extends Annotation<AnnotationDefinition>>(
     annotation: TAnnotation,
     target: object,
-    ...[propertyKey]: RequiredPropertyKey<TAnnotation>
+    propertyKey?: string | symbol
 ): void {
     const { _definition: definition } = annotation;
     const set = definition.allowMultiple ? appendMetadata : Reflect.defineMetadata;

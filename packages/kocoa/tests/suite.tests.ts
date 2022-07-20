@@ -3,7 +3,6 @@ import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
 import { SuiteAnnotation } from '../src/annotations.js';
-import { getAnnotation } from './metadata/index.js';
 import { SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
 
 const { expect } = chai;
@@ -14,7 +13,7 @@ chai.use(chaiSubset);
 export class TestSuiteClassDecoratorTests {
     @test
     public 'should contains test suite annotation when class is annoted'() {
-        const actual = getAnnotation(SuiteAnnotation, SingleSuiteFixture);
+        const actual = SuiteAnnotation.get(SingleSuiteFixture);
 
         expect(actual).to.not.be.null;
     }
@@ -25,13 +24,13 @@ export class TestSuiteClassDecoratorTests {
         prototype: object,
         expected: { name: string }
     ) {
-        const actual = getAnnotation(SuiteAnnotation, prototype);
+        const actual = SuiteAnnotation.get(prototype);
         expect(actual).to.containSubset(expected);
     }
 
     @test
     public 'should have skip option set to true when skip options is set to true'() {
-        const actual = getAnnotation(SuiteAnnotation, SkipOptionsFixtures);
+        const actual = SuiteAnnotation.get(SkipOptionsFixtures);
 
         expect(actual?.options.skip).to.be.true;
     }
@@ -39,7 +38,7 @@ export class TestSuiteClassDecoratorTests {
     @test
     @testData(SingleSuiteFixture)
     public 'should have skip option set to false when skip options is not specified'() {
-        const actual = getAnnotation(SuiteAnnotation, SingleSuiteFixture);
+        const actual = SuiteAnnotation.get(SingleSuiteFixture);
 
         expect(actual?.options.skip).to.be.false;
     }

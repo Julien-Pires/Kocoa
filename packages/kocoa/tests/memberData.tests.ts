@@ -4,7 +4,6 @@ import chaiSubset from 'chai-subset';
 import { memberData, suite, test, testData } from '../index.js';
 import { TestDataAnnotation } from '../src/annotations.js';
 import { MemberDataFixture } from './memberData.fixtures.js';
-import { getAnnotation } from './metadata/index.js';
 
 const { expect } = chai;
 
@@ -14,11 +13,7 @@ chai.use(chaiSubset);
 export class MemberDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = getAnnotation(
-            TestDataAnnotation,
-            MemberDataFixture,
-            MemberDataFixture.prototype.noDataSourceTest.name
-        );
+        const actual = TestDataAnnotation.get(MemberDataFixture, MemberDataFixture.prototype.noDataSourceTest.name);
 
         expect(actual).to.be.of.length(0);
     }
@@ -27,7 +22,7 @@ export class MemberDataDecoratorTests {
     @testData(MemberDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(MemberDataFixture.prototype.multipleDataSourceTest.name, 2)
     public 'should have data annotations when method is annoted'(testMethod: string, count: number) {
-        const actual = getAnnotation(TestDataAnnotation, MemberDataFixture, testMethod);
+        const actual = TestDataAnnotation.get(MemberDataFixture, testMethod);
 
         expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(count);
@@ -35,8 +30,7 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should have no data entry when member data is empty'() {
-        const annotations = getAnnotation(
-            TestDataAnnotation,
+        const annotations = TestDataAnnotation.get(
             MemberDataFixture,
             MemberDataFixture.prototype.emptyDataSourceTest.name
         );
@@ -54,7 +48,7 @@ export class MemberDataDecoratorTests {
         MemberDataFixture.iterableMethodDataSource()
     )
     public 'should contains one data entry for each member data entry'<T>(testMethod: string, expected: Iterable<T>) {
-        const annotations = getAnnotation(TestDataAnnotation, MemberDataFixture, testMethod);
+        const annotations = TestDataAnnotation.get(MemberDataFixture, testMethod);
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
         expect(actual).to.deep.equal(Array.from(expected));
@@ -73,8 +67,7 @@ export class MemberDataDecoratorTests {
 
     @test
     public 'should apply additional parameters when member data is a function with parameters'() {
-        const annotations = getAnnotation(
-            TestDataAnnotation,
+        const annotations = TestDataAnnotation.get(
             MemberDataFixture,
             MemberDataFixture.prototype.parameterizedDataSourceTest.name
         );

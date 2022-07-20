@@ -30,9 +30,19 @@ type AnnotationArgs<
     ? ClassAnnotationArgs<TTarget>
     : PropertyAnnotationArgs<TTarget, TProperty>;
 
+type GetAnnotationArgs<TDefinition extends AnnotationDefinition> = TDefinition['usage'] extends AnnotationUsage.Class
+    ? [target: object]
+    : [target: object, propertyKey: string | symbol];
+
+type GetAnnotationReturn<
+    TAnnotation,
+    TDefinition extends AnnotationDefinition
+> = TDefinition['allowMultiple'] extends true ? TAnnotation[] : TAnnotation;
+
 export interface AnnotationStatic<TDefinition extends AnnotationDefinition, TAnnotation> {
-    <TTarget, TProperty = unknown>(
+    <TTarget = object, TProperty = unknown>(
         decorator: (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => TAnnotation
     ): (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => void;
+    get(...args: GetAnnotationArgs<TDefinition>): GetAnnotationReturn<TAnnotation, TDefinition>;
     _definition: TDefinition;
 }

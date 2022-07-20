@@ -1,25 +1,4 @@
-import { Annotation, AnnotationUsage, create } from './metadata/index.js';
-
-/**
- * Represents a set of options for a test
- */
-export interface TestOptions {
-    skip: boolean;
-}
-
-/**
- * Represents a set of options for a test suite
- */
-export interface SuiteOptions {
-    skip: boolean;
-}
-
-/**
- * Represents a set of options for test data
- */
-export interface TestDataOptions {
-    expected?: unknown;
-}
+import { AnnotationUsage, create } from './metadata/index.js';
 
 /**
  * Provides information about a test method
@@ -29,14 +8,16 @@ const TestAnnotationDefinition = {
     usage: AnnotationUsage.Method,
     allowMultiple: false
 } as const;
-export interface TestAnnotationAttribute {
-    readonly name: string;
-    readonly method: string | symbol;
-    readonly options: TestOptions;
-}
-export const TestAnnotation = create<TestAnnotationAttribute, typeof TestAnnotationDefinition>(
-    TestAnnotationDefinition
-);
+export const TestAnnotation = create<
+    {
+        readonly name: string;
+        readonly method: string | symbol;
+        readonly options: {
+            skip: boolean;
+        };
+    },
+    typeof TestAnnotationDefinition
+>(TestAnnotationDefinition);
 
 /**
  * Provides a data source for a test
@@ -46,13 +27,15 @@ const TestDataAnnotationDefinition = {
     usage: AnnotationUsage.Method,
     allowMultiple: true
 } as const;
-export interface TestDataAnnotationAttribute {
-    readonly args: () => Iterable<readonly unknown[]>;
-    readonly options: TestDataOptions;
-}
-export const TestDataAnnotation = create<TestDataAnnotationAttribute, typeof TestDataAnnotationDefinition>(
-    TestDataAnnotationDefinition
-);
+export const TestDataAnnotation = create<
+    {
+        readonly args: () => Iterable<readonly unknown[]>;
+        readonly options: {
+            expected?: unknown;
+        };
+    },
+    typeof TestDataAnnotationDefinition
+>(TestDataAnnotationDefinition);
 
 /**
  * Provides information about a test suite
@@ -62,10 +45,12 @@ const SuiteAnnotationDefinition = {
     usage: AnnotationUsage.Class,
     allowMultiple: false
 } as const;
-export interface SuiteAnnotationAttribute {
-    readonly name: string;
-    readonly options: SuiteOptions;
-}
-export const SuiteAnnotation = create<SuiteAnnotationAttribute, typeof SuiteAnnotationDefinition>(
-    SuiteAnnotationDefinition
-);
+export const SuiteAnnotation = create<
+    {
+        readonly name: string;
+        readonly options: {
+            skip: boolean;
+        };
+    },
+    typeof SuiteAnnotationDefinition
+>(SuiteAnnotationDefinition);
