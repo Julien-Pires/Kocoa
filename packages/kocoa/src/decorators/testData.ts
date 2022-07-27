@@ -1,4 +1,8 @@
-import { TestDataAnnotation, TestDataOptions } from '../annotations.js';
+import { TestDataAnnotation } from '../annotations.js';
+
+interface TestDataOptions {
+    expected?: unknown;
+}
 
 /**
  * Represents possible variations for testData arguments.

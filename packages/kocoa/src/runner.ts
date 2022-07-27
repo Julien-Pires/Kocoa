@@ -1,6 +1,6 @@
 import { Adapter, AdapterPlugin, Constructor, IDisposable } from '@kocoa/core';
 
-import { SuiteAnnotation, TestAnnotation, TestAnnotationAttribute, TestDataAnnotation } from './annotations.js';
+import { SuiteAnnotation, TestAnnotation, TestDataAnnotation } from './annotations.js';
 import { getConfiguration } from './configuration.js';
 import { annotationsEvents } from './metadata/index.js';
 import { Spec } from './spec.js';
@@ -29,10 +29,10 @@ export class Runner implements IDisposable {
         const properties = Object.getOwnPropertyDescriptors((target as any).prototype);
         return Object.keys(properties)
             .map((property) => TestAnnotation.get(target, property))
-            .filter((annotation): annotation is TestAnnotationAttribute => annotation !== null);
+            .filter((annotation): annotation is TestAnnotation => annotation !== null);
     }
 
-    private static getSpecDataAnnotations(spec: TestAnnotationAttribute, target: object): (readonly unknown[])[] {
+    private static getSpecDataAnnotations(spec: TestAnnotation, target: object): (readonly unknown[])[] {
         const specDataAnnotations = TestDataAnnotation.get(target, spec.method);
         if (specDataAnnotations.length === 0) {
             return [[]];

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { AnnotationDefinition } from './types.js';
+import { AnnotationDefinition, AnnotationUsage } from './types.js';
 
 type AnnotationReturn<TAnnotation, TDefinition extends AnnotationDefinition> = TDefinition['allowMultiple'] extends true
     ? TAnnotation[]
@@ -19,14 +19,22 @@ function getAllMetadata<T>(metadataKey: unknown, target: object, propertyKey?: s
     );
 }
 
+function getAnnotationTarget(definition: AnnotationDefinition, target: object) {
+    if (definition.usage === AnnotationUsage.Class) {
+        return target;
+    }
+
+    return hasPrototype(target) ? target.prototype : target;
+}
+
 export function getAnnotation<TAnnotation, TDefinition extends AnnotationDefinition>(
     definition: TDefinition,
     target: object,
     propertyKey?: string | symbol
 ): AnnotationReturn<TAnnotation, TDefinition> {
     const get = definition.allowMultiple ? getAllMetadata : Reflect.getMetadata;
-    const propertyTarget = hasPrototype(target) ? target.prototype : target;
-    const annotations = propertyKey ? get(definition.key, propertyTarget, propertyKey) : get(definition.key, target);
+    const propertyTarget = getAnnotationTarget(definition, target);
+    const annotations = propertyKey ? get(definition.key, propertyTarget, propertyKey) : get(definition.key, propertyTarget);
 
     return annotations ?? null;
 }

@@ -1,9 +1,8 @@
 import { TestAnnotation } from '../annotations.js';
-import { TestOptions } from '../types/index.js';
 
-type OptionalTestOptions = {
-    [TKey in keyof TestOptions]?: TestOptions[TKey];
-};
+interface TestOptions {
+    skip?: boolean;
+}
 
 type TestDecorator = (target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor) => void;
 
@@ -14,36 +13,51 @@ const defaultOptions = {
     skip: false
 };
 
-function destructureArgs(args: unknown[]): [string | null, OptionalTestOptions] {
-    if (args.length === 0 || args.length >= 3) {
-        return [null, {}];
+function isTestOptions(value: unknown): value is TestOptions {
+    return (value as TestOptions)?.skip !== undefined;
+}
+
+function getTestOptions(...args: unknown[]): [string | null, TestOptions] {
+    if (args.length > 2) {
+        throw new Error('Invalid test arguments count');
     }
 
-    const [first, second] = args;
-    if (second) {
-        if (second instanceof String) {
-            return [null, {}];
-        }
-
-        return [first as string, second as OptionalTestOptions];
+    if (isTestOptions(args[0])) {
+        return [null, args[0]]
     }
 
-    return typeof first === 'string' ? [first, {}] : [null, first as OptionalTestOptions];
+    if (isTestOptions(args[1])) {
+        return [args[0] as string | null, args[1]];
+    }
+
+    return [args[0] as string | null, {}];
+}
+
+function isRawDecorator(args: unknown[]): args is [object, string | symbol, PropertyDescriptor] {
+    if (args.length !== 3) {
+        return false;
+    }
+
+    return typeof args[1] === 'string' || typeof args[1] === 'symbol';
 }
 
 export function test(name: string): TestDecorator;
 export function test(options: TestOptions): TestDecorator;
 export function test(name: string, options: TestOptions): TestDecorator;
-/**
- * Specifies that a method is a test.
- * @param target Parent target of the method.
- * @param propertyKey Name of the target method in the parent context.
- * @param descriptor Descriptor that contains method information.
- */
 export function test(target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void;
 export function test(...args: unknown[]): void | TestDecorator {
-    const [name, options] = destructureArgs(args);
+    if (isRawDecorator(args)) {
+        const [_, propertyKey] = args;
+        return TestAnnotation(() => {
+            return {
+                name: String(propertyKey),
+                method: String(propertyKey),
+                options: defaultOptions
+            };
+        })(...args);
+    }
 
+    const [name, options] = getTestOptions(...args);
     return TestAnnotation((_target, propertyKey) => {
         return {
             name: name ?? propertyKey.toString(),

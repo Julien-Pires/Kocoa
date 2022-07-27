@@ -1,11 +1,15 @@
 import { Constructor } from '@kocoa/core';
 
-import { SuiteAnnotation, SuiteOptions } from '../annotations.js';
+import { SuiteAnnotation } from '../annotations.js';
+
+interface SuiteOptions {
+    skip?: boolean;
+}
 
 /**
  * Default values for test suite options
  */
-const defaultOptions: SuiteOptions = {
+const defaultOptions = {
     skip: false
 };
 
@@ -16,6 +20,6 @@ const defaultOptions: SuiteOptions = {
  */
 export function suite(name: string, options?: SuiteOptions) {
     return SuiteAnnotation<Constructor<unknown>>(() => {
-        return { name, options: { ...defaultOptions, ...(options ?? {}) } };
+        return { name, options: { ...defaultOptions, ...options } };
     });
 }

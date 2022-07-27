@@ -1,4 +1,4 @@
-import { AnnotationUsage, create } from './metadata/index.js';
+import { AnnotationAttribute, AnnotationUsage, create } from './metadata/index.js';
 
 /**
  * Provides information about a test method
@@ -18,6 +18,7 @@ export const TestAnnotation = create<
     },
     typeof TestAnnotationDefinition
 >(TestAnnotationDefinition);
+export type TestAnnotation = AnnotationAttribute<typeof TestAnnotation>;
 
 /**
  * Provides a data source for a test
@@ -36,6 +37,7 @@ export const TestDataAnnotation = create<
     },
     typeof TestDataAnnotationDefinition
 >(TestDataAnnotationDefinition);
+export type TestDataAnnotation = AnnotationAttribute<typeof TestDataAnnotation>;
 
 /**
  * Provides information about a test suite
@@ -54,3 +56,4 @@ export const SuiteAnnotation = create<
     },
     typeof SuiteAnnotationDefinition
 >(SuiteAnnotationDefinition);
+export type SuiteAnnotation = AnnotationAttribute<typeof SuiteAnnotation>;

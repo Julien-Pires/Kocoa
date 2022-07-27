@@ -19,9 +19,7 @@ export function create<TAnnotation, TDefinition extends AnnotationDefinition>(
         };
     }) as AnnotationStatic<TDefinition, TAnnotation>;
     decorator._definition = definition;
-    decorator.get = (target: object, propertyKey?: string | symbol) => {
-        return getAnnotation(definition, target, propertyKey);
-    };
+    decorator.get = (target: object, propertyKey?: string | symbol) => getAnnotation(definition, target, propertyKey);
 
     return decorator;
 }

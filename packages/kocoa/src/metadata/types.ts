@@ -46,3 +46,7 @@ export interface AnnotationStatic<TDefinition extends AnnotationDefinition, TAnn
     get(...args: GetAnnotationArgs<TDefinition>): GetAnnotationReturn<TAnnotation, TDefinition>;
     _definition: TDefinition;
 }
+
+export type AnnotationAttribute<T> = T extends AnnotationStatic<AnnotationDefinition, infer TAnnotation>
+    ? TAnnotation
+    : never;
