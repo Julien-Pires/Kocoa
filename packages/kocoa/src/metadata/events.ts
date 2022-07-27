@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-import { Annotation, AnnotationDefinition } from './types.js';
+import { AnnotationDefinition } from './types.js';
 
 type AnnotationsEvents = {
     name: 'Added';
@@ -11,7 +11,7 @@ class AnnotationEventEmitter {
     private readonly emitter = new EventEmitter();
 
     public on<TAction extends AnnotationsEvents['name']>(
-        annotation: Annotation<AnnotationDefinition>,
+        annotation: { _definition: AnnotationDefinition },
         action: TAction,
         listener: (...args: Extract<AnnotationsEvents, { name: TAction }>['args']) => void
     ): this {
@@ -22,7 +22,7 @@ class AnnotationEventEmitter {
     }
 
     public off<TAction extends AnnotationsEvents['name']>(
-        annotation: Annotation<AnnotationDefinition>,
+        annotation: { _definition: AnnotationDefinition },
         action: TAction,
         listener: (...args: Extract<AnnotationsEvents, { name: TAction }>['args']) => void
     ): this {
@@ -33,7 +33,7 @@ class AnnotationEventEmitter {
     }
 
     public emit<TAction extends AnnotationsEvents['name']>(
-        annotation: Annotation<AnnotationDefinition>,
+        annotation: { _definition: AnnotationDefinition },
         action: TAction,
         ...args: Extract<AnnotationsEvents, { name: TAction }>['args']
     ): boolean {

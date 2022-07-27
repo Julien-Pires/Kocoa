@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { annotationsEvents } from './events.js';
-import { Annotation, AnnotationDefinition } from './types.js';
+import { AnnotationDefinition } from './types.js';
 
 function appendMetadata<T>(metadataKey: unknown, metadataValue: T, target: object): void;
 function appendMetadata<T>(
@@ -20,7 +20,7 @@ function appendMetadata<T>(
         : Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target);
 }
 
-export function setAnnotation<TAnnotation extends Annotation<AnnotationDefinition>>(
+export function setAnnotation<TAnnotation extends { _definition: AnnotationDefinition }>(
     annotation: TAnnotation,
     target: object,
     propertyKey?: string | symbol

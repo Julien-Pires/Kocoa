@@ -31,16 +31,14 @@ export function memberData<TMember extends DataSource<readonly unknown[]>>(
     member: TMember,
     ...memberArgs: ExtractDataSourceParameters<TMember>
 ) {
-    return TestDataAnnotation<object, (...args: DataSourceRow<TMember>) => void>(() => {
-        return {
-            args: () => {
-                if (member instanceof Function) {
-                    return member(...memberArgs);
-                }
+    return TestDataAnnotation<object, (...args: DataSourceRow<TMember>) => void>({
+        args: () => {
+            if (member instanceof Function) {
+                return member(...memberArgs);
+            }
 
-                return member;
-            },
-            options: {}
-        };
+            return member;
+        },
+        options: {}
     });
 }

@@ -27,14 +27,16 @@ function getAnnotationTarget(definition: AnnotationDefinition, target: object) {
     return hasPrototype(target) ? target.prototype : target;
 }
 
-export function getAnnotation<TAnnotation, TDefinition extends AnnotationDefinition>(
+export function getAnnotation<TAnnotation, TDefinition extends AnnotationDefinition, TTarget extends object>(
     definition: TDefinition,
-    target: object,
-    propertyKey?: string | symbol
+    target: TTarget,
+    propertyKey?: Exclude<keyof TTarget, number>
 ): AnnotationReturn<TAnnotation, TDefinition> {
     const get = definition.allowMultiple ? getAllMetadata : Reflect.getMetadata;
     const propertyTarget = getAnnotationTarget(definition, target);
-    const annotations = propertyKey ? get(definition.key, propertyTarget, propertyKey) : get(definition.key, propertyTarget);
+    const annotations = propertyKey
+        ? get(definition.key, propertyTarget, propertyKey)
+        : get(definition.key, propertyTarget);
 
     return annotations ?? null;
 }

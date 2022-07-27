@@ -10,9 +10,9 @@ export interface AnnotationDefinition {
     readonly allowMultiple: boolean;
 }
 
-export interface Annotation<TDefinition extends AnnotationDefinition> {
-    _definition: TDefinition;
-}
+export type PrototypeKeys<T> = T extends { prototype: infer TProto }
+    ? Exclude<keyof TProto, number>
+    : Exclude<keyof T, number>;
 
 type ClassAnnotationArgs<TTarget> = [target: TTarget];
 
@@ -30,23 +30,29 @@ type AnnotationArgs<
     ? ClassAnnotationArgs<TTarget>
     : PropertyAnnotationArgs<TTarget, TProperty>;
 
-type GetAnnotationArgs<TDefinition extends AnnotationDefinition> = TDefinition['usage'] extends AnnotationUsage.Class
-    ? [target: object]
-    : [target: object, propertyKey: string | symbol];
+type GetAnnotationArgs<
+    TDefinition extends AnnotationDefinition,
+    TTarget extends object
+> = TDefinition['usage'] extends AnnotationUsage.Class
+    ? [target: TTarget]
+    : [target: TTarget, propertyKey: PrototypeKeys<TTarget>];
 
 type GetAnnotationReturn<
     TAnnotation,
     TDefinition extends AnnotationDefinition
 > = TDefinition['allowMultiple'] extends true ? TAnnotation[] : TAnnotation;
 
-export interface AnnotationStatic<TDefinition extends AnnotationDefinition, TAnnotation> {
+export interface Annotation<TDefinition extends AnnotationDefinition, TAnnotation> {
+    <TTarget = object, TProperty = unknown>(annotation: TAnnotation): (
+        ...args: AnnotationArgs<TDefinition, TTarget, TProperty>
+    ) => void;
     <TTarget = object, TProperty = unknown>(
         decorator: (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => TAnnotation
     ): (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => void;
-    get(...args: GetAnnotationArgs<TDefinition>): GetAnnotationReturn<TAnnotation, TDefinition>;
+    get<T extends object>(...args: GetAnnotationArgs<TDefinition, T>): GetAnnotationReturn<TAnnotation, TDefinition>;
     _definition: TDefinition;
 }
 
-export type AnnotationAttribute<T> = T extends AnnotationStatic<AnnotationDefinition, infer TAnnotation>
+export type AnnotationAttribute<T> = T extends Annotation<AnnotationDefinition, infer TAnnotation>
     ? TAnnotation
     : never;

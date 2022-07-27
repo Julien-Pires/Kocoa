@@ -23,7 +23,7 @@ function getTestOptions(...args: unknown[]): [string | null, TestOptions] {
     }
 
     if (isTestOptions(args[0])) {
-        return [null, args[0]]
+        return [null, args[0]];
     }
 
     if (isTestOptions(args[1])) {
@@ -47,13 +47,11 @@ export function test(name: string, options: TestOptions): TestDecorator;
 export function test(target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor): void;
 export function test(...args: unknown[]): void | TestDecorator {
     if (isRawDecorator(args)) {
-        const [_, propertyKey] = args;
-        return TestAnnotation(() => {
-            return {
-                name: String(propertyKey),
-                method: String(propertyKey),
-                options: defaultOptions
-            };
+        const [, propertyKey] = args;
+        return TestAnnotation({
+            name: String(propertyKey),
+            method: String(propertyKey),
+            options: defaultOptions
         })(...args);
     }
 

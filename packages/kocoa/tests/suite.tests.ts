@@ -19,13 +19,10 @@ export class TestSuiteClassDecoratorTests {
     }
 
     @test
-    @testData(SingleSuiteFixture, { name: 'testSuite' })
-    public 'should have specified name for test suite annotation on class'(
-        prototype: object,
-        expected: { name: string }
-    ) {
-        const actual = SuiteAnnotation.get(prototype);
-        expect(actual).to.containSubset(expected);
+    public 'should have specified name for test suite annotation on class'() {
+        const actual = SuiteAnnotation.get(SingleSuiteFixture);
+
+        expect(actual).to.containSubset('testSuite');
     }
 
     @test

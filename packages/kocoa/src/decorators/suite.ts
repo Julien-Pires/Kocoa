@@ -19,7 +19,8 @@ const defaultOptions = {
  * @param options Represents additional settings for the test suite
  */
 export function suite(name: string, options?: SuiteOptions) {
-    return SuiteAnnotation<Constructor<unknown>>(() => {
-        return { name, options: { ...defaultOptions, ...options } };
+    return SuiteAnnotation<Constructor<unknown>>({
+        name,
+        options: { ...defaultOptions, ...options }
     });
 }

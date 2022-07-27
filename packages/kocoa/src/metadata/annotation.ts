@@ -1,14 +1,14 @@
 import { getAnnotation } from './get.js';
 import { setAnnotation } from './set.js';
-import { AnnotationDefinition, AnnotationStatic } from './types.js';
+import { Annotation, AnnotationDefinition, PrototypeKeys } from './types.js';
 
 export function create<TAnnotation, TDefinition extends AnnotationDefinition>(
     definition: TDefinition
-): AnnotationStatic<TDefinition, TAnnotation> {
-    const decorator = ((apply) => {
+): Annotation<TDefinition, TAnnotation> {
+    const decorator = ((apply: Function | object) => {
         return (target: object, propertyKey: string | symbol, descriptor?: PropertyDescriptor) => {
-            const annotationData = (apply as any)(target, propertyKey, descriptor);
-            setAnnotation(
+            const annotationData = typeof apply === 'function' ? apply(target, propertyKey, descriptor) : apply;
+            return setAnnotation(
                 {
                     _definition: definition,
                     ...annotationData
@@ -17,9 +17,10 @@ export function create<TAnnotation, TDefinition extends AnnotationDefinition>(
                 propertyKey
             );
         };
-    }) as AnnotationStatic<TDefinition, TAnnotation>;
+    }) as Annotation<TDefinition, TAnnotation>;
     decorator._definition = definition;
-    decorator.get = (target: object, propertyKey?: string | symbol) => getAnnotation(definition, target, propertyKey);
+    decorator.get = <T extends object>(target: T, propertyKey?: PrototypeKeys<T>) =>
+        getAnnotation<TAnnotation, TDefinition, T>(definition, target, propertyKey);
 
     return decorator;
 }

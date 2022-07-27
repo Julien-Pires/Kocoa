@@ -28,12 +28,12 @@ export class Runner implements IDisposable {
     private static getSpecAnnotations(target: object) {
         const properties = Object.getOwnPropertyDescriptors((target as any).prototype);
         return Object.keys(properties)
-            .map((property) => TestAnnotation.get(target, property))
+            .map((property) => TestAnnotation.get(target, property as never))
             .filter((annotation): annotation is TestAnnotation => annotation !== null);
     }
 
     private static getSpecDataAnnotations(spec: TestAnnotation, target: object): (readonly unknown[])[] {
-        const specDataAnnotations = TestDataAnnotation.get(target, spec.method);
+        const specDataAnnotations = TestDataAnnotation.get(target, spec.method as never);
         if (specDataAnnotations.length === 0) {
             return [[]];
         }
