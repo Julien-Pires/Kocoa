@@ -1,3 +1,10 @@
+# [@kocoa/core-v1.1.0](https://github.com/Julien-Pires/Kocoa/compare/kocoa/core@1.0.0...kocoa/core@1.1.0) (2022-07-28)
+
+
+### Features
+
+* run tests through test framework adapter ([7474694](https://github.com/Julien-Pires/Kocoa/commit/7474694059b1d78d4f40615d9b48f4870a9c294a))
+
 # @kocoa/core-v1.0.0 (2022-06-18)
 
 
