@@ -20,12 +20,12 @@ function appendMetadata<T>(
         : Reflect.defineMetadata(metadataKey, [...existingMetadata, metadataValue], target);
 }
 
-export function setAnnotation<TAnnotation extends { _definition: AnnotationDefinition }>(
+export function setAnnotation<TAnnotation extends { definition: AnnotationDefinition }>(
     annotation: TAnnotation,
     target: object,
     propertyKey?: string | symbol
 ): void {
-    const { _definition: definition } = annotation;
+    const { definition } = annotation;
     const set = definition.allowMultiple ? appendMetadata : Reflect.defineMetadata;
     if (propertyKey) {
         set(definition.key, annotation, target, propertyKey);

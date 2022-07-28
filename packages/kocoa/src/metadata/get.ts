@@ -19,7 +19,7 @@ function getAllMetadata<T>(metadataKey: unknown, target: object, propertyKey?: s
     );
 }
 
-function getAnnotationTarget(definition: AnnotationDefinition, target: object) {
+function getAnnotationTarget<TTarget>(definition: AnnotationDefinition, target: TTarget) {
     if (definition.usage === AnnotationUsage.Class) {
         return target;
     }
@@ -27,7 +27,7 @@ function getAnnotationTarget(definition: AnnotationDefinition, target: object) {
     return hasPrototype(target) ? target.prototype : target;
 }
 
-export function getAnnotation<TAnnotation, TDefinition extends AnnotationDefinition, TTarget extends object>(
+export function getAnnotation<TAnnotation, TDefinition extends AnnotationDefinition, TTarget>(
     definition: TDefinition,
     target: TTarget,
     propertyKey?: Exclude<keyof TTarget, number>

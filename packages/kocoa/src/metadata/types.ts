@@ -1,3 +1,5 @@
+import { PrototypeKeys } from '@kocoa/core';
+
 export enum AnnotationUsage {
     All,
     Class,
@@ -10,47 +12,40 @@ export interface AnnotationDefinition {
     readonly allowMultiple: boolean;
 }
 
-export type PrototypeKeys<T> = T extends { prototype: infer TProto }
-    ? Exclude<keyof TProto, number>
-    : Exclude<keyof T, number>;
-
-type ClassAnnotationArgs<TTarget> = [target: TTarget];
-
-type PropertyAnnotationArgs<TTarget, TProperty> = [
-    target: TTarget,
-    propertyKey: string | symbol,
-    descriptor?: TypedPropertyDescriptor<TProperty>
-];
-
-type AnnotationArgs<
-    TDefinition extends AnnotationDefinition,
-    TTarget,
-    TProperty
-> = TDefinition['usage'] extends AnnotationUsage.Class
-    ? ClassAnnotationArgs<TTarget>
-    : PropertyAnnotationArgs<TTarget, TProperty>;
-
 type GetAnnotationArgs<
     TDefinition extends AnnotationDefinition,
-    TTarget extends object
+    TTarget
 > = TDefinition['usage'] extends AnnotationUsage.Class
     ? [target: TTarget]
     : [target: TTarget, propertyKey: PrototypeKeys<TTarget>];
 
 type GetAnnotationReturn<
-    TAnnotation,
-    TDefinition extends AnnotationDefinition
+    TDefinition extends AnnotationDefinition,
+    TAnnotation
 > = TDefinition['allowMultiple'] extends true ? TAnnotation[] : TAnnotation;
 
+type DecoratorArgs<
+    TDefinition extends AnnotationDefinition,
+    TTarget,
+    TProperty
+> = TDefinition['usage'] extends AnnotationUsage.Class
+    ? [target: TTarget]
+    : [target: TTarget, propertyKey: string | symbol, descriptor?: TypedPropertyDescriptor<TProperty>];
+
+type Decorator<TDefinition extends AnnotationDefinition, TTarget, TProperty> = (
+    ...args: DecoratorArgs<TDefinition, TTarget, TProperty>
+) => void;
+
+type CreateAnnotation<TDefinition extends AnnotationDefinition, TAnnotation, TTarget, TProperty> = (
+    ...args: DecoratorArgs<TDefinition, TTarget, TProperty>
+) => TAnnotation;
+
 export interface Annotation<TDefinition extends AnnotationDefinition, TAnnotation> {
-    <TTarget = object, TProperty = unknown>(annotation: TAnnotation): (
-        ...args: AnnotationArgs<TDefinition, TTarget, TProperty>
-    ) => void;
-    <TTarget = object, TProperty = unknown>(
-        decorator: (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => TAnnotation
-    ): (...args: AnnotationArgs<TDefinition, TTarget, TProperty>) => void;
-    get<T extends object>(...args: GetAnnotationArgs<TDefinition, T>): GetAnnotationReturn<TAnnotation, TDefinition>;
-    _definition: TDefinition;
+    <TTarget, TProperty = string | symbol>(
+        builder: CreateAnnotation<TDefinition, TAnnotation, TTarget, TProperty> | TAnnotation
+    ): Decorator<TDefinition, TTarget, TProperty>;
+    get<TTarget>(...args: GetAnnotationArgs<TDefinition, TTarget>): GetAnnotationReturn<TDefinition, TAnnotation>;
+    definition: TDefinition;
 }
 
 export type AnnotationAttribute<T> = T extends Annotation<AnnotationDefinition, infer TAnnotation>

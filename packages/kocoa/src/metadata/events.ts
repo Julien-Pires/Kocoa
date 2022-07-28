@@ -11,33 +11,33 @@ class AnnotationEventEmitter {
     private readonly emitter = new EventEmitter();
 
     public on<TAction extends AnnotationsEvents['name']>(
-        annotation: { _definition: AnnotationDefinition },
+        annotation: { definition: AnnotationDefinition },
         action: TAction,
         listener: (...args: Extract<AnnotationsEvents, { name: TAction }>['args']) => void
     ): this {
-        const { _definition: definition } = annotation;
+        const { definition } = annotation;
         this.emitter.on(`${definition.key}${action}`, listener);
 
         return this;
     }
 
     public off<TAction extends AnnotationsEvents['name']>(
-        annotation: { _definition: AnnotationDefinition },
+        annotation: { definition: AnnotationDefinition },
         action: TAction,
         listener: (...args: Extract<AnnotationsEvents, { name: TAction }>['args']) => void
     ): this {
-        const { _definition: definition } = annotation;
+        const { definition } = annotation;
         this.emitter.off(`${definition.key}${action}`, listener);
 
         return this;
     }
 
     public emit<TAction extends AnnotationsEvents['name']>(
-        annotation: { _definition: AnnotationDefinition },
+        annotation: { definition: AnnotationDefinition },
         action: TAction,
         ...args: Extract<AnnotationsEvents, { name: TAction }>['args']
     ): boolean {
-        const { _definition: definition } = annotation;
+        const { definition } = annotation;
 
         return this.emitter.emit(`${definition.key}${action}`, ...args);
     }
