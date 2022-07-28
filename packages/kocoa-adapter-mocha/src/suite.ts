@@ -1,6 +1,6 @@
 import * as Mocha from 'mocha';
 
-import { SpecDefinition, Suite } from '@kocoa/core';
+import { Spec, Suite } from '@kocoa/core';
 
 import { MochaSpec } from './spec.js';
 
@@ -17,8 +17,8 @@ export class MochaSuite extends Mocha.Suite implements Suite {
         super(name);
 
         this.beforeAll(this.init.bind(this));
-        this.beforeEach(this.initTest.bind(this));
-        this.afterEach(this.disposeTest.bind(this));
+        this.beforeEach(this.createCurrentTest.bind(this));
+        this.afterEach(this.disposeCurrentTest.bind(this));
         this.afterEach(this.moveToNextTest.bind(this));
     }
 
@@ -36,12 +36,12 @@ export class MochaSuite extends Mocha.Suite implements Suite {
         };
     }
 
-    private initTest() {
+    private createCurrentTest() {
         const { currentSpec } = this.ensureContext();
-        this.tests[currentSpec].init();
+        this.tests[currentSpec].create();
     }
 
-    private disposeTest() {
+    private disposeCurrentTest() {
         const { currentSpec } = this.ensureContext();
         this.tests[currentSpec].dispose();
     }
@@ -54,7 +54,7 @@ export class MochaSuite extends Mocha.Suite implements Suite {
         };
     }
 
-    public add(spec: SpecDefinition): void {
+    public add(spec: Spec): void {
         this.addTest(new MochaSpec(spec));
     }
 }

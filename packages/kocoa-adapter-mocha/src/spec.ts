@@ -1,18 +1,18 @@
 import { Test } from 'mocha';
 
-import { IDisposable, SpecDefinition, SpecRun } from '@kocoa/core';
+import { IDisposable, Spec, SpecRun } from '@kocoa/core';
 
 export class MochaSpec extends Test implements IDisposable {
     private currentRun: SpecRun | null;
 
-    constructor(private readonly spec: SpecDefinition) {
+    constructor(private readonly spec: Spec) {
         super(spec.name);
 
         this.pending = spec.skip;
     }
 
-    public init() {
-        this.currentRun = this.spec.init();
+    public create() {
+        this.currentRun = this.spec.createRun();
     }
 
     public override fn: Mocha.Func | Mocha.AsyncFunc | undefined = () => {
