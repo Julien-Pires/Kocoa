@@ -24,13 +24,15 @@
     },
     "homepage": "https://github.com/Julien-Pires/Kocoa#readme",
     "devDependencies": {
-        "@types/mocha": "~9.1.0",
+        "@types/mocha": "~9.1.1",
         "@types/chai": "~4.3.0",
         "@eslint/create-config": "~0.1.2",
         "@typescript-eslint/parser": "~5.21.0",
         "@typescript-eslint/eslint-plugin": "~5.21.0",
+        "kocoa": "workspace:*",
+        "@kocoa/adapter-mocha": "workspace:*",
         "typescript": "~4.7.2",
-        "mocha": "~9.2.1",
+        "mocha": "~10.0.0",
         "chai": "~4.3.6",
         "prettier": "2.6.1",
         "c8": "~7.11.0",
@@ -38,9 +40,9 @@
         "eslint-plugin-import": "~2.26.0",
         "eslint-config-prettier": "~8.5.0",
         "eslint-plugin-prettier": "~4.0.0",
-        "kocoa": "workspace:*"
-    },
-    "dependencies": {
         "reflect-metadata": "~0.1.13"
+    },
+    "kocoa": {
+        "adapter": "@kocoa/adapter-mocha"
     }
 }

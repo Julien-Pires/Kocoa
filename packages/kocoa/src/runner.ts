@@ -1,86 +1,67 @@
-import 'mocha';
+import { Adapter, AdapterPlugin, Constructor, IDisposable } from '@kocoa/core';
 
-import { buildTests } from './discovery.js';
-import { Constructor, Node, Test, TestCase, TestSuite } from './types/index.js';
+import { SuiteAnnotation, TestAnnotation, TestDataAnnotation } from './annotations.js';
+import { getConfiguration } from './configuration.js';
+import { annotationsEvents } from './metadata/index.js';
+import { Spec } from './spec.js';
 
-/**
- * Checks if specified value is a Test instance.
- * @param value Value to check against.
- * @returns Return true if the value is a Test instance otherwise false.
- */
-const isTest = (value: unknown): value is Test => (value as Test).cases !== undefined;
-
-/**
- * Creates test case title from specified test and test case metadata
- * @param testName Default name of the test method.
- * @param testCase Test case instance for which title is created.
- * @returns Returns a test case title.
- */
-const buildTestCaseTitle = (testName: string, testCase: TestCase): string => {
-    if (testCase.args.length === 0) {
-        return testName;
+export class Runner implements IDisposable {
+    private constructor(private readonly adapter: Adapter) {
+        annotationsEvents.on(SuiteAnnotation, 'Added', (target) => this.addSuite(target));
     }
 
-    const parameters = testCase.args.map((arg) => JSON.stringify(arg)).join(', ');
-
-    return `${testName} (${parameters})`;
-};
-
-/**
- * Adds a test to the current test execution context.
- * @param target Parent target of the test.
- * @param test Test to run.
- */
-const addTest = (target: object, test: Test): void => {
-    for (const testCase of test.cases) {
-        const title = buildTestCaseTitle(test.name, testCase);
-        const testRunner = test.skip ? it.skip : it;
-        testRunner(title, async () => {
-            const instance = Object.create(target);
-            await instance[test.function](...testCase.args);
-        });
-    }
-};
-
-/**
- * Adds a test suite to the current test execution context.
- * @param target Parent target of the test.
- * @param node Childrens of the current test suite.
- */
-const addTestSuite = (target: object, node: Node<TestSuite, Test>): void => {
-    const testSuite = node.value;
-    if (!testSuite) {
-        return;
-    }
-
-    const suiteRunner = testSuite.skip ? describe.skip : describe;
-    suiteRunner(testSuite?.name, () => {
-        visit(target, node);
-    });
-};
-
-/**
- * Visits the specified test node.
- * @param target Parent target of the test node.
- * @param node Current test node to visit.
- */
-const visit = (target: object, node: Node<TestSuite, Test>): void => {
-    for (const children of node.childrens) {
-        const { value } = children;
-        if (isTest(value)) {
-            addTest(target, value);
-            continue;
+    public static async create(configurationFile?: string): Promise<Runner> {
+        const configuration = await getConfiguration(configurationFile);
+        if (!configuration.adapter) {
+            throw new Error('No test runner adapter specified.');
         }
 
-        addTestSuite(target, children as Node<TestSuite, Test>);
-    }
-};
+        const { default: module }: { default: AdapterPlugin } = await import(configuration.adapter);
 
-/**
- * Run all tests for the specified target
- * @param target Target used to run all tests.
- */
-export const runTest = <T>(target: Constructor<T>): void => {
-    const tree = buildTests(target);
-    visit(target.prototype, tree);
-};
+        return new Runner(module.adapter);
+    }
+
+    public dispose() {
+        annotationsEvents.off(SuiteAnnotation, 'Added', this.addSuite);
+    }
+
+    private static getSpecAnnotations(target: object) {
+        const properties = Object.getOwnPropertyDescriptors((target as any).prototype);
+        return Object.keys(properties)
+            .map((property) => TestAnnotation.get(target, property as never))
+            .filter((annotation): annotation is TestAnnotation => annotation !== null);
+    }
+
+    private static getSpecDataAnnotations(spec: TestAnnotation, target: object): (readonly unknown[])[] {
+        const specDataAnnotations = TestDataAnnotation.get(target, spec.method as never);
+        if (specDataAnnotations.length === 0) {
+            return [[]];
+        }
+
+        return specDataAnnotations.flatMap((specData) => Array.from(specData.args()));
+    }
+
+    public addSuite(target: object) {
+        const suiteAnnotation = SuiteAnnotation.get(target);
+        if (!suiteAnnotation) {
+            throw new Error(`Failed to retrieve suite for ${target}`);
+        }
+
+        const suite = this.adapter.create({
+            name: suiteAnnotation.name,
+            skip: suiteAnnotation.options.skip
+        });
+
+        const specsAnnotation = Runner.getSpecAnnotations(target);
+        for (const spec of specsAnnotation) {
+            const specDatas = Runner.getSpecDataAnnotations(spec, target);
+            for (const data of specDatas) {
+                suite.add({
+                    name: spec.name,
+                    skip: spec.options.skip,
+                    createRun: () => new Spec(target as Constructor<any>, spec.method, data)
+                });
+            }
+        }
+    }
+}

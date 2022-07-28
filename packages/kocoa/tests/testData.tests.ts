@@ -2,10 +2,8 @@ import chai from 'chai';
 import chaiSubset from 'chai-subset';
 
 import { suite, test, testData } from '../index.js';
-import { testDataSymbol } from '../src/metadata.js';
-import * as Reflect from '../src/reflect.js';
+import { TestDataAnnotation } from '../src/annotations.js';
 import { TestDataFixture } from './testData.fixtures.js';
-import { TestDataAnnotation } from './types/index.js';
 
 const { expect } = chai;
 
@@ -15,37 +13,23 @@ chai.use(chaiSubset);
 export class TestDataDecoratorTests {
     @test
     public 'should not have data annotation when method is not annoted'() {
-        const actual = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
-            TestDataFixture.prototype,
-            TestDataFixture.prototype.noDataSourceTest.name
-        );
+        const actual = TestDataAnnotation.get(TestDataFixture, 'noDataSourceTest');
 
-        expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(0);
     }
 
     @test
     @testData(TestDataFixture.prototype.singleDataSourceTest.name, 1)
     @testData(TestDataFixture.prototype.multipleDataSourceTest.name, 3)
-    public 'should have data annotations when method is annoted'(testMethod: string, expected: number) {
-        const actual = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
-            TestDataFixture.prototype,
-            testMethod
-        );
+    public 'should have data annotations when method is annoted'(testMethod: keyof TestDataFixture, expected: number) {
+        const actual = TestDataAnnotation.get(TestDataFixture, testMethod);
 
-        expect(actual).to.not.be.undefined;
         expect(actual).to.be.of.length(expected);
     }
 
     @test
     public 'should contains data passed to the annotation'() {
-        const annotations = Reflect.getAllMetadata<TestDataAnnotation>(
-            testDataSymbol,
-            TestDataFixture.prototype,
-            TestDataFixture.prototype.multipleDataSourceTest.name
-        );
+        const annotations = TestDataAnnotation.get(TestDataFixture, 'multipleDataSourceTest');
         const actual = annotations.flatMap((annotation) => Array.from(annotation.args()));
 
         expect(actual).to.have.deep.members([
