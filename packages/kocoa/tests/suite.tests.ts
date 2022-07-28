@@ -1,13 +1,8 @@
-import chai from 'chai';
-import chaiSubset from 'chai-subset';
+import { expect } from 'chai';
 
 import { suite, test, testData } from '../index.js';
 import { SuiteAnnotation } from '../src/annotations.js';
 import { SingleSuiteFixture, SkipOptionsFixtures } from './suite.fixtures.js';
-
-const { expect } = chai;
-
-chai.use(chaiSubset);
 
 @suite('@suite')
 export class TestSuiteClassDecoratorTests {
@@ -22,7 +17,7 @@ export class TestSuiteClassDecoratorTests {
     public 'should have specified name for test suite annotation on class'() {
         const actual = SuiteAnnotation.get(SingleSuiteFixture);
 
-        expect(actual).to.containSubset('testSuite');
+        expect(actual.name).to.equals('testSuite');
     }
 
     @test
