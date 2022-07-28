@@ -1,9 +1,9 @@
 import { IDisposable } from './core.js';
 
-export interface SpecDefinition {
+export interface Spec {
     name: string;
     skip: boolean;
-    init(): SpecRun;
+    createRun(): SpecRun;
 }
 
 export interface SpecRun extends IDisposable {
@@ -16,5 +16,5 @@ export interface SuiteDefinition {
 }
 
 export interface Suite {
-    add(spec: SpecDefinition): void;
+    add(spec: Spec): void;
 }

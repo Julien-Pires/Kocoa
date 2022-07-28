@@ -59,7 +59,7 @@ export class Runner implements IDisposable {
                 suite.add({
                     name: spec.name,
                     skip: spec.options.skip,
-                    init: () => new Spec(target as Constructor<any>, spec.method, data)
+                    createRun: () => new Spec(target as Constructor<any>, spec.method, data)
                 });
             }
         }
