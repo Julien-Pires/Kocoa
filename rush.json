@@ -40,6 +40,10 @@
         {
             "packageName": "@kocoa/adapter-mocha",
             "projectFolder": "packages/kocoa-adapter-mocha"
+        },
+        {
+            "packageName": "@semantic-release/dependency-version",
+            "projectFolder": "toolbox/dependency-version"
         }
     ]
 }
