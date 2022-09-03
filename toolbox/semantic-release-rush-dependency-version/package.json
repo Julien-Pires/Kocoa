@@ -1,7 +1,7 @@
 {
-    "name": "@semantic-release/dependency-version",
+    "name": "semantic-release-rush-dependency-version",
     "author": "Julien Pires",
-    "version": "1.O.0",
+    "version": "1.0.0",
     "license": "MIT",
     "description": "",
     "repository": {

@@ -30,10 +30,6 @@
             "projectFolder": "samples/kocoa-tutorial"
         },
         {
-            "packageName": "@toolbox/scripts",
-            "projectFolder": "toolbox/scripts"
-        },
-        {
             "packageName": "@kocoa/core",
             "projectFolder": "packages/kocoa-core"
         },
@@ -42,8 +38,12 @@
             "projectFolder": "packages/kocoa-adapter-mocha"
         },
         {
-            "packageName": "@semantic-release/dependency-version",
-            "projectFolder": "toolbox/dependency-version"
+            "packageName": "@toolbox/scripts",
+            "projectFolder": "toolbox/scripts"
+        },
+        {
+            "packageName": "semantic-release-rush-dependency-version",
+            "projectFolder": "toolbox/semantic-release-rush-dependency-version"
         }
     ]
 }

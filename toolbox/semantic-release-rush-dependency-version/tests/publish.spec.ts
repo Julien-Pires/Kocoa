@@ -5,14 +5,14 @@ import tempy from 'tempy';
 import * as fs from 'fs/promises';
 import { RushConfiguration } from '@microsoft/rush-lib';
 
-import { publish } from '../src/index.js';
+import { publish } from '../index.js';
 
 chai.use(chaiAsPromised);
 
 describe('updateDependencies', () => {
     let folder = '';
 
-    beforeEach(async() => {
+    beforeEach(async () => {
         const rushFixtures = path.join(process.cwd(), '/fixtures');
         folder = tempy.directory();
         await fs.cp(rushFixtures, folder, { recursive: true });

@@ -11,7 +11,6 @@ importers:
       '@kocoa/adapter-mocha': workspace:*
       '@kocoa/core': workspace:*
       '@semantic-release/changelog': ~6.0.1
-      '@semantic-release/dependency-version': workspace:*
       '@semantic-release/git': ~10.0.1
       '@semantic-release/npm': ~9.0.1
       '@types/chai': ~4.3.0
@@ -33,6 +32,7 @@ importers:
       reflect-metadata: ~0.1.13
       semantic-release: ~19.0.2
       semantic-release-monorepo: ~7.0.5
+      semantic-release-rush-dependency-version: workspace:*
       typescript: ~4.7.2
     dependencies:
       '@kocoa/core': link:../kocoa-core
@@ -42,7 +42,6 @@ importers:
       '@eslint/create-config': 0.1.2
       '@kocoa/adapter-mocha': link:../kocoa-adapter-mocha
       '@semantic-release/changelog': 6.0.1_semantic-release@19.0.2
-      '@semantic-release/dependency-version': link:../../toolbox/dependency-version
       '@semantic-release/git': 10.0.1_semantic-release@19.0.2
       '@semantic-release/npm': 9.0.1_semantic-release@19.0.2
       '@types/chai': 4.3.0
@@ -62,6 +61,7 @@ importers:
       prettier: 2.6.1
       semantic-release: 19.0.2
       semantic-release-monorepo: 7.0.5_semantic-release@19.0.2
+      semantic-release-rush-dependency-version: link:../../toolbox/semantic-release-rush-dependency-version
       typescript: 4.7.2
 
   ../../packages/kocoa-adapter-mocha:
@@ -179,7 +179,49 @@ importers:
       reflect-metadata: 0.1.13
       typescript: 4.7.2
 
-  ../../toolbox/dependency-version:
+  ../../toolbox/scripts:
+    specifiers:
+      '@eslint/create-config': ~0.1.2
+      '@types/clear': ~0.1.2
+      '@types/inquirer': 8.2.1
+      '@types/node': 17.0.35
+      '@typescript-eslint/eslint-plugin': ~5.21.0
+      '@typescript-eslint/parser': ~5.21.0
+      chalk: 5.0.1
+      clear: 0.1.0
+      comment-json: ~4.2.2
+      eslint: ~8.14.0
+      eslint-config-prettier: ~8.5.0
+      eslint-plugin-import: ~2.26.0
+      eslint-plugin-prettier: ~4.0.0
+      find-up: ~6.3.0
+      inquirer: 8.2.4
+      nps: ~5.10.0
+      prettier: 2.6.1
+      ts-node: 10.8.0
+      typescript: ~4.5.5
+    devDependencies:
+      '@eslint/create-config': 0.1.2
+      '@types/clear': 0.1.2
+      '@types/inquirer': 8.2.1
+      '@types/node': 17.0.35
+      '@typescript-eslint/eslint-plugin': 5.21.0_19515efd875c7ffcd67055d8be736b9f
+      '@typescript-eslint/parser': 5.21.0_eslint@8.14.0+typescript@4.5.5
+      chalk: 5.0.1
+      clear: 0.1.0
+      comment-json: 4.2.2
+      eslint: 8.14.0
+      eslint-config-prettier: 8.5.0_eslint@8.14.0
+      eslint-plugin-import: 2.26.0_eslint@8.14.0
+      eslint-plugin-prettier: 4.0.0_05c7ba6e0ffc65d17eddef5fe25d30ba
+      find-up: 6.3.0
+      inquirer: 8.2.4
+      nps: 5.10.0
+      prettier: 2.6.1
+      ts-node: 10.8.0_72b7383d62d6de85be866bf7d6e9520d
+      typescript: 4.5.5
+
+  ../../toolbox/semantic-release-rush-dependency-version:
     specifiers:
       '@eslint/create-config': ~0.1.2
       '@microsoft/rush-lib': ~5.77.3
@@ -231,48 +273,6 @@ importers:
       semantic-release-monorepo: 7.0.5_semantic-release@19.0.2
       tempy: 1.0.1
       typescript: 4.7.2
-
-  ../../toolbox/scripts:
-    specifiers:
-      '@eslint/create-config': ~0.1.2
-      '@types/clear': ~0.1.2
-      '@types/inquirer': 8.2.1
-      '@types/node': 17.0.35
-      '@typescript-eslint/eslint-plugin': ~5.21.0
-      '@typescript-eslint/parser': ~5.21.0
-      chalk: 5.0.1
-      clear: 0.1.0
-      comment-json: ~4.2.2
-      eslint: ~8.14.0
-      eslint-config-prettier: ~8.5.0
-      eslint-plugin-import: ~2.26.0
-      eslint-plugin-prettier: ~4.0.0
-      find-up: ~6.3.0
-      inquirer: 8.2.4
-      nps: ~5.10.0
-      prettier: 2.6.1
-      ts-node: 10.8.0
-      typescript: ~4.5.5
-    devDependencies:
-      '@eslint/create-config': 0.1.2
-      '@types/clear': 0.1.2
-      '@types/inquirer': 8.2.1
-      '@types/node': 17.0.35
-      '@typescript-eslint/eslint-plugin': 5.21.0_19515efd875c7ffcd67055d8be736b9f
-      '@typescript-eslint/parser': 5.21.0_eslint@8.14.0+typescript@4.5.5
-      chalk: 5.0.1
-      clear: 0.1.0
-      comment-json: 4.2.2
-      eslint: 8.14.0
-      eslint-config-prettier: 8.5.0_eslint@8.14.0
-      eslint-plugin-import: 2.26.0_eslint@8.14.0
-      eslint-plugin-prettier: 4.0.0_05c7ba6e0ffc65d17eddef5fe25d30ba
-      find-up: 6.3.0
-      inquirer: 8.2.4
-      nps: 5.10.0
-      prettier: 2.6.1
-      ts-node: 10.8.0_72b7383d62d6de85be866bf7d6e9520d
-      typescript: 4.5.5
 
 packages:
 
