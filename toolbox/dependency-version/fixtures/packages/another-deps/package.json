@@ -1,0 +1,10 @@
+{
+    "name": "another-deps",
+    "author": "Julien Pires",
+    "version": "3.0.0",
+    "license": "MIT",
+    "description": "",
+    "type": "commonjs",
+    "main": "./build/index.js",
+    "scripts": {}
+}
