@@ -22,7 +22,7 @@
         "lint:fix": "npm run lint -- --fix",
         "test": "mocha --colors ./build",
         "test:coverage": "c8 npm test",
-        "release": "echo 'No release for this project'"
+        "release": "npx semantic-release"
     },
     "devDependencies": {
         "@types/mocha": "~9.1.0",
