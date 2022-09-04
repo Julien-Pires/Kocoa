@@ -12,6 +12,10 @@ flag_management:
       paths:
         - packages/kocoa-adapter-mocha
       carryforward: true
+    - name: semantic-release-rush-dependency-version
+      paths:
+        - packages/semantic-release-rush-dependency-version 
+      carryforward: true
     - name: Samples
       paths:
         - samples/kocoa-tutorial
