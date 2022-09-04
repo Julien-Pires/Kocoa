@@ -42,8 +42,8 @@
             "projectFolder": "toolbox/scripts"
         },
         {
-            "packageName": "semantic-release-rush-dependency-version",
-            "projectFolder": "packages/semantic-release-rush-dependency-version"
+            "packageName": "semantic-release-rush-dependency",
+            "projectFolder": "packages/semantic-release-rush-dependency"
         }
     ]
 }
