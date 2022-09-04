@@ -21,7 +21,7 @@ export async function publish(cwd: string) {
     for (const dependency of project.dependencyProjects) {
         const dependencyType = getDependencyType(project, dependency.packageName);
         if (!dependencyType) {
-            throw new Error(`Failed to retrieve dependency type for ${dependency.packageName}`)
+            throw new Error(`Failed to retrieve dependency type for ${dependency.packageName}`);
         }
 
         packageEditor.addOrUpdateDependency(dependency.packageName, dependency.packageJson.version, dependencyType);

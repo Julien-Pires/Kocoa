@@ -1,5 +1,5 @@
 import { publish as publishPackage } from './publish.js';
 
-export async function publish(_: {}, { cwd }: { cwd: string; }) {
+export async function publish(_: Record<string, unknown>, { cwd }: { cwd: string }) {
     return publishPackage(cwd);
 }
