@@ -1,8 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 import tempy from 'tempy';
-import * as fs from 'fs/promises';
+
 import { RushConfiguration } from '@microsoft/rush-lib';
 
 import { publish } from '../index.js';
