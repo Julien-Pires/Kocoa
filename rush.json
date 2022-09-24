@@ -5,7 +5,7 @@
     "pnpmOptions": {
         "useWorkspaces": true
     },
-    "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.13.0 <18.0.0 || >=18.0.0 <19.0.0",
+    "nodeSupportedVersionRange": ">=16.13.0 <18.0.0 || >=18.0.0 <19.0.0",
     "gitPolicy": {},
     "repository": {
         "url": "https://github.com/Julien-Pires/Kocoa",
@@ -30,16 +30,20 @@
             "projectFolder": "samples/kocoa-tutorial"
         },
         {
-            "packageName": "@toolbox/scripts",
-            "projectFolder": "toolbox/scripts"
-        },
-        {
             "packageName": "@kocoa/core",
             "projectFolder": "packages/kocoa-core"
         },
         {
             "packageName": "@kocoa/adapter-mocha",
             "projectFolder": "packages/kocoa-adapter-mocha"
+        },
+        {
+            "packageName": "@toolbox/scripts",
+            "projectFolder": "toolbox/scripts"
+        },
+        {
+            "packageName": "semantic-release-rush-dependency",
+            "projectFolder": "packages/semantic-release-rush-dependency"
         }
     ]
 }

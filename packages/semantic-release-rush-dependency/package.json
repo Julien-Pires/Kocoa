@@ -1,7 +1,7 @@
 {
-    "name": "kocoa",
+    "name": "semantic-release-rush-dependency",
     "author": "Julien Pires",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "license": "MIT",
     "description": "",
     "repository": {
@@ -12,54 +12,45 @@
         "url": "https://github.com/Julien-Pires/Kocoa/issues"
     },
     "homepage": "https://github.com/Julien-Pires/Kocoa#readme",
-    "type": "module",
+    "type": "commonjs",
     "main": "./build/index.js",
-    "exports": "./build/index.js",
     "scripts": {
+        "start": "nps",
         "build": "tsc -d",
-        "clear": "rm -rf ./build ./coverage",
-        "test": "mocha --colors ./build",
-        "test:coverage": "c8 npm test",
+        "clear": "rm -rf ./build",
         "lint": "npx eslint . --ext .js,.ts",
         "lint:fix": "npm run lint -- --fix",
+        "test": "mocha --colors ./build",
+        "test:coverage": "c8 npm test",
         "release": "npx semantic-release"
     },
     "devDependencies": {
+        "@types/mocha": "~9.1.0",
+        "@types/chai": "~4.3.0",
         "@eslint/create-config": "~0.1.2",
         "@semantic-release/changelog": "~6.0.1",
         "@semantic-release/git": "~10.0.1",
         "@semantic-release/npm": "~9.0.1",
-        "@types/chai": "~4.3.0",
-        "@types/chai-subset": "~1.3.3",
-        "@types/mocha": "~9.1.1",
-        "@types/node": "^18.0.0",
-        "@typescript-eslint/eslint-plugin": "~5.21.0",
         "@typescript-eslint/parser": "~5.21.0",
-        "@kocoa/adapter-mocha": "workspace:*",
-        "c8": "~7.11.0",
-        "chai": "~4.3.6",
-        "chai-subset": "~1.6.0",
-        "eslint": "~8.14.0",
-        "eslint-config-prettier": "~8.5.0",
-        "eslint-plugin-import": "~2.26.0",
-        "eslint-plugin-prettier": "~4.0.0",
-        "mocha": "~10.0.0",
+        "@typescript-eslint/eslint-plugin": "~5.21.0",
+        "@types/chai-as-promised": "~7.1.5",
+        "@types/node": "~18.6.2",
+        "typescript": "~4.7.2",
         "prettier": "2.6.1",
+        "mocha": "~9.2.1",
+        "chai": "~4.3.6",
+        "c8": "~7.11.0",
+        "eslint": "~8.14.0",
+        "eslint-plugin-import": "~2.26.0",
+        "eslint-config-prettier": "~8.5.0",
+        "eslint-plugin-prettier": "~4.0.0",
         "semantic-release": "~19.0.2",
         "semantic-release-monorepo": "~7.0.5",
-        "semantic-release-rush-dependency": "workspace:*",
-        "typescript": "~4.7.2"
-    },
-    "dependencies": {
-        "@kocoa/core": "workspace:*",
-        "reflect-metadata": "~0.1.13",
-        "cosmiconfig": "~7.0.1"
+        "chai-as-promised": "~7.1.1",
+        "tempy": "1.0.1"
     },
     "publishConfig": {
         "access": "public"
-    },
-    "kocoa": {
-        "adapter": "@kocoa/adapter-mocha"
     },
     "files": [
         ".mocharc.yaml",
@@ -72,5 +63,8 @@
         "build/**/*.*",
         "src/**/*.*",
         "tests/**/*.*"
-    ]
+    ],
+    "dependencies": {
+      "@microsoft/rush-lib": "~5.77.3"
+    }
 }

@@ -1,0 +1,37 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+    "rushVersion": "5.62.4",
+    "pnpmVersion": "6.7.1",
+    "pnpmOptions": {
+        "useWorkspaces": true
+    },
+    "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.13.0 <18.0.0 || >=18.0.0 <19.0.0",
+    "gitPolicy": {},
+    "repository": {
+        "url": "https://github.com/Julien-Pires/Kocoa",
+        "defaultBranch": "main",
+        "defaultRemote": "origin"
+    },
+    "eventHooks": {
+        "preRushInstall": [],
+        "postRushInstall": [],
+        "preRushBuild": [],
+        "postRushBuild": []
+    },
+    "variants": [],
+    "projectFolderMaxDepth": 3,
+    "projects": [
+        {
+            "packageName": "no-deps",
+            "projectFolder": "packages/no-deps"
+        },
+        {
+            "packageName": "with-deps",
+            "projectFolder": "packages/with-deps"
+        },
+        {
+            "packageName": "another-deps",
+            "projectFolder": "packages/another-deps"
+        }
+    ]
+}
