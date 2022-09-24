@@ -4,7 +4,6 @@
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
         "@semantic-release/changelog",
-        "semantic-release-rush-dependency",
         "@semantic-release/npm",
         [
             "@semantic-release/git",
@@ -14,7 +13,7 @@
         ],
         "@semantic-release/github"
     ],
-    "tagFormat": "kocoa/adapter-mocha@${version}",
+    "tagFormat": "semantic-release-rush-dependency@${version}",
     "branches": [
         "+([0-9])?(.{+([0-9]),x}).x",
         "main", 
