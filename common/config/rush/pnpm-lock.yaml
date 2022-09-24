@@ -85,6 +85,7 @@ importers:
       prettier: 2.6.1
       semantic-release: ~19.0.2
       semantic-release-monorepo: ~7.0.5
+      semantic-release-rush-dependency: workspace:*
       typescript: ~4.7.2
     dependencies:
       '@kocoa/core': link:../kocoa-core
@@ -107,6 +108,7 @@ importers:
       prettier: 2.6.1
       semantic-release: 19.0.2
       semantic-release-monorepo: 7.0.5_semantic-release@19.0.2
+      semantic-release-rush-dependency: link:../semantic-release-rush-dependency
       typescript: 4.7.2
 
   ../../packages/kocoa-core:
@@ -124,6 +126,7 @@ importers:
       prettier: 2.6.1
       semantic-release: ~19.0.2
       semantic-release-monorepo: ~7.0.5
+      semantic-release-rush-dependency: workspace:*
       typescript: ~4.7.2
     devDependencies:
       '@eslint/create-config': 0.1.2
@@ -139,6 +142,7 @@ importers:
       prettier: 2.6.1
       semantic-release: 19.0.2
       semantic-release-monorepo: 7.0.5_semantic-release@19.0.2
+      semantic-release-rush-dependency: link:../semantic-release-rush-dependency
       typescript: 4.7.2
 
   ../../packages/semantic-release-rush-dependency:
